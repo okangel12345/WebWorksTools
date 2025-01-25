@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>WebWorks_PNG.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="WebWorks_PNG.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml.user" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DAT1\DAT1.csproj" />
+	<ProjectReference Include="..\WebWorksCore\WebWorksCore.csproj" />
+    <ProjectReference Include="..\ModelToolsGUI\ModelToolsGUI.csproj" />
+    <ProjectReference Include="..\SilkTexture\SilkTexture.csproj" />
+    <ProjectReference Include="..\Spandex\Spandex.csproj" />
+  </ItemGroup>
+
+</Project>
