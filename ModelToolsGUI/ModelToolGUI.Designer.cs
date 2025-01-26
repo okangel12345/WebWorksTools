@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModelToolGUI));
             groupBox1 = new GroupBox();
             label1 = new Label();
             AsciiToModel_StartButton = new Button();
@@ -378,6 +379,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             ForeColor = SystemColors.Control;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ModelToolGUI";
             Text = "Form1";
             groupBox1.ResumeLayout(false);

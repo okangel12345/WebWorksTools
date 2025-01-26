@@ -482,6 +482,7 @@
             // 
             // ToolStrip_ModelToolGUI
             // 
+            ToolStrip_ModelToolGUI.Image = Windows.FormIcons.ModelToolsGUI_Icon;
             ToolStrip_ModelToolGUI.Name = "ToolStrip_ModelToolGUI";
             ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D4;
             ToolStrip_ModelToolGUI.Size = new Size(221, 22);

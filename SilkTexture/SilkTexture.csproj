@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>SilkTexture_Icon.ico</ApplicationIcon>
+    <ApplicationIcon>SilkTexture_PNG.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="SilkTexture_Icon.ico" />
+    <Content Include="SilkTexture_PNG.ico" />
   </ItemGroup>
 
 	<ItemGroup>

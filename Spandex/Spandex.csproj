@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>Spandex_Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Spandex_PNG.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Spandex_Icon.ico" />
+    <Content Include="Spandex_PNG.ico" />
   </ItemGroup>
 
   <ItemGroup>

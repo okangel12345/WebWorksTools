@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>ModelToolsGUI_PNG.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ModelToolsGUI_PNG.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebWorksCore\WebWorksCore.csproj" />
