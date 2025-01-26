@@ -14,7 +14,7 @@ namespace ModelToolsGUI
         public static void InjectAsciiToModel(string ascii, string materials, string model, string game, ModelToolGUI mainWindow)
         {
             string executablePath;
-            string arguments = $"{model} {ascii} {materials}";
+            string arguments = $"\"{model}\" \"{ascii}\" \"{materials}\"";
 
             if (game == "MSM2")
             {
@@ -39,7 +39,7 @@ namespace ModelToolsGUI
             string executablePath;
             string materials = $"{Path.GetDirectoryName(ascii)}\\{Path.GetFileNameWithoutExtension(ascii)}_materials.txt";
 
-            string arguments = $"{model} {ascii} {materials}";
+            string arguments = $"\"{model}\" \"{ascii}\" \"{materials}\"";
 
             if (game == "MSM2")
             {
@@ -63,11 +63,14 @@ namespace ModelToolsGUI
         public static void RemoveHairStrands(string model, ModelToolGUI mainWindow)
         {
             string executablePath = WebWorksPaths.Tool_RemoveHairStrands;
-            string arguments = model;
+            string arguments = $"\"{model}\"";
 
             StartToolWithArgs(executablePath, arguments, mainWindow);
         }
 
+        //------------------------------------------------------------------------------------------
+        // Start model tools 
+        //------------------------------------------------------------------------------------------
         private static void StartToolWithArgs(string executablePath, string arguments, ModelToolGUI mainWindow)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo

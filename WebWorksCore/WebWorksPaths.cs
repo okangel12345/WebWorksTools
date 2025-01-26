@@ -11,9 +11,11 @@ namespace WebWorksShared
         //------------------------------------------------------------------------------------------
         // WebWorks Misc Paths
         //------------------------------------------------------------------------------------------
-        // Base directory for miscellaneous tools and resources
         public static readonly string MiscFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WebWorksMisc");
 
+        //------------------------------------------------------------------------------------------
+        // Model Tools
+        //------------------------------------------------------------------------------------------
         public static readonly string Tool_RemoveHairStrands = Path.Combine(MiscFolder, "remove_HairStrands.exe");
 
         // Paths to Spider-Man 2 model tools

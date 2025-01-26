@@ -97,12 +97,12 @@ namespace WebWorks.Windows.Tools
                 {
                     Filter = "ASCII File (*.ascii)|*.ascii",
                     FileName = Path.GetFileNameWithoutExtension(textBox_FilePath.Text) + ".ascii",
-                    DefaultExt = "ascii"
                 })
                 {
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        string outputPath = saveFileDialog.FileName;
+                        string savedFile = saveFileDialog.FileName;
+                        string outputPath = $"{Path.GetDirectoryName(savedFile)}\\{Path.GetFileName(savedFile)}";
                         string arguments = $"{assetHash} \"{outputPath}\"";
 
                         ExecuteExternalTool(WebWorksPaths.SpiderMan2_ModelExtractToolPath, arguments);

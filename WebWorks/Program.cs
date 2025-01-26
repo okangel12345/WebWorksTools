@@ -17,6 +17,7 @@ namespace WebWorks
                     if (args[i].ToLower() == "-skipMostRecentTOC")
                     {
                         skipMostRecent = true;
+                        MessageBox.Show("Skipped most recent TOC");
                     }
                 }
                 else
