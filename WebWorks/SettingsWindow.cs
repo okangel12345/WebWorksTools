@@ -61,6 +61,8 @@ namespace WebWorks
                 _experimentalFeatures = check_ExperimentalFeatures.Checked,
                 _preferredGameIndex = comboBox_PreferredGame.SelectedIndex,
 
+                _recentHashes = currentSettings._recentHashes,
+
                 _recentTOC1 = currentSettings._recentTOC1,
                 _recentTOC2 = currentSettings._recentTOC2,
                 _recentTOC3 = currentSettings._recentTOC3,

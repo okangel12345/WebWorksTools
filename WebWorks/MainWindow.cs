@@ -145,6 +145,7 @@ namespace WebWorks
 
             // Load all hashes in the program's directory
             string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            string? recentHashes = settings._recentHashes;
 
             foreach (string file in Directory.GetFiles(appDir))
             {
@@ -157,23 +158,41 @@ namespace WebWorks
 
                     hashesToolStripMenuItem.DropDownItems.Add(menuItem);
                     menuItem.CheckOnClick = true;
-                    menuItem.Click += AssetsMenuClick;
+                    menuItem.Click += HashesMenu_Click;
 
                     if (hashesToolStripMenuItem.DropDownItems
                         .OfType<ToolStripMenuItem>()
                         .All(item => !item.Checked))
                     {
                         menuItem.Checked = true;
+                        settings._recentHashes = menuItem.Text;
                     }
+
+                    if (recentHashes != null && recentHashes.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreach (ToolStripMenuItem item in hashesToolStripMenuItem.DropDownItems)
+                        {
+                            item.Checked = false;
+                        }
+
+                        menuItem.Checked = true;
+                        settings._recentHashes = fileName;
+                    }
+
+                    settingsWindow.SaveSettings(settings);
                 }
             }
+
         }
-        private void AssetsMenuClick(object? sender, EventArgs e)
+        private void HashesMenu_Click(object? sender, EventArgs e)
         {
             foreach (ToolStripMenuItem item in hashesToolStripMenuItem.DropDownItems)
             {
                 item.Checked = item == sender;
+                settings._recentHashes = item.Text;
             }
+
+            settingsWindow.SaveSettings(settings);
         }
 
         // Recent TXT handle
