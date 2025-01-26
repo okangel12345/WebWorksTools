@@ -76,9 +76,9 @@
             ToolStrip_ModdingTool = new ToolStripMenuItem();
             ToolStrip_SpandexTool = new ToolStripMenuItem();
             ToolStrip_SilkTextureTool = new ToolStripMenuItem();
+            ToolStrip_ModelToolGUI = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             ToolStrip_QuickGameLaunch = new ToolStripMenuItem();
-            ToolStrip_ModelToolGUI = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             ToolStrip_Information = new ToolStripMenuItem();
             discordToolStripMenuItem = new ToolStripMenuItem();
@@ -480,6 +480,14 @@
             ToolStrip_SilkTextureTool.Text = "Silk Texture";
             ToolStrip_SilkTextureTool.Click += ToolStrip_SilkTextureTool_Click;
             // 
+            // ToolStrip_ModelToolGUI
+            // 
+            ToolStrip_ModelToolGUI.Name = "ToolStrip_ModelToolGUI";
+            ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D4;
+            ToolStrip_ModelToolGUI.Size = new Size(221, 22);
+            ToolStrip_ModelToolGUI.Text = "Model Tools GUI";
+            ToolStrip_ModelToolGUI.Click += ToolStrip_ModelToolGUI_Click;
+            // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Enabled = false;
@@ -495,14 +503,6 @@
             ToolStrip_QuickGameLaunch.Text = "Quick Game Launch";
             ToolStrip_QuickGameLaunch.Click += ToolStrip_QuickGameLaunch_Click;
             ToolStrip_QuickGameLaunch.MouseEnter += ToolStrip_GeneralSettings_MouseEnter;
-            // 
-            // ToolStrip_ModelToolGUI
-            // 
-            ToolStrip_ModelToolGUI.Name = "ToolStrip_ModelToolGUI";
-            ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D4;
-            ToolStrip_ModelToolGUI.Size = new Size(221, 22);
-            ToolStrip_ModelToolGUI.Text = "Model Tools GUI";
-            ToolStrip_ModelToolGUI.Click += ToolStrip_ModelToolGUI_Click;
             // 
             // helpToolStripMenuItem
             // 

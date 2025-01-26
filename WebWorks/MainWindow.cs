@@ -861,7 +861,7 @@ namespace WebWorks
 
             Asset asset = GetCurrentAssets.Assets()[0];
 
-            var existingAsset = _replacedAssets.FirstOrDefault(a => a.Key.Id == asset.Id);
+            var existingAsset = _replacedAssets.FirstOrDefault(a => a.Key.Id == asset.Id && a.Key.Span == asset.Span);
 
             if (existingAsset.Key != null)
             {
