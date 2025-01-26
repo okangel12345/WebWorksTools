@@ -14,10 +14,9 @@ namespace WebWorks
                 // Handle optional file and TOC paths
                 if (args[i].StartsWith("-"))
                 {
-                    if (args[i].ToLower() == "-skipMostRecentTOC")
+                    if (args[i] == "-skipMostRecentTOC")
                     {
                         skipMostRecent = true;
-                        MessageBox.Show("Skipped most recent TOC");
                     }
                 }
                 else

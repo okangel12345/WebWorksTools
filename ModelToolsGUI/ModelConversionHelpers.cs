@@ -66,6 +66,40 @@ namespace ModelToolsGUI
             string arguments = $"\"{model}\"";
 
             StartToolWithArgs(executablePath, arguments, mainWindow);
+
+            string modifiedModel = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileNameWithoutExtension(model) + "_modified.model");
+
+            MoveHairStrandModel(model, modifiedModel, mainWindow);
+        }
+
+        private static void MoveHairStrandModel(string model, string modifiedModel, ModelToolGUI mainWindow)
+        {
+            if (File.Exists (modifiedModel))
+            {
+                string modelDirectory = Path.GetDirectoryName(model);
+                string modifiedModelFileName = Path.GetFileName(modifiedModel);
+
+                try
+                {
+                    string outputPath = Path.Combine(modelDirectory, modifiedModelFileName);
+
+                    if (File.Exists(outputPath))
+                    {
+                        var f = MessageBox.Show($"{modifiedModelFileName} already exists. Do you want to replace it?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                        
+                        if (f == DialogResult.Cancel)
+                        {
+                            File.Delete(modifiedModel);
+                            return;
+                        }
+                    }
+
+                    File.Move(modifiedModel, outputPath, true);
+
+                    mainWindow.richTextBox1.AppendText($"Modified model moved to: {outputPath}");
+                }
+                catch {}
+            }
         }
 
         //------------------------------------------------------------------------------------------

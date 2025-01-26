@@ -154,11 +154,23 @@ namespace WebWorks
                 if (fileName.StartsWith("hashes_", StringComparison.OrdinalIgnoreCase) ||
                     fileName.Equals("hashes.txt", StringComparison.OrdinalIgnoreCase))
                 {
-                    var menuItem = new ToolStripMenuItem(fileName);
+                    var existingItem = hashesToolStripMenuItem.DropDownItems
+                        .OfType<ToolStripMenuItem>()
+                        .FirstOrDefault(item => item.Text.Equals(fileName, StringComparison.OrdinalIgnoreCase));
+
+                    if (existingItem != null)
+                    {
+                        hashesToolStripMenuItem.DropDownItems.Remove(existingItem);
+                    }
+
+                    var menuItem = new ToolStripMenuItem(fileName)
+                    {
+                        CheckOnClick = true
+                    };
+
+                    menuItem.Click += HashesMenu_Click;
 
                     hashesToolStripMenuItem.DropDownItems.Add(menuItem);
-                    menuItem.CheckOnClick = true;
-                    menuItem.Click += HashesMenu_Click;
 
                     if (hashesToolStripMenuItem.DropDownItems
                         .OfType<ToolStripMenuItem>()
@@ -179,17 +191,45 @@ namespace WebWorks
                         settings._recentHashes = fileName;
                     }
 
+                    // Save the settings
                     settingsWindow.SaveSettings(settings);
                 }
             }
-
         }
         private void HashesMenu_Click(object? sender, EventArgs e)
         {
+            if (_toc != null)
+            {
+                var f = MessageBox.Show("Do you want to change hashes? TOC will be reloaded and all unsaved progress will be lost.", "Warning", MessageBoxButtons.YesNo);
+
+                if (f == DialogResult.Yes)
+                {
+                    SaveRecentHashesSetting(sender);
+
+                    Process.Start(Application.ExecutablePath, $"none \"{_tocPath}\" -skipMostRecentTOC");
+                    Application.Exit();
+                    Dispose();
+                }
+            }
+            else
+            {
+                SaveRecentHashesSetting(sender);
+            }
+        }
+
+        private void SaveRecentHashesSetting(object? sender)
+        {
             foreach (ToolStripMenuItem item in hashesToolStripMenuItem.DropDownItems)
             {
-                item.Checked = item == sender;
-                settings._recentHashes = item.Text;
+                if (item == sender)
+                {
+                    item.Checked = true;
+                    settings._recentHashes = item.Text;
+                }
+                else
+                {
+                    item.Checked = false;
+                }
             }
 
             settingsWindow.SaveSettings(settings);
@@ -300,7 +340,7 @@ namespace WebWorks
 
                 if (f == DialogResult.Yes)
                 {
-                    Process.Start(Application.ExecutablePath, $"x \"{path}\" -skipMostRecentTOC");
+                    Process.Start(Application.ExecutablePath, $"none \"{path}\" -skipMostRecentTOC");
                     Application.Exit();
                     Dispose();
                 }
@@ -311,7 +351,7 @@ namespace WebWorks
             }
 
             SaveRecentTXT(path);
-            LoadRecentMenus();
+            //LoadRecentMenus();
 
             var tocPath = path;
             _tocPath = path;
