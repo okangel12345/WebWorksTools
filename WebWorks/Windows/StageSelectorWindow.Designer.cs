@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StageSelectorWindow));
             WarningMessage = new Label();
             SelectButton = new Button();
             NameComboBox = new ComboBox();
@@ -75,6 +76,7 @@
             Controls.Add(NameComboBox);
             Controls.Add(SelectButton);
             Controls.Add(WarningMessage);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "StageSelectorWindow";
             ShowIcon = false;
             Text = "Select stage...";

@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>ModelToolsGUI_PNG.ico</ApplicationIcon>
+    <ApplicationIcon>ModelTools_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="ModelToolsGUI_PNG.ico" />
+    <Content Include="ModelTools_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

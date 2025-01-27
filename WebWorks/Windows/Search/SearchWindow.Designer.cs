@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchWindow));
             SearchTextBox = new TextBox();
             SearchButton = new Button();
             label_ResultCount = new Label();
@@ -162,9 +163,9 @@
             Controls.Add(SearchButton);
             Controls.Add(SearchTextBox);
             ForeColor = SystemColors.Control;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "SearchWindow";
-            ShowIcon = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Search Window";
             KeyDown += SearchWindow_KeyDown;

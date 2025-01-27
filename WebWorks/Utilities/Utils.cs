@@ -23,23 +23,6 @@ namespace WebWorks.Utilities
             }
         }
 
-        // Check for file
-        //------------------------------------------------------------------------------------------
-        public static void EnsureFileExists(string filePath, string? type = null)
-        {
-            type = type ?? "file";
-
-            if (!File.Exists(filePath))
-            {
-                MessageBox.Show($"The {type} was not found at:\n{filePath}",
-                                "File not found!",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-
-                return;
-            }
-        }
-
 
         // Load Style with settings
         //------------------------------------------------------------------------------------------

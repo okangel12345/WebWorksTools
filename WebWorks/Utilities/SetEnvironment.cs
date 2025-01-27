@@ -28,6 +28,7 @@ namespace WebWorks.Utilities
         public static SpideyTexture? silkTextureForm;
         public static QuickGameLaunch? quickGameLaunchForm;
         public static ModelToolsGUI.ModelToolGUI? modelToolGUI;
+        public static ConfigWeaver.ConfigWeaverForm? configWeaver;
         static MainWindow mainWindow = MainWindow.Instance;
 
         // Environments
@@ -70,6 +71,14 @@ namespace WebWorks.Utilities
                 modelToolGUI = new ModelToolsGUI.ModelToolGUI();
             }, "WebWorks - Model Tools GUI");
         }
+        public static void ConfigWeaver()
+        {
+            LoadForm(ref configWeaver, () =>
+            {
+                configWeaver = new ConfigWeaver.ConfigWeaverForm();
+            }, "WebWorks - Config Weaver");
+        }
+
         public static void QuickGameLaunch()
         {
             LoadForm(ref quickGameLaunchForm, () =>

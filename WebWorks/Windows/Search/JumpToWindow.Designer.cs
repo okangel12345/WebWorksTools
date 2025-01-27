@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JumpToWindow));
             PathTextBox = new TextBox();
             JumpButton = new Button();
             SuspendLayout();
@@ -63,9 +64,9 @@
             Controls.Add(JumpButton);
             Controls.Add(PathTextBox);
             ForeColor = Color.FromArgb(12, 12, 12);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "JumpToWindow";
-            ShowIcon = false;
             Text = "Jump to...";
             KeyDown += JumpToWindow_KeyDown;
             ResumeLayout(false);

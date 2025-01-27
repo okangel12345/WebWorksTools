@@ -30,5 +30,11 @@ namespace WebWorksShared
         public static readonly string ALERT_ModelExtractToolPath = Path.Combine(MiscFolder, "ALERT_extract.exe");
         public static readonly string ALERT_TemporaryModelPath = Path.Combine(MiscFolder, "tempfile_model.model");
         public static readonly string ALERT_ModelImportToolPath = Path.Combine(MiscFolder, "ALERT_import.exe");
+
+        //------------------------------------------------------------------------------------------
+        // Config Tools
+        //------------------------------------------------------------------------------------------
+        public static readonly string ALERT_JSONToConfig = Path.Combine(MiscFolder, "ALERT_jsontoconfig.exe");
+        public static readonly string ALERT_ConfigToJSON = Path.Combine(MiscFolder, "ALERT_configtojson.exe");
     }
 }

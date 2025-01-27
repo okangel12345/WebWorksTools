@@ -16,39 +16,6 @@ namespace ModelToolsGUI
             ModelToAscii_ComboBox.SelectedIndex = 0;
         }
 
-        // Helper method to save selected file to textbox
-        //------------------------------------------------------------------------------------------
-        private void OpenFileDialogAndSaveToTextbox(TextBox textBox, string extension)
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Title = $"Select a file... ({extension})";
-
-                openFileDialog.Filter = $"{extension} files|*.{extension}|All files|*.*";
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    textBox.Text = openFileDialog.FileName;
-                }
-            }
-        }
-
-        public static void OpenSaveFileDialogAndSaveToTextbox(TextBox textBox, string extension)
-        {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-            {
-                saveFileDialog.Title = "Select an output path...";
-
-                saveFileDialog.Filter = $"{extension} files|*.{extension}|All files|*.*";
-
-                // Show the save file dialog
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    textBox.Text = saveFileDialog.FileName;
-                }
-            }
-        }
-
         //------------------------------------------------------------------------------------------
         //
         // Ascii to Model
@@ -60,19 +27,19 @@ namespace ModelToolsGUI
 
         private void AsciiToModel_AsciiButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialogAndSaveToTextbox(AsciiToModel_AsciiTextBox, "ascii");
+            WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(AsciiToModel_AsciiTextBox, "ascii");
             asciiToModel_Ascii = AsciiToModel_AsciiTextBox.Text;
         }
 
         private void AsciiToModel_MaterialsButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialogAndSaveToTextbox(AsciiToModel_MaterialsTextBox, "txt");
+            WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(AsciiToModel_MaterialsTextBox, "txt");
             asciiToModel_Materials = AsciiToModel_MaterialsTextBox.Text;
         }
 
         private void AsciiToModel_ModelButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialogAndSaveToTextbox(AsciiToModel_ModelTextBox, "model");
+            WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(AsciiToModel_ModelTextBox, "model");
             asciiToModel_Model = AsciiToModel_ModelTextBox.Text;
         }
 
@@ -99,13 +66,13 @@ namespace ModelToolsGUI
 
         private void ModelToAscii_ModelButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialogAndSaveToTextbox(ModelToAscii_ModelTextBox, "model");
+            WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(ModelToAscii_ModelTextBox, "model");
             modelToAscii_Model = ModelToAscii_ModelTextBox.Text;
         }
 
         private void ModelToAscii_AsciiButton_Click(object sender, EventArgs e)
         {
-            OpenSaveFileDialogAndSaveToTextbox(ModelToAscii_AsciiTextBox, "ascii");
+            WebWorksCore.DialogsToTextbox.OpenSaveFileDialogAndSaveToTextbox(ModelToAscii_AsciiTextBox, "ascii");
             modelToAscii_Ascii = ModelToAscii_AsciiTextBox.Text;
         }
 
@@ -130,7 +97,7 @@ namespace ModelToolsGUI
 
         private void RemoveHairStrands_ModelButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialogAndSaveToTextbox(RemoveHairStrands_ModelTextBox, "model");
+            WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(RemoveHairStrands_ModelTextBox, "model");
         }
 
         private void RemoveHairStrands_StartButton_Click(object sender, EventArgs e)

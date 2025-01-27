@@ -118,25 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Wallpaper_Blank_Png" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Wallpaper_Blank_Png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SilkTexture_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SilkTexture_PNG1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WebWorksIconPNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WebWorks_PNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ConfigWeaver_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ConfigWeaver_PNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Spidey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Spidey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ModelTools_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ModelTools_PNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Wallpaper_Quads_PNG1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Wallpaper_Quads_PNG1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Spandex_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Spandex_PNG_Red1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebWorks_IconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WebWorks_PNG1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Github" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Github.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="WebWorks_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WebWorks_PNG2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -1152,7 +1152,7 @@ namespace WebWorks
         {
             using (var f = new OpenFileDialog())
             {
-                f.Filter = "Supported Assets|*.texture;*.material";
+                f.Filter = "Supported Assets|*.texture;*.material;*.config;*.json";
                 f.Title = "Open asset...";
 
                 if (f.ShowDialog() == DialogResult.OK)
@@ -1374,6 +1374,13 @@ namespace WebWorks
                     skipHome = true;
                     break;
 
+                case ".config":
+                case ".json":
+                    SetEnvironment.ConfigWeaver();
+                    SetEnvironment.configWeaver?.Open(filePath);
+                    skipHome = true;
+                    break;
+
                 default: break;
             }
         }
@@ -1409,6 +1416,11 @@ namespace WebWorks
         private void ToolStrip_ModelToolGUI_Click(object sender, EventArgs e)
         {
             SetEnvironment.ModelToolGUI();
+        }
+
+        private void ToolStrip_ConfigWeaver_Click(object sender, EventArgs e)
+        {
+            SetEnvironment.ConfigWeaver();
         }
     }
 }

@@ -6,19 +6,15 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>Spandex_icon.ico</ApplicationIcon>
+    <ApplicationIcon>ConfigWeaver_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Spandex_icon.ico" />
+    <Content Include="ConfigWeaver_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml.user" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\DAT1\DAT1.csproj" />
     <ProjectReference Include="..\WebWorksCore\WebWorksCore.csproj" />
   </ItemGroup>
 

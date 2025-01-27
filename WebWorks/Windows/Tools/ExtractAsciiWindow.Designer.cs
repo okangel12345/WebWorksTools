@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExtractAsciiWindow));
             comboBox_OutputGame = new ComboBox();
             textBox_FilePath = new TextBox();
             label1 = new Label();
@@ -149,11 +150,11 @@
             Controls.Add(textBox_FilePath);
             Controls.Add(comboBox_OutputGame);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ExtractAsciiWindow";
-            ShowIcon = false;
             Text = "Extract .ascii - ";
             KeyDown += ExtractAsciiWindow_KeyDown;
             ResumeLayout(false);

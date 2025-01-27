@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HashTool));
             textBox_Path1 = new TextBox();
             label1 = new Label();
             textBox_Hash1 = new TextBox();
@@ -150,10 +151,10 @@
             Controls.Add(textBox_Path1);
             ForeColor = SystemColors.Control;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             MaximizeBox = false;
             Name = "HashTool";
-            ShowIcon = false;
             Text = "Hash Tool";
             KeyDown += HashTool_KeyDown;
             ResumeLayout(false);

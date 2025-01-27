@@ -84,8 +84,8 @@ namespace WebWorks.Windows.Tools
             try
             {
                 // Ensure required files exist
-                ToolUtils.EnsureFileExists(WebWorksPaths.SpiderMan2_ModelExtractToolPath, "Spider-Man 2 model extraction tool");
-                ToolUtils.EnsureFileExists(WebWorksPaths.Spiderman2_ModelExtractIniPath, "Spider-Man 2 model extraction INI file");
+                WebWorksCore.Utilities.EnsureFileExists(WebWorksPaths.SpiderMan2_ModelExtractToolPath, "Spider-Man 2 model extraction tool");
+                WebWorksCore.Utilities.EnsureFileExists(WebWorksPaths.Spiderman2_ModelExtractIniPath, "Spider-Man 2 model extraction INI file");
 
                 // Populate spider.ini with the asset archive path
                 string archivePath = MainWindow._toc.AssetArchivePath;
@@ -128,7 +128,7 @@ namespace WebWorks.Windows.Tools
             try
             {
                 // Ensure the required executable exists and clean temporary model files
-                ToolUtils.EnsureFileExists(WebWorksPaths.ALERT_ModelExtractToolPath, "ALERT model extraction tool");
+                WebWorksCore.Utilities.EnsureFileExists(WebWorksPaths.ALERT_ModelExtractToolPath, "ALERT model extraction tool");
                 CleanTemporaryModel();
 
                 // Extract the asset to a temporary model file

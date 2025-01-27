@@ -76,6 +76,7 @@
             ToolStrip_ModdingTool = new ToolStripMenuItem();
             ToolStrip_SpandexTool = new ToolStripMenuItem();
             ToolStrip_SilkTextureTool = new ToolStripMenuItem();
+            ToolStrip_ConfigWeaver = new ToolStripMenuItem();
             ToolStrip_ModelToolGUI = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             ToolStrip_QuickGameLaunch = new ToolStripMenuItem();
@@ -422,7 +423,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ModelToolGUI, toolStripMenuItem1, ToolStrip_QuickGameLaunch });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ConfigWeaver, ToolStrip_ModelToolGUI, toolStripMenuItem1, ToolStrip_QuickGameLaunch });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -455,7 +456,7 @@
             // 
             // ToolStrip_ModdingTool
             // 
-            ToolStrip_ModdingTool.Image = Windows.FormIcons.WebWorks_IconBlue;
+            ToolStrip_ModdingTool.Image = ApplicationIcons.WebWorks_PNG;
             ToolStrip_ModdingTool.Name = "ToolStrip_ModdingTool";
             ToolStrip_ModdingTool.ShortcutKeys = Keys.Control | Keys.D1;
             ToolStrip_ModdingTool.Size = new Size(221, 22);
@@ -464,7 +465,7 @@
             // 
             // ToolStrip_SpandexTool
             // 
-            ToolStrip_SpandexTool.Image = Windows.FormIcons.Spandex_Icon;
+            ToolStrip_SpandexTool.Image = ApplicationIcons.Spandex_PNG;
             ToolStrip_SpandexTool.Name = "ToolStrip_SpandexTool";
             ToolStrip_SpandexTool.ShortcutKeys = Keys.Control | Keys.D2;
             ToolStrip_SpandexTool.Size = new Size(221, 22);
@@ -473,18 +474,27 @@
             // 
             // ToolStrip_SilkTextureTool
             // 
-            ToolStrip_SilkTextureTool.Image = Windows.FormIcons.SilkTexture_Icon;
+            ToolStrip_SilkTextureTool.Image = ApplicationIcons.SilkTexture_PNG;
             ToolStrip_SilkTextureTool.Name = "ToolStrip_SilkTextureTool";
             ToolStrip_SilkTextureTool.ShortcutKeys = Keys.Control | Keys.D3;
             ToolStrip_SilkTextureTool.Size = new Size(221, 22);
             ToolStrip_SilkTextureTool.Text = "Silk Texture";
             ToolStrip_SilkTextureTool.Click += ToolStrip_SilkTextureTool_Click;
             // 
+            // ToolStrip_ConfigWeaver
+            // 
+            ToolStrip_ConfigWeaver.Image = ApplicationIcons.ConfigWeaver_PNG;
+            ToolStrip_ConfigWeaver.Name = "ToolStrip_ConfigWeaver";
+            ToolStrip_ConfigWeaver.ShortcutKeys = Keys.Control | Keys.D4;
+            ToolStrip_ConfigWeaver.Size = new Size(221, 22);
+            ToolStrip_ConfigWeaver.Text = "Config Weaver";
+            ToolStrip_ConfigWeaver.Click += ToolStrip_ConfigWeaver_Click;
+            // 
             // ToolStrip_ModelToolGUI
             // 
-            ToolStrip_ModelToolGUI.Image = Windows.FormIcons.ModelToolsGUI_Icon;
+            ToolStrip_ModelToolGUI.Image = ApplicationIcons.ModelTools_PNG;
             ToolStrip_ModelToolGUI.Name = "ToolStrip_ModelToolGUI";
-            ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D4;
+            ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D5;
             ToolStrip_ModelToolGUI.Size = new Size(221, 22);
             ToolStrip_ModelToolGUI.Text = "Model Tools GUI";
             ToolStrip_ModelToolGUI.Click += ToolStrip_ModelToolGUI_Click;
@@ -517,7 +527,7 @@
             ToolStrip_Information.Image = Windows.MiscIcons.Info;
             ToolStrip_Information.Name = "ToolStrip_Information";
             ToolStrip_Information.ShortcutKeys = Keys.F11;
-            ToolStrip_Information.Size = new Size(162, 22);
+            ToolStrip_Information.Size = new Size(180, 22);
             ToolStrip_Information.Text = "Information";
             ToolStrip_Information.Click += ToolStrip_Information_Click;
             // 
@@ -526,7 +536,7 @@
             discordToolStripMenuItem.Image = Windows.MiscIcons.Discord;
             discordToolStripMenuItem.Name = "discordToolStripMenuItem";
             discordToolStripMenuItem.ShortcutKeys = Keys.F12;
-            discordToolStripMenuItem.Size = new Size(162, 22);
+            discordToolStripMenuItem.Size = new Size(180, 22);
             discordToolStripMenuItem.Text = "Discord";
             discordToolStripMenuItem.Click += discordToolStripMenuItem_Click;
             // 
@@ -728,5 +738,6 @@
         private DataGridViewTextBoxColumn assetRef;
         private DataGridViewCheckBoxColumn HasHeader;
         private ToolStripMenuItem ToolStrip_ModelToolGUI;
+        private ToolStripMenuItem ToolStrip_ConfigWeaver;
     }
 }
