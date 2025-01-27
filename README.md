@@ -1,4 +1,8 @@
 # WebWorks - Modding Suite
+![WebWorks Card](GitDocuments/Cards/WebWorks_MainCard.png)
+
+---
+
 **Webworks** is an open-source modding suite for **Insomniac Games** video games. It provides users with efficient tools to create, modify, and implement custom content. WebWorks aims to streamline the modding process and help users push the boundaries of game modification.
 
 Supported games:
@@ -6,10 +10,6 @@ Supported games:
 - Marvel's Spider-Man: Miles Morales
 - Marvel's Spider-Man 2
 - Ratchet & Clank: Rift Apart
-
-![WebWorks Card](GitDocuments/Cards/WebWorks_MainCard.png)
-
----
 
 ## Installation and Setup
 
@@ -31,12 +31,10 @@ Before installing the tool, ensure you have the following:
 1. Configure your author name and preferred game under **File > Settings**.
 2. By default "hashes.txt" will always be selected. You can choose the hashes files to use when loading a TOC under **File > Hashes...**.
 
----
-
-## Tools
+## Tools Overview
 WebWorks provides a comprehensive suite of tools designed to empower modders with the ability to create, and modify game assets. Below is an overview of the available tools, click any of the links to learn more and get started:
 
-### <img src="WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="20" height="20" style="margin-right: 10px;"> [Modding Tool](GitDocuments/WebWorks.md)
+### <img src="WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="20" height="20" style="margin-right: 10px;"> [Modding Tool](GitDocuments/ModdingTool.md)
 
 A versatile tool for extracting, viewing, and replacing in-game assets. It supports a wide range of file formats and allows for seamless integration of custom content into supported games. Key features include:
 
@@ -64,3 +62,10 @@ A user-friendly interface for a variety of model-related tools, designed to simp
 
 - Model Import/Export: Import and export models in .ascii format.
 - Hair strand remover: Remove unwanted hair strands from specific models.
+
+## Credits
+WebWorks is possible thanks to the work of talented developers who chose to make their projects open-source, you can check their projects here:
+
+- Tkachov's [Modding Tool](https://github.com/Tkachov/Overstrike/tree/main/ModdingTool), [Overstrike](https://github.com/Tkachov/Overstrike/) and [ALERT](https://github.com/Tkachov/ALERT/).
+- Hypermorphic's [Spandex](https://github.com/hypermorphicmods/Spandex/) and [Spidey Texture Scaler](https://github.com/hypermorphicmods/SpideyTextureScaler/).
+- BlakeYoung's [Updated Spandex](https://github.com/BlakeYoung04/SpandexUpdated).

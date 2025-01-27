@@ -68,7 +68,7 @@ namespace WebWorks.Windows.Search
                 {
                     if (asset.FullPath != null && MatchesWords(Normalize(asset.FullPath), words))
                     {
-                        dataGridView_Files.Rows.Add(asset.FullPath, asset.Size, asset.Archive, asset.Span, asset.Id, asset.FullPath, asset.RefPath, asset.HasHeader);
+                        dataGridView_Files.Rows.Add(asset.FullPath, asset.SizeFormatted, asset.Archive, asset.Span, asset.Id, asset.FullPath, asset.RefPath, asset.HasHeader);
                     }
                     ++i;
                 }
@@ -104,6 +104,23 @@ namespace WebWorks.Windows.Search
         private void SearchWindow_KeyDown(object sender, KeyEventArgs e)
         {
             ToolUtils.CloseWithKeyboardShortcut(this, sender, e);
+        }
+
+        private void dataGridView_Files_DoubleClick(object sender, EventArgs e)
+        {
+            DataGridViewRow selectedRow = dataGridView_Files.SelectedRows[0];
+
+            foreach (DataGridViewRow row in dataGridView_Files.Rows)
+            {
+                if (row != selectedRow)
+                {
+                    row.Selected = false;
+                }
+            }
+
+            string path = GetCurrentAssets.Paths()[0];
+
+            mainWindow.JumpTo(path);
         }
     }
 }
