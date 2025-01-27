@@ -41,20 +41,26 @@ A versatile tool for extracting, viewing, and replacing in-game assets. It suppo
 - Asset Extraction: Unpack game files to access textures, models, and other resources.
 - Asset Replacement: Replace in-game assets and pack mods as .stage.
 
-### <img src="Spandex/Spandex_icon.ico" alt="Spandex Icon" width="20" height="20" style="margin-right: 10px;"> [Spandex](GitDocuments/Spandex.md)
+### <img src="Spandex/Spandex_Icon.ico" alt="Spandex Icon" width="20" height="20" style="margin-right: 10px;"> [Spandex](GitDocuments/Spandex.md)
 
 A specialized tool for editing .material files, enabling modders to customize material properties such as textures and materialgraphs. Features include:
 
 - Material Editing: Modify material parameters to achieve desired visual effects.
 - Texture Mapping: Easily map custom textures to materials.
 
-### <img src="SilkTexture/SilkTexture_icon.ico" alt="SilkTexture Icon" width="20" height="20" style="margin-right: 10px;"> [Silk Texture](GitDocuments/SilkTexture.md)
+### <img src="SilkTexture/SilkTexture_Icon.ico" alt="SilkTexture Icon" width="20" height="20" style="margin-right: 10px;"> [Silk Texture](GitDocuments/SilkTexture.md)
 
 A powerful texture conversion tool that supports seamless conversion between .texture and .dds formats. Key functionalities include:
 
 - Format Conversion: Convert textures between .texture and .dds formats with a single click.
 - Batch Conversion: Process multiple texture files simultaneously.
 - Upscaling Support: Upscale any in-game texture up to 8K quality.
+
+### <img src="ConfigWeaver/ConfigWeaver_icon.ico" alt="ConfigWeaver Icon" width="20" height="20" style="margin-right: 10px;"> [Config Weaver](GitDocuments/ConfigWeaver.md)
+
+A versatile tool for converting and editing configuration files. Key functionalities include:
+
+- Config Conversion: Easily convert .config files to .json and vice versa for easy tweaking and customization.
 
 ### <img src="ModelToolsGUI/ModelTools_icon.ico" alt="ModelToolsGUI Icon" width="20" height="20" style="margin-right: 10px;"> [Model Tools GUI](GitDocuments/ModelToolsGUI.md)
 

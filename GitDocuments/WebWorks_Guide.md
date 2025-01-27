@@ -17,18 +17,18 @@
 | **Pack as .stage...** | `Ctrl + Shift + S` | Opens the "Pack as .stage" window to bundle replaced and added assets into a `.stage` file.           |
 
 ### Tools
-| Command               | Shortcut   | Function                                                                |
-| --------------------- | ---------- | ----------------------------------------------------------------------- |
-| **Home**              | -          | Displays the home wallpaper.                                            |
-| **Calculate hash...** | `Ctrl + H` | Opens the hash tool to calculate CRC-32 or CRC-64 for any input string. |
-| **Modding Tool**      | `Ctrl + 1` | Displays the modding environment.                                       |
-| **Spandex**           | `Ctrl + 2` | Opens Spandex (material editor) within WebWorks.                        |
-| **Silk Texture**      | `Ctrl + 3` | Opens Silk Texture (texture editor) within WebWorks.                    |
-| **Config Weaver**     | `Ctrl + 4` | Opens Config Weaver (config editor) within WebWorks.                    |
-| **Model Tools GUI**   | `Ctrl + 5` | Opens Model Tools GUI (model tools) within WebWorks.                    |
+| Command               | Shortcut   | Function                                                                 |
+| --------------------- | ---------- | ------------------------------------------------------------------------ |
+| **Home**              | -          | Displays the home wallpaper.                                             |
+| **Calculate hash...** | `Ctrl + H` | Opens the hash tool to calculate CRC-32 or CRC-64 for any input string.  |
+| **Modding Tool**      | `Ctrl + 1` | Displays the modding environment.                                        |
+| **Spandex**           | `Ctrl + 2` | Opens [Spandex](Soandex.md) (material editor) within WebWorks.           |
+| **Silk Texture**      | `Ctrl + 3` | Opens [Silk Texture](SilkTexture.md) (texture editor) within WebWorks.   |
+| **Config Weaver**     | `Ctrl + 4` | Opens [Config Weaver](ConfigWeaver.md) (config editor) within WebWorks.  |
+| **Model Tools GUI**   | `Ctrl + 5` | Opens [Model Tools GUI](ModelToolsGUI.md) (model tools) within WebWorks. |
 
 ### Help
-| Command         | Shortcut | Function                                                                |
-| --------------- | -------- | ----------------------------------------------------------------------- |
-| **Information** | `F11`    | Opens the information window, which contains links to the GitHub page.  |
-| **Discord**     | `F12`    | Opens the official Discord server: [Discord](https://discord.com). |
+| Command         | Shortcut | Function                                                               |
+| --------------- | -------- | ---------------------------------------------------------------------- |
+| **Information** | `F11`    | Opens the information window, which contains links to the GitHub page. |
+| **Discord**     | `F12`    | Opens the official Discord server: [Discord](https://discord.com).     |
