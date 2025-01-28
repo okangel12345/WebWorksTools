@@ -69,6 +69,16 @@ A user-friendly interface for a variety of model-related tools, designed to simp
 - Model Import/Export: Import and export models in .ascii format.
 - Hair strand remover: Remove unwanted hair strands from specific models.
 
+## Guides
+### <img src="WebWorks/Resources/Settings.png" width="20" height="20" style="margin-right: 10px;"> [Settings Guide](Documents/Settings_Guide.md)  
+Brief overview of how to access the settings window and what each option does.
+
+### <img src="WebWorks/Resources/Info.png" width="20" height="20" style="margin-right: 10px;"> [Commands Guide](Documents/Commands_Guide.md)  
+Available commands in the menus and their keyboard shortcuts.
+
+### <img src="WebWorks/Resources/HashTool.png" width="20" height="20" style="margin-right: 10px;"> [Tool Experiments](Documents/Tool_Experiments.md)  
+Tool experiments. Unexpected behaviour may occur when enabled. Proceed with caution.
+
 ## Credits
 WebWorks is possible thanks to the work of talented developers who chose to make their projects open-source, you can check their projects here:
 

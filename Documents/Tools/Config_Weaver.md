@@ -1,4 +1,4 @@
-# <img src="../../ConfigWeaver/ConfigWeaver_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;">Config Weaver
+# <img src="../../ConfigWeaver/ConfigWeaver_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;"> Config Weaver
 ## About
 Config Weaver is a tool designed to simplify the process of converting configuration files between `.config` and `.json` formats.
 

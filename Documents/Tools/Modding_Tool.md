@@ -1,4 +1,4 @@
-# <img src="../../WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;">WebWorks - Modding Tool
+# <img src="../../WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;"> WebWorks - Modding Tool
 ## About
 WebWork's built-in Modding Tool allows you to view, extract and replace game assets. Packs mods to .stage format, compatible with [Overstrike](https://github.com/Tkachov/Overstrike/).
 
