@@ -5,7 +5,7 @@
 
 **Webworks** is an open-source modding suite for **Insomniac Games** video games. It provides users with efficient tools to create, modify, and implement custom content. WebWorks aims to streamline the modding process and help users push the boundaries of game modification.
 
-Supported games:
+Supported games: 
 - Marvel's Spider-Man Remastered
 - Marvel's Spider-Man: Miles Morales
 - Marvel's Spider-Man 2
