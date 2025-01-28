@@ -42,7 +42,7 @@ namespace ConfigWeaver
             }
             else
             {
-                DetectedFileTypeLabel.Text = "Unknown file type! Change extension to config or json.";
+                DetectedFileTypeLabel.Text = "Unknown file type!";
                 StartConversionButton.Visible = false;
             }
         }
@@ -94,6 +94,17 @@ namespace ConfigWeaver
 
         private void StartConversionButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Select an input file first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (string.IsNullOrEmpty(textBox2.Text))
+            {
+                MessageBox.Show("Select an output path first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             StartConversion();
         }
 
@@ -105,9 +116,18 @@ namespace ConfigWeaver
             }
             else if (DetectedFileTypeLabel.Text.Contains("JSON"))
             {
+                if (string.IsNullOrEmpty(textBox_type.Text))
+                {
+                    MessageBox.Show("Missing config type! Write it first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 ConfigHelper.SaveJSONAsConfig(textBox2.Text, textBox1.Text, textBox_type.Text);
             }
-            else { }
+            else
+            {
+                MessageBox.Show("Select a supported file type (.json / .config)", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public void HighlightJsonSyntax(RichTextBox richTextBox)

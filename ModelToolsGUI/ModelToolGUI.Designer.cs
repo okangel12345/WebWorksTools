@@ -381,7 +381,7 @@
             ForeColor = SystemColors.Control;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ModelToolGUI";
-            Text = "Form1";
+            Text = "Model Tools GUI";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
