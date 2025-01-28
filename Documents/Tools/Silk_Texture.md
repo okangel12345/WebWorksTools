@@ -1,4 +1,4 @@
-# <img src="../../SilkTexture/SilkTexture_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;">Silk Texture
+# <img src="../../SilkTexture/SilkTexture_Icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;">Silk Texture
 ## About
 Silk Texture is a texture conversion tool designed to let modders convert `.texture` and  `.dds` formats, and optionally scaling game textures to higher qualities (4K to 8K).
 

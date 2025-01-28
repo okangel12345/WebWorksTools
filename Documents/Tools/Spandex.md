@@ -1,4 +1,4 @@
-# <img src="../../Spandex/Spandex_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;"> Spandex
+# <img src="../../Spandex/Spandex_Icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;"> Spandex
 ## About
 Material file editor for Marvel's Spider-Man Remastered, Marvel's Spider-Man Miles Morales and Marvel's Spider-Man 2 for PC.
 
