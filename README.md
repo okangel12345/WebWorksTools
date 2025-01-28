@@ -1,5 +1,5 @@
 # WebWorks - Modding Suite
-![WebWorks Card](GitDocuments/Cards/WebWorks_MainCard.png)
+![WebWorks Card](Documents/Cards/WebWorks_MainCard.png)
 
 ---
 
@@ -34,21 +34,21 @@ Before installing the tool, ensure you have the following:
 ## Tools Overview
 WebWorks provides a comprehensive suite of tools designed to empower modders with the ability to create, and modify game assets. Below is an overview of the available tools, click any of the links to learn more and get started:
 
-### <img src="WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="20" height="20" style="margin-right: 10px;"> [Modding Tool](GitDocuments/ModdingTool.md)
+### <img src="WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="20" height="20" style="margin-right: 10px;"> [Modding Tool](Documents/Tools/Modding_Tool.md)
 
 A versatile tool for extracting, viewing, and replacing in-game assets. It supports a wide range of file formats and allows for seamless integration of custom content into supported games. Key features include:
 
 - Asset Extraction: Unpack game files to access textures, models, and other resources.
 - Asset Replacement: Replace in-game assets and pack mods as .stage.
 
-### <img src="Spandex/Spandex_Icon.ico" alt="Spandex Icon" width="20" height="20" style="margin-right: 10px;"> [Spandex](GitDocuments/Spandex.md)
+### <img src="Spandex/Spandex_Icon.ico" alt="Spandex Icon" width="20" height="20" style="margin-right: 10px;"> [Spandex](Documents/Tools/Spandex.md)
 
 A specialized tool for editing .material files, enabling modders to customize material properties such as textures and materialgraphs. Features include:
 
 - Material Editing: Modify material parameters to achieve desired visual effects.
 - Texture Mapping: Easily map custom textures to materials.
 
-### <img src="SilkTexture/SilkTexture_Icon.ico" alt="SilkTexture Icon" width="20" height="20" style="margin-right: 10px;"> [Silk Texture](GitDocuments/SilkTexture.md)
+### <img src="SilkTexture/SilkTexture_Icon.ico" alt="SilkTexture Icon" width="20" height="20" style="margin-right: 10px;"> [Silk Texture](Documents/Tools/Silk_Texture.md)
 
 A powerful texture conversion tool that supports seamless conversion between .texture and .dds formats. Key functionalities include:
 
@@ -56,13 +56,13 @@ A powerful texture conversion tool that supports seamless conversion between .te
 - Batch Conversion: Process multiple texture files simultaneously.
 - Upscaling Support: Upscale any in-game texture up to 8K quality.
 
-### <img src="ConfigWeaver/ConfigWeaver_icon.ico" alt="ConfigWeaver Icon" width="20" height="20" style="margin-right: 10px;"> [Config Weaver](GitDocuments/ConfigWeaver.md)
+### <img src="ConfigWeaver/ConfigWeaver_icon.ico" alt="ConfigWeaver Icon" width="20" height="20" style="margin-right: 10px;"> [Config Weaver](Documents/Tools/Config_Weaver.md)
 
 A versatile tool for converting and editing configuration files. Key functionalities include:
 
 - Config Conversion: Easily convert .config files to .json and vice versa for easy tweaking and customization.
 
-### <img src="ModelToolsGUI/ModelTools_icon.ico" alt="ModelToolsGUI Icon" width="20" height="20" style="margin-right: 10px;"> [Model Tools GUI](GitDocuments/ModelToolsGUI.md)
+### <img src="ModelToolsGUI/ModelTools_icon.ico" alt="ModelToolsGUI Icon" width="20" height="20" style="margin-right: 10px;"> [Model Tools GUI](Documents/Tools/Model_Tools_GUI.md)
 
 A user-friendly interface for a variety of model-related tools, designed to simplify the process of editing and optimizing 3D models. Features include:
 

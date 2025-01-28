@@ -1,4 +1,4 @@
-# WebWorks - Modding Tool
+# <img src="../../WebWorks/WebWorks_icon.ico" alt="WebWorks Icon" width="25" height="25" style="margin-right: 10px;">WebWorks - Modding Tool
 ## About
 WebWork's built-in Modding Tool allows you to view, extract and replace game assets. Packs mods to .stage format, compatible with [Overstrike](https://github.com/Tkachov/Overstrike/).
 
@@ -10,7 +10,7 @@ Supported games:
 
 ## Getting Started
 ### Loading a TOC file
-![](Screenshots/WebWorks_moddingTool.png)
+![](../Screenshots/WebWorks_moddingTool.png)
 
 Use **File > Load TOC** or keyboard shortcut **Ctrl + L** to start loading a TOC file. You can also use **File > Hashes...** to pick a hashes.txt file to use. Only files with "hashes.txt" and "hashes_" in their names will be displayed (Example: hashes_i30.txt).
 
@@ -19,19 +19,21 @@ On the left side of the interface, a folder tree is displayed, allowing users to
 Assets that do not have an associated name in the "hashes.txt" file are grouped under the **[UNKNOWN]** section, organized by their respective archive files. Similarly, audio assets with the .wem extension are grouped under the **[WEM]** section.
 
 Right click an asset in the table to open the context menu or use one of the available keyboard shortcuts. Options are the following:
-
-- **Extract selected... (Ctrl + E)** - Extract all selected assets from the table to a desired location.
-- **Extract as .ascii... (model)** - Extract .model and automatically convert to .ascii.
-- **Extract as .dds (texture)** - Extract .texture and automatically convert to .dds.
-- **Extract to .stage...** - Extract asset and save to stages folder
-- **Replace selected... (Ctrl + R)** - Replace asset and add it to the replaced assets list.
-- **Copy path** - Copy full asset path.
-- **Copy hash** - Copy asset hash.
+| Command                          | Shortcut   | Function                                                          |
+| -------------------------------- | ---------- | ----------------------------------------------------------------- |
+| **Extract selected...**          | `Ctrl + E` | Extract all selected assets from the table to a desired location. |
+| **Extract as .ascii... (model)** | -          | Extract .model and automatically convert to .ascii.               |
+| **Extract as .dds (texture)**    | `Ctrl + E` | Extract .texture and automatically convert to .dds.               |
+| **Extract to .stage...**         | `Ctrl + E` | Extract asset and save to stages folder.                          |
+| **Replace selected...**          | `Ctrl + R` | Replace asset and add it to the replaced assets list.             |
+| **Copy path**                    | `Ctrl + E` | Copy full asset path.                                             |
+| **Copy hash**                    | -          | Copy asset hash.                                                  |
 
 ---
 
 ### Search and Jump to Path
-![Search window](Screenshots/SearchWindow_screenshot.png)
+![Search window](../Screenshots/SearchWindow_screenshot.png)
+
 Press **Ctrl + S** or go to **Search > Search...** to open the search window. Use keywords separated by a space to find the asset you're looking for. Double click an asset to locate it in the main window.
 
 Alternatively, you can use **Search > Jump to path or ref...** to quickly open a folder where a specific asset is.
@@ -39,7 +41,8 @@ Alternatively, you can use **Search > Jump to path or ref...** to quickly open a
 ---
 
 ### Packing as .stage
-![Pack stage window](Screenshots/PackStage_screenshot.png)
+![Pack stage window](../Screenshots/PackStage_screenshot.png)
+
 When you replace an asset with a file, the change is not applied instantly. Instead, you can view a list of all replaced assets (along with the disk files used for replacement) by navigating to **Mod > Pack as .stage...**.
 
 In this menu, you can:
