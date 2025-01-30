@@ -605,16 +605,40 @@ namespace Spandex
 
                 var shaderfloats = material.GetSection<Material.ShaderFloats>();
                 var shaderints = material.GetSection<Material.ShaderIntegers>();
+
                 foreach (var kv in values)
                 {
                     var k = kv.Key;
                     var v = kv.Value;
+
+                    // Debugging: Check the size of v
+                    if (v == null)
+                    {
+                        MessageBox.Show("v is NULL");
+                        continue;
+                    }
+                    if (v.Length == 0)
+                    {
+                        MessageBox.Show("v is EMPTY");
+                        continue;
+                    }
+                    if (v[0] == null)
+                    {
+                        MessageBox.Show("v[0] is NULL");
+                        continue;
+                    }
+                    if (v[0].values == null)
+                    {
+                        MessageBox.Show("v[0].values is NULL");
+                        continue;
+                    }
 
                     if (v[0].values[GridEntry.SLOTINTERNAL].Slot != null)
                     {
                         // internal template
                         object[] varray = v.Select(v => v.values[GridEntry.SLOTINTERNAL].Value).ToArray();
                         int slot = (int)v[0].values[GridEntry.SLOTINTERNAL].Slot;
+
 
                         switch (v[0].Type)
                         {
@@ -724,20 +748,20 @@ namespace Spandex
 
             // We just need .materialgraph and .nodegraph for Spandex
             var headerDictionary = new Dictionary<string, (byte[] header, byte[] additionalBytes)>
-    {
-        {
-            ".materialgraph", (
-                new byte[] { 0x5B, 0xDC, 0x1A, 0x1C, 0x00, 0x01, 0x00, 0x00 },
-                new byte[] { 0x40, 0x71, 0x55, 0x00, 0x10, 0x0C, 0x53, 0x77, 0xBA, 0x00, 0x04, 0x10, 0x00, 0x40, 0x10, 0x00, 0x80, 0x45, 0x0D, 0x00, 0x10, 0x4C, 0x51, 0x00, 0x80 }
-            )
-        },
-        {
-            ".material", (
-                new byte[] { 0x68, 0x67, 0x6C, 0x4C, 0x00, 0x01, 0x00, 0x00 },
-                new byte[] { 0x80, 0x7F, 0x00, 0x00, 0x10, 0x6A, 0xF6, 0xB1, 0x28, 0x00, 0x02, 0x00, 0x00, 0x40, 0x04, 0x00, 0x00, 0xC9, 0x09, 0x00, 0x10, 0x00, 0x37, 0x00, 0x00 }
-            )
-        }
-    };
+            {
+                {
+                    ".materialgraph", (
+                        new byte[] { 0x5B, 0xDC, 0x1A, 0x1C, 0x00, 0x01, 0x00, 0x00 },
+                        new byte[] { 0x40, 0x71, 0x55, 0x00, 0x10, 0x0C, 0x53, 0x77, 0xBA, 0x00, 0x04, 0x10, 0x00, 0x40, 0x10, 0x00, 0x80, 0x45, 0x0D, 0x00, 0x10, 0x4C, 0x51, 0x00, 0x80 }
+                    )
+                },
+                {
+                    ".material", (
+                        new byte[] { 0x68, 0x67, 0x6C, 0x4C, 0x00, 0x01, 0x00, 0x00 },
+                        new byte[] { 0x80, 0x7F, 0x00, 0x00, 0x10, 0x6A, 0xF6, 0xB1, 0x28, 0x00, 0x02, 0x00, 0x00, 0x40, 0x04, 0x00, 0x00, 0xC9, 0x09, 0x00, 0x10, 0x00, 0x37, 0x00, 0x00 }
+                    )
+                }
+            };
 
             if (headerDictionary.ContainsKey(fileExtension))
             {
