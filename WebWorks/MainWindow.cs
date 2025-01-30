@@ -1068,7 +1068,7 @@ namespace WebWorks
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://discord.gg/",
+                FileName = "https://discord.gg/Dg5fdVhJUs",
                 UseShellExecute = true
             });
         }

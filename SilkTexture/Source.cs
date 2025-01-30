@@ -140,7 +140,7 @@
                 {
                     br.ReadBytes(5);
 
-                    var dxgi_format = br.ReadUInt16();
+                    var dxgi_format = br.ReadByte();
 
                     Format = (DXGI_FORMAT?)dxgi_format;
 

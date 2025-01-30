@@ -118,15 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>WebWorks is a free, open-source modding suite designed for Insomniac Games titles, including Marvel's Spider-Man Remastered, Marvel's Spider-Man Miles Morales, Marvel's Spider-Man 2, and Ratchet &amp; Clank: Rift Apart. It empowers users to view, extract, and replace in-game assets. The suite provides direct extraction for .ascii models and .dds textures, as well as additional modding tools to make modding easier than ever.
+    <value>Webworks is an open-source modding suite for Insomniac Games video games. It provides users with efficient tools to create, modify, and implement custom content. WebWorks aims to streamline the modding process and help users push the boundaries of game modification.
+
+Supported games:
+Marvel's Spider-Man Remastered
+Marvel's Spider-Man: Miles Morales
+Marvel's Spider-Man 2
+Ratchet &amp; Clank: Rift Apart
 
 Credits:
-
 Tkachov: ALERT - Overstrike
 Hypermorphic: Spandex - SpideyTextureScaler
-Id-Daemon: MSM2 Model Tool
+BlakeYoung: Updated Spandex.
+Id-Daemon: MSM2 Model Tool (not distributed with this package).
 
 None of this would've been possible without these amazing devs.
-WebWorks is being developed by okangel.</value>
+
+WebWorks is being developed by okangel.
+Program version: 1.0.0</value>
   </data>
 </root>

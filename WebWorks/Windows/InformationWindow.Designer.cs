@@ -41,11 +41,11 @@
             // panel1
             // 
             panel1.BackColor = Color.Black;
-            panel1.BackgroundImage = FormIcons.Wallpaper_Quads_PNG;
-            panel1.BackgroundImageLayout = ImageLayout.Zoom;
-            panel1.Location = new Point(-16, 344);
+            panel1.BackgroundImage = FormIcons.WebWorks_IconBlue;
+            panel1.BackgroundImageLayout = ImageLayout.Center;
+            panel1.Location = new Point(607, 68);
             panel1.Name = "panel1";
-            panel1.Size = new Size(724, 377);
+            panel1.Size = new Size(508, 544);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -67,7 +67,7 @@
             richTextBox1.ForeColor = SystemColors.Control;
             richTextBox1.Location = new Point(12, 68);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(683, 304);
+            richTextBox1.Size = new Size(589, 544);
             richTextBox1.TabIndex = 2;
             richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -76,7 +76,7 @@
             pictureBox1.BackgroundImage = FormIcons.Github;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Location = new Point(645, 727);
+            pictureBox1.Location = new Point(551, 618);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(50, 50);
             pictureBox1.TabIndex = 3;
@@ -88,9 +88,9 @@
             pictureBox2.BackgroundImage = FormIcons.Cross;
             pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox2.Cursor = Cursors.Hand;
-            pictureBox2.Location = new Point(671, 12);
+            pictureBox2.Location = new Point(1095, 9);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(24, 24);
+            pictureBox2.Size = new Size(20, 19);
             pictureBox2.TabIndex = 4;
             pictureBox2.TabStop = false;
             pictureBox2.Click += pictureBox2_Click;
@@ -100,7 +100,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(707, 786);
+            ClientSize = new Size(1127, 681);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(richTextBox1);
