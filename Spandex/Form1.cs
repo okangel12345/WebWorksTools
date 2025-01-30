@@ -16,6 +16,8 @@ namespace Spandex
 
         string _hashesOption;
 
+        byte[] fileMagicNumber;
+
         public Form1(string[] argv, string WebWorksHashes = null)
         {
             InitializeComponent();
@@ -163,6 +165,15 @@ namespace Spandex
             {
                 UseWaitCursor = true;
                 Application.DoEvents();
+
+                // Read magic and store as bytes
+
+                byte[] fileData = File.ReadAllBytes(f.FileName);
+
+                if (fileData.Length >= 0x2C)  // Ensure there's enough data
+                {
+                    fileMagicNumber = fileData.Skip(0x28).Take(4).ToArray();
+                }
 
                 lastsourcedir = Path.GetDirectoryName(f.FileName) + @"\";
                 lastsavefile = Path.ChangeExtension(Path.GetFileName(f.FileName), $".modified{Path.GetExtension(f.FileName)}");
@@ -712,6 +723,22 @@ namespace Spandex
                 statusLabel.Image = global::Spandex.Properties.Resources.ok;
                 statusLabel.Text = $"Saved material: {lastsavefile}";
                 UseWaitCursor = false;
+            }
+
+            // Replace with magic
+
+            // Open "lastsavefile" and jump to 0x28, replace the following 4 bytes with fileMagicNumber
+
+            if (File.Exists(lastsavefile))
+            {
+                using (FileStream fs = new FileStream(lastsavefile, FileMode.Open, FileAccess.Write))
+                {
+                    if (fs.Length >= 0x2C)
+                    {
+                        fs.Seek(0x28, SeekOrigin.Begin); // Move to offset 0x28
+                        fs.Write(fileMagicNumber, 0, fileMagicNumber.Length); // Overwrite 4 bytes
+                    }
+                }
             }
 
             // Do Universal Header
