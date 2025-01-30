@@ -527,7 +527,7 @@
             ToolStrip_Information.Image = Windows.MiscIcons.Info;
             ToolStrip_Information.Name = "ToolStrip_Information";
             ToolStrip_Information.ShortcutKeys = Keys.F11;
-            ToolStrip_Information.Size = new Size(180, 22);
+            ToolStrip_Information.Size = new Size(162, 22);
             ToolStrip_Information.Text = "Information";
             ToolStrip_Information.Click += ToolStrip_Information_Click;
             // 
@@ -536,7 +536,7 @@
             discordToolStripMenuItem.Image = Windows.MiscIcons.Discord;
             discordToolStripMenuItem.Name = "discordToolStripMenuItem";
             discordToolStripMenuItem.ShortcutKeys = Keys.F12;
-            discordToolStripMenuItem.Size = new Size(180, 22);
+            discordToolStripMenuItem.Size = new Size(162, 22);
             discordToolStripMenuItem.Text = "Discord";
             discordToolStripMenuItem.Click += discordToolStripMenuItem_Click;
             // 

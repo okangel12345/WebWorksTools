@@ -18,6 +18,9 @@ namespace ModelToolsGUI
 
             if (game == "MSM2")
             {
+                MessageBox.Show(".ascii to .model conversion isn't supported for MSM2 yet!");
+                return;
+
                 executablePath = WebWorksPaths.SpiderMan2_ModelImportToolPath;
             }
             else
@@ -43,7 +46,9 @@ namespace ModelToolsGUI
 
             if (game == "MSM2")
             {
-                MessageBox.Show("Direct .model to .ascii conversion isn't supported for MSM2!");
+                MessageBox.Show("Direct .model to .ascii conversion isn't supported for MSM2 yet!");
+                return;
+
                 executablePath = WebWorksPaths.SpiderMan2_ModelExtractToolPath;
             }
             else

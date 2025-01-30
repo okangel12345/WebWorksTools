@@ -1161,7 +1161,7 @@ namespace WebWorks
                     ReadFile(filePath);
                 }
                 else
-                {}
+                { }
             }
         }
 

@@ -69,7 +69,10 @@ namespace ConfigWeaver
             {
                 richTextBox1.Text = ConfigHelper.GetConfigData(textBox1.Text);
             }
-            catch {}
+            catch (Exception ex)
+            {
+                richTextBox1.Text = $"Error: {ex.Message}";
+            }
         }
 
         private void SetJsonEnvironment()
