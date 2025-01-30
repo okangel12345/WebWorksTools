@@ -35,6 +35,5 @@ namespace WebWorksShared
         // Config Tools
         //------------------------------------------------------------------------------------------
         public static readonly string ALERT_JSONToConfig = Path.Combine(MiscFolder, "ALERT_jsontoconfig.exe");
-        public static readonly string ALERT_ConfigToJSON = Path.Combine(MiscFolder, "ALERT_configtojson.exe");
     }
 }
