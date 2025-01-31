@@ -72,9 +72,24 @@ namespace WebWorks.Windows.Search
                     }
                     ++i;
                 }
+
+                foreach (var path in _assetsByPath.Keys)
+                {
+                    foreach (var assetIndex in _assetsByPath[path])
+                    {
+                        var asset = _assets[assetIndex];
+                        if (asset.FullPath != null) continue;
+
+                        var fakepath = Path.Combine(path, asset.Name);
+                        if (MatchesWords(Normalize(fakepath), words))
+                        {
+                            dataGridView_Files.Rows.Add(asset.Name, asset.SizeFormatted, asset.Archive, asset.Span, asset.Id, asset.FullPath, asset.RefPath, asset.HasHeader);
+                        }
+                    }
+                }
             }
 
-            label_ResultCount.Text = $"{_displayedResults.Count} results";
+            label_ResultCount.Text = $"{dataGridView_Files.Rows.Count} results";
         }
 
         private static string Normalize(string text)
