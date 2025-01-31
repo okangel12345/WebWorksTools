@@ -141,8 +141,10 @@
                     br.ReadBytes(5);
 
                     var dxgi_format = br.ReadByte();
-
                     Format = (DXGI_FORMAT?)dxgi_format;
+
+                    // Unknown
+                    br.ReadByte();
 
                     Mipmaps = br.ReadByte();
                     HDMipmaps = br.ReadByte();
