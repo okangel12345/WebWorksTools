@@ -1,5 +1,6 @@
 using Spiderman;
 using System.Collections;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Spandex
@@ -625,22 +626,22 @@ namespace Spandex
                     // Debugging: Check the size of v
                     if (v == null)
                     {
-                        MessageBox.Show("v is NULL");
+                        //MessageBox.Show("v is NULL");
                         continue;
                     }
                     if (v.Length == 0)
                     {
-                        MessageBox.Show("v is EMPTY");
+                        //MessageBox.Show("v is EMPTY");
                         continue;
                     }
                     if (v[0] == null)
                     {
-                        MessageBox.Show("v[0] is NULL");
+                        //MessageBox.Show("v[0] is NULL");
                         continue;
                     }
                     if (v[0].values == null)
                     {
-                        MessageBox.Show("v[0].values is NULL");
+                        //MessageBox.Show("v[0].values is NULL");
                         continue;
                     }
 

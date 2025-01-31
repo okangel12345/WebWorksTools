@@ -652,7 +652,7 @@
             Margin = new Padding(2);
             MinimumSize = new Size(701, 389);
             Name = "Form1";
-            Text = "Spandex Luna";
+            Text = "Spandex";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)stringGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)stringGridEntryBindingSource).EndInit();
