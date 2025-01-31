@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Reflection;
 using WebWorksShared;
 
 namespace ModelToolsGUI
@@ -14,6 +15,8 @@ namespace ModelToolsGUI
 
             AsciiToModel_ComboBox.SelectedIndex = 0;
             ModelToAscii_ComboBox.SelectedIndex = 0;
+
+            this.Text = $"Model Tools GUI v{Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
         }
 
         //------------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace ConfigWeaver
@@ -9,6 +10,7 @@ namespace ConfigWeaver
             InitializeComponent();
 
             WebWorksShared.ToolboxStyle.ApplyToolBoxStyle(this, Handle);
+            this.Text = $"Config Weaver v{Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
         }
 
         public void Open(string filePath)
