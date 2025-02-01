@@ -35,10 +35,10 @@
 
             if (tex.BytesPerPixel != dds.BytesPerPixel)
             {
-                output += "Bytes per pixel is different between files, formats are incompatible.\r\n";
+                output += "Bytes per pixel is different between files, formats may be incompatible.\r\n";
                 errorrow = 1;
                 errorcol = 7;
-                return;
+                // return;
             }
 
             if (tex.aspect != dds.aspect)
