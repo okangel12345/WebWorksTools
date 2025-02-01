@@ -28,6 +28,7 @@ namespace WebWorks.Utilities
         public static SpideyTexture? silkTextureForm;
         public static ModelToolsGUI.ModelToolGUI? modelToolGUI;
         public static ConfigWeaver.ConfigWeaverForm? configWeaver;
+        public static SpideyAtmos.SpideyAtmosForm? spideyAtmos;
         static MainWindow mainWindow = MainWindow.Instance;
 
         // Environments
@@ -77,6 +78,15 @@ namespace WebWorks.Utilities
                 configWeaver = new ConfigWeaver.ConfigWeaverForm();
             }, "WebWorks - Config Weaver");
         }
+
+        public static void SpideyAtmos()
+        {
+            LoadForm(ref spideyAtmos, () =>
+            {
+                spideyAtmos = new SpideyAtmos.SpideyAtmosForm();
+            }, "WebWorks - Spidey Atmos");
+        }
+
         public static void Search()
         {
             List<WebWorks.Utilities.Asset> _assets = mainWindow._assets;

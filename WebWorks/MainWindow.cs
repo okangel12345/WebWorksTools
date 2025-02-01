@@ -1410,5 +1410,10 @@ namespace WebWorks
         {
             SetEnvironment.ConfigWeaver();
         }
+
+        private void ToolStrip_SpideyAtmos_Click(object sender, EventArgs e)
+        {
+            SetEnvironment.SpideyAtmos();
+        }
     }
 }
