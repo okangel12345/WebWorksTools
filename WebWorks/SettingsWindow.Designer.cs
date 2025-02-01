@@ -115,7 +115,7 @@
             comboBox_PreferredGame.FlatStyle = FlatStyle.Flat;
             comboBox_PreferredGame.ForeColor = SystemColors.Control;
             comboBox_PreferredGame.FormattingEnabled = true;
-            comboBox_PreferredGame.Items.AddRange(new object[] { "Default", "Marvel's Spider-Man Remastered", "Marvel's Spider-Man: Miles Morales", "Ratchet & Clank: Rift Apart", "Marvel's Spider-Man 2", "i33" });
+            comboBox_PreferredGame.Items.AddRange(new object[] { "Default", "Marvel's Spider-Man Remastered", "Marvel's Spider-Man: Miles Morales", "Ratchet & Clank: Rift Apart", "Marvel's Spider-Man 2", "i30", "i33" });
             comboBox_PreferredGame.Location = new Point(109, 42);
             comboBox_PreferredGame.Name = "comboBox_PreferredGame";
             comboBox_PreferredGame.Size = new Size(357, 23);
