@@ -78,8 +78,6 @@
             ToolStrip_SilkTextureTool = new ToolStripMenuItem();
             ToolStrip_ConfigWeaver = new ToolStripMenuItem();
             ToolStrip_ModelToolGUI = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            ToolStrip_QuickGameLaunch = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             ToolStrip_Information = new ToolStripMenuItem();
             discordToolStripMenuItem = new ToolStripMenuItem();
@@ -94,6 +92,7 @@
             toolStripMenuItem8 = new ToolStripMenuItem();
             ToolStrip_CopyPath = new ToolStripMenuItem();
             ToolStrip_CopyHash = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Files).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -423,7 +422,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ConfigWeaver, ToolStrip_ModelToolGUI, toolStripMenuItem1, ToolStrip_QuickGameLaunch });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ConfigWeaver, ToolStrip_ModelToolGUI, toolStripMenuItem1 });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -434,7 +433,7 @@
             // 
             ToolStrip_Home.Image = Windows.MiscIcons.Home;
             ToolStrip_Home.Name = "ToolStrip_Home";
-            ToolStrip_Home.Size = new Size(221, 22);
+            ToolStrip_Home.Size = new Size(218, 22);
             ToolStrip_Home.Text = "Home";
             ToolStrip_Home.Click += ToolStrip_Home_Click;
             // 
@@ -443,7 +442,7 @@
             ToolStrip_HashTool.Image = Windows.MiscIcons.HashTool;
             ToolStrip_HashTool.Name = "ToolStrip_HashTool";
             ToolStrip_HashTool.ShortcutKeys = Keys.Control | Keys.H;
-            ToolStrip_HashTool.Size = new Size(221, 22);
+            ToolStrip_HashTool.Size = new Size(218, 22);
             ToolStrip_HashTool.Text = "Calculate hash...    ";
             ToolStrip_HashTool.Click += ToolStrip_HashTool_Click;
             // 
@@ -451,7 +450,7 @@
             // 
             toolStripMenuItem11.Enabled = false;
             toolStripMenuItem11.Name = "toolStripMenuItem11";
-            toolStripMenuItem11.Size = new Size(221, 22);
+            toolStripMenuItem11.Size = new Size(218, 22);
             toolStripMenuItem11.Text = "Environment ────────────";
             // 
             // ToolStrip_ModdingTool
@@ -459,7 +458,7 @@
             ToolStrip_ModdingTool.Image = ApplicationIcons.WebWorks_PNG;
             ToolStrip_ModdingTool.Name = "ToolStrip_ModdingTool";
             ToolStrip_ModdingTool.ShortcutKeys = Keys.Control | Keys.D1;
-            ToolStrip_ModdingTool.Size = new Size(221, 22);
+            ToolStrip_ModdingTool.Size = new Size(218, 22);
             ToolStrip_ModdingTool.Text = "Modding Tool";
             ToolStrip_ModdingTool.Click += ToolStrip_ModdingTool_Click;
             // 
@@ -468,7 +467,7 @@
             ToolStrip_SpandexTool.Image = ApplicationIcons.Spandex_PNG;
             ToolStrip_SpandexTool.Name = "ToolStrip_SpandexTool";
             ToolStrip_SpandexTool.ShortcutKeys = Keys.Control | Keys.D2;
-            ToolStrip_SpandexTool.Size = new Size(221, 22);
+            ToolStrip_SpandexTool.Size = new Size(218, 22);
             ToolStrip_SpandexTool.Text = "Spandex";
             ToolStrip_SpandexTool.Click += ToolStrip_SpandexTool_Click;
             // 
@@ -477,7 +476,7 @@
             ToolStrip_SilkTextureTool.Image = ApplicationIcons.SilkTexture_PNG;
             ToolStrip_SilkTextureTool.Name = "ToolStrip_SilkTextureTool";
             ToolStrip_SilkTextureTool.ShortcutKeys = Keys.Control | Keys.D3;
-            ToolStrip_SilkTextureTool.Size = new Size(221, 22);
+            ToolStrip_SilkTextureTool.Size = new Size(218, 22);
             ToolStrip_SilkTextureTool.Text = "Silk Texture";
             ToolStrip_SilkTextureTool.Click += ToolStrip_SilkTextureTool_Click;
             // 
@@ -486,7 +485,7 @@
             ToolStrip_ConfigWeaver.Image = ApplicationIcons.ConfigWeaver_PNG;
             ToolStrip_ConfigWeaver.Name = "ToolStrip_ConfigWeaver";
             ToolStrip_ConfigWeaver.ShortcutKeys = Keys.Control | Keys.D4;
-            ToolStrip_ConfigWeaver.Size = new Size(221, 22);
+            ToolStrip_ConfigWeaver.Size = new Size(218, 22);
             ToolStrip_ConfigWeaver.Text = "Config Weaver";
             ToolStrip_ConfigWeaver.Click += ToolStrip_ConfigWeaver_Click;
             // 
@@ -495,25 +494,9 @@
             ToolStrip_ModelToolGUI.Image = ApplicationIcons.ModelTools_PNG;
             ToolStrip_ModelToolGUI.Name = "ToolStrip_ModelToolGUI";
             ToolStrip_ModelToolGUI.ShortcutKeys = Keys.Control | Keys.D5;
-            ToolStrip_ModelToolGUI.Size = new Size(221, 22);
+            ToolStrip_ModelToolGUI.Size = new Size(218, 22);
             ToolStrip_ModelToolGUI.Text = "Model Tools GUI";
             ToolStrip_ModelToolGUI.Click += ToolStrip_ModelToolGUI_Click;
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Enabled = false;
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(221, 22);
-            toolStripMenuItem1.Text = "Experimental ────────────";
-            // 
-            // ToolStrip_QuickGameLaunch
-            // 
-            ToolStrip_QuickGameLaunch.Name = "ToolStrip_QuickGameLaunch";
-            ToolStrip_QuickGameLaunch.ShortcutKeys = Keys.Control | Keys.D0;
-            ToolStrip_QuickGameLaunch.Size = new Size(221, 22);
-            ToolStrip_QuickGameLaunch.Text = "Quick Game Launch";
-            ToolStrip_QuickGameLaunch.Click += ToolStrip_QuickGameLaunch_Click;
-            ToolStrip_QuickGameLaunch.MouseEnter += ToolStrip_GeneralSettings_MouseEnter;
             // 
             // helpToolStripMenuItem
             // 
@@ -639,6 +622,13 @@
             ToolStrip_CopyHash.Text = "Copy hash";
             ToolStrip_CopyHash.Click += ToolStrip_CopyHash_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Enabled = false;
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(218, 22);
+            toolStripMenuItem1.Text = "Experimental ────────────";
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -727,8 +717,6 @@
         private ToolStripMenuItem ToolStrip_Home;
         private ToolStripMenuItem ToolStrip_Search;
         private ToolStripMenuItem menuItem_WWPROJ_Handle;
-        private ToolStripMenuItem ToolStrip_QuickGameLaunch;
-        private ToolStripMenuItem toolStripMenuItem1;
         private DataGridViewTextBoxColumn FileName;
         private DataGridViewTextBoxColumn Size;
         private DataGridViewTextBoxColumn Archive;
@@ -739,5 +727,6 @@
         private DataGridViewCheckBoxColumn HasHeader;
         private ToolStripMenuItem ToolStrip_ModelToolGUI;
         private ToolStripMenuItem ToolStrip_ConfigWeaver;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }

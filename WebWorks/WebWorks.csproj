@@ -26,6 +26,7 @@
     <ProjectReference Include="..\ModelToolsGUI\ModelToolsGUI.csproj" />
     <ProjectReference Include="..\SilkTexture\SilkTexture.csproj" />
     <ProjectReference Include="..\Spandex\Spandex.csproj" />
+	<ProjectReference Include="..\SpideyAtmos\SpideyAtmos.csproj" />
   </ItemGroup>
 
   <ItemGroup>

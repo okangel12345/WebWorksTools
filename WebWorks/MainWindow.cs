@@ -832,8 +832,6 @@ namespace WebWorks
             menuItem_WWPROJ_Handle.Enabled = false;
 
             toolStripMenuItem1.Visible = isExperimentalEnabled;
-            ToolStrip_QuickGameLaunch.Visible = isExperimentalEnabled;
-            ToolStrip_QuickGameLaunch.Enabled = isExperimentalEnabled;
         }
 
         // Load TOC menu item, Ctrl + O
@@ -1391,11 +1389,6 @@ namespace WebWorks
         //------------------------------------------------------------------------------------------
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (SetEnvironment.quickGameLaunchForm != null && SetEnvironment.quickGameLaunchForm.IsProcessRunning())
-            {
-                SetEnvironment.quickGameLaunchForm.ConfirmEndGame();
-            }
-
             Process.GetCurrentProcess().Kill();
         }
         private void MainWindow_Load(object sender, EventArgs e)
@@ -1406,11 +1399,6 @@ namespace WebWorks
             {
                 SetEnvironment.Home();
             }
-        }
-
-        private void ToolStrip_QuickGameLaunch_Click(object sender, EventArgs e)
-        {
-            SetEnvironment.QuickGameLaunch();
         }
 
         private void ToolStrip_ModelToolGUI_Click(object sender, EventArgs e)

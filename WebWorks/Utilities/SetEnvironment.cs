@@ -26,7 +26,6 @@ namespace WebWorks.Utilities
         //------------------------------------------------------------------------------------------
         public static Spandex.Form1? spandexForm;
         public static SpideyTexture? silkTextureForm;
-        public static QuickGameLaunch? quickGameLaunchForm;
         public static ModelToolsGUI.ModelToolGUI? modelToolGUI;
         public static ConfigWeaver.ConfigWeaverForm? configWeaver;
         static MainWindow mainWindow = MainWindow.Instance;
@@ -77,14 +76,6 @@ namespace WebWorks.Utilities
             {
                 configWeaver = new ConfigWeaver.ConfigWeaverForm();
             }, "WebWorks - Config Weaver");
-        }
-
-        public static void QuickGameLaunch()
-        {
-            LoadForm(ref quickGameLaunchForm, () =>
-            {
-                quickGameLaunchForm = new QuickGameLaunch();
-            }, "WebWorks - Quick Game Launch (Experimental)");
         }
         public static void Search()
         {
