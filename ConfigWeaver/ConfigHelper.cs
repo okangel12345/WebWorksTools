@@ -91,12 +91,12 @@ namespace ConfigWeaver
                 var config = new Config(configData);
 
                 var root = config.ContentSection.Root;
-                var references = config.ReferencesSection;
+                var references = config.ReferencesSection.Values;
 
                 using (var stringWriter = new StringWriter())
                 {
                     stringWriter.WriteLine(root);
-                    stringWriter.WriteLine(references);
+                    // stringWriter.WriteLine(references);
 
                     return stringWriter.ToString();
                 }

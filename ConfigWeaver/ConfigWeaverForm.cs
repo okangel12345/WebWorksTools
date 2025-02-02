@@ -106,8 +106,13 @@ namespace ConfigWeaver
             }
             if (string.IsNullOrEmpty(textBox2.Text))
             {
-                MessageBox.Show("Select an output path first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                string output = WebWorksCore.DialogsToTextbox.OpenSaveFileDialogAndSaveToTextbox(textBox2, "config", "json");
+
+                if (output == null)
+                {
+                    // MessageBox.Show("Select an output path first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
             }
 
             StartConversion();
