@@ -20,7 +20,7 @@ namespace WebWorks.Utilities
     // Different environments of InsomniacToolbox
     //
     //----------------------------------------------------------------------------------------------
-    internal class SetEnvironment {
+    public class SetEnvironment {
 
         // Initialize forms
         //------------------------------------------------------------------------------------------

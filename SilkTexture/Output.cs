@@ -208,7 +208,6 @@
                     bw.Write((byte)Mipmaps);
                     bw.Write((byte)HDMipmaps);
                     bw.Write(tex.textureheader.Skip(28).ToArray());
-
                 }
                 else
                 {
