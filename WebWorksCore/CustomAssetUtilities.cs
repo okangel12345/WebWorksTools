@@ -9,7 +9,7 @@ namespace WebWorksCore
     public class CustomAssetUtilities
     {
         //------------------------------------------------------------------------------------------
-        private static int Find1TADMarker(byte[] data)
+        public static int Find1TADMarker(byte[] data)
         {
             byte[] marker = { 0x31, 0x54, 0x41, 0x44 };
 

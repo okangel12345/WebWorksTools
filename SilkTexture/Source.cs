@@ -56,17 +56,12 @@
                 return false;
             }
 
+            int DAT1Offset = WebWorksCore.CustomAssetUtilities.Find1TADMarker(File.ReadAllBytes(Filename));
+
             using (var fs = File.Open(Filename, FileMode.Open, FileAccess.Read))
+
             using (BinaryReader br = new BinaryReader(fs))
             {
-                // Check for "Text"- ure
-                fs.Seek(64, SeekOrigin.Begin);
-                var Text = br.ReadUInt32();
-                if (Text != 1954047316)
-                {
-                    MessageBox.Show("Not a texture file.");
-                    return false;
-                }
                 fs.Seek(0, SeekOrigin.Begin);
 
                 if (!resourceids.Contains(br.ReadUInt32()) ||
@@ -74,10 +69,11 @@
                     br.ReadUInt32() != 1145132081 ||
                     !resourceids.Contains(br.ReadUInt32()))
                 {
-                    // Position again for SM2 textures
+                    MessageBox.Show("Offset " + DAT1Offset.ToString());
+
+                    fs.Seek(DAT1Offset, SeekOrigin.Current);
                     br.ReadUInt32();
-                    fs.Seek(32, SeekOrigin.Current);
-                    br.ReadUInt32();
+
                     output += "Marvel's Spider-Man 2 texture.\r\n";
                     isSM2Texture = true;
                 }
@@ -88,8 +84,6 @@
                 };
 
                 br.ReadUInt32();
-
-                // Don't take any sections errors into account when it's SM2 due to the variable header
 
                 if (br.ReadUInt32() != 1)
                 {
@@ -117,10 +111,10 @@
                 var size = br.ReadUInt32();
 
                 fs.Seek(0, SeekOrigin.Begin);
-                header = br.ReadBytes((int)offset + 36);
+                header = br.ReadBytes((int)offset + DAT1Offset);
                 textureheader = br.ReadBytes((int)size);
 
-                fs.Seek((int)offset + 36, SeekOrigin.Begin);
+                fs.Seek((int)offset + DAT1Offset, SeekOrigin.Begin);
                 Size = br.ReadUInt32();
                 HDSize = br.ReadUInt32();
                 HDMipmaps = 0;
