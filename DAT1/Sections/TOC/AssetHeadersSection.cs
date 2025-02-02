@@ -3,38 +3,23 @@
 // For more details, terms and conditions, see GNU General Public License.
 // A copy of the that license should come with this program (LICENSE.txt). If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using DAT1.Sections.Generic;
 using System.IO;
 
-namespace DAT1.Sections.TOC
-{
-    public class AssetHeadersSection : Section
-    {
-        public const uint TAG = 0x654BDED9; // Archive TOC Asset Header Data
+namespace DAT1.Sections.TOC {
+	public class AssetHeadersSection: ByteBufferSection {
+		public const uint TAG = 0x654BDED9; // Archive TOC Asset Header Data
 
-        public List<byte[]> Headers = new();
+		public byte[] ReadHeaderAtOffset(int offset) {
+			byte[] sizes = Read(offset + 4, 4);
 
-        override public void Load(byte[] bytes, DAT1 container)
-        {
-            using var r = new BinaryReader(new MemoryStream(bytes));
-            int size = bytes.Length;
-            int count = size / 36;
-            for (int i = 0; i < count; ++i)
-            {
-                var b = r.ReadBytes(36);
-                Headers.Add(b);
-            }
-        }
+			using var r = new BinaryReader(new MemoryStream(sizes));
+			r.ReadByte(); // unknown
+			var pairs = r.ReadByte();
+			var extra = r.ReadUInt16();
 
-        override public byte[] Save()
-        {
-            var s = new MemoryStream();
-            var w = new BinaryWriter(s);
-            foreach (var e in Headers)
-            {
-                w.Write(e);
-            }
-            return s.ToArray();
-        }
-    }
+			var totalSize = 8 + pairs * 8 + extra;
+			return Read(offset, totalSize);
+		}
+	}
 }

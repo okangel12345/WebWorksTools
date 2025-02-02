@@ -5,33 +5,28 @@
 
 using System.IO;
 
-namespace DAT1.Sections.Generic
-{
-    public abstract class SingleValueSection<T> : Section
-    {
-        public T? Value;
+namespace DAT1.Sections.Generic {
+	public abstract class SingleValueSection<T>: Section {
+		public T? Value;
 
-        protected abstract T Read(BinaryReader r);
-        protected abstract void Write(BinaryWriter w, T v);
+		protected abstract T Read(BinaryReader r);
+		protected abstract void Write(BinaryWriter w, T v);
 
-        public override void Load(byte[] bytes, DAT1 container)
-        {
-            using var r = new BinaryReader(new MemoryStream(bytes));
-            Value = Read(r);
-        }
+		public override void Load(byte[] bytes, DAT1 container) {
+			using var r = new BinaryReader(new MemoryStream(bytes));
+			Value = Read(r);
+		}
 
-        override public byte[] Save()
-        {
-            var s = new MemoryStream();
-            var w = new BinaryWriter(s);
-            Write(w, Value);
-            return s.ToArray();
-        }
-    }
+		override public byte[] Save() {
+			var s = new MemoryStream();
+			var w = new BinaryWriter(s);
+			Write(w, Value);
+			return s.ToArray();
+		}
+	}
 
-    public class SingleUInt32Section : SingleValueSection<uint>
-    {
-        protected override uint Read(BinaryReader r) { return r.ReadUInt32(); }
-        protected override void Write(BinaryWriter w, uint v) { w.Write(v); }
-    }
+	public class SingleUInt32Section: SingleValueSection<uint> {
+		protected override uint Read(BinaryReader r) { return r.ReadUInt32(); }
+		protected override void Write(BinaryWriter w, uint v) { w.Write(v); }
+	}
 }

@@ -4,9 +4,12 @@
 // A copy of the that license should come with this program (LICENSE.txt). If not, see <http://www.gnu.org/licenses/>.
 
 using DAT1.Sections.Generic;
+using System.Collections.Generic;
 
-namespace DAT1.Sections.Config {
-    public class ConfigReferencesSection: ReferencesSection {
-        public const uint TAG = 0x58B8558A; // Config Asset Refs
-    }
+namespace DAT1.Sections.TOC {
+	public class TextureAssetIdsSection: UInt64ArraySection {
+		public const uint TAG = 0x36A6C8CC; // Archive TOC Texture Asset Ids
+
+		public List<ulong> Ids => Values;
+	}
 }

@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace SpideyAtmos
 {
     public partial class SpideyAtmosForm : Form
@@ -22,20 +24,26 @@ namespace SpideyAtmos
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(textBox_AtmospherePath, "atmosphere");
+                string path = WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(textBox_AtmospherePath, "atmosphere");
 
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                if (path != null)
                 {
-                    openFileDialog.Filter = "Atmosphere Files (*.atmosphere)|*.atmosphere|All Files (*.*)|*.*";
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        AtmosphereContent.LoadAtmosphere(openFileDialog.FileName);
-                    }
+                    AtmosphereContent.LoadAtmosphere(textBox_AtmospherePath.Text);
                 }
             }
             else
             {
                 AtmosphereContent.LoadAtmosphere(filePath);
+            }
+        }
+
+        private void Save()
+        {
+            string path = WebWorksCore.DialogsToTextbox.OpenSaveFileDialogAndSaveToTextbox(textBox_AtmospherePath, "atmosphere");
+
+            if (path != null)
+            {
+                AtmosphereContent.SaveAtmosphere(textBox_AtmospherePath.Text, AtmosphereValues_grid);
             }
         }
 
@@ -48,7 +56,7 @@ namespace SpideyAtmos
 
         private void SaveAtmosphere_Button_Click(object sender, EventArgs e)
         {
-            
+            Save();
         }
     }
 }

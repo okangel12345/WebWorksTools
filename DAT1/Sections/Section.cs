@@ -3,24 +3,20 @@
 // For more details, terms and conditions, see GNU General Public License.
 // A copy of the that license should come with this program (LICENSE.txt). If not, see <http://www.gnu.org/licenses/>.
 
-namespace DAT1.Sections
-{
-    public abstract class Section
-    {
-        abstract public void Load(byte[] bytes, DAT1 container);
-        abstract public byte[] Save();
-    }
+namespace DAT1.Sections {
+	public abstract class Section {
+		abstract public void Load(byte[] bytes, DAT1 container);
+		abstract public byte[] Save();
+	}
 
-    public class UnknownSection : Section
-    {
-        public byte[] Raw;
+	public class UnknownSection: Section {
+		public byte[] Raw;
 
-        public UnknownSection()
-        {
-            Raw = System.Array.Empty<byte>();
-        }
+		public UnknownSection() {
+			Raw = System.Array.Empty<byte>();
+		}
 
-        override public void Load(byte[] bytes, DAT1 container) { Raw = bytes; }
-        override public byte[] Save() { return Raw; }
-    }
+		override public void Load(byte[] bytes, DAT1 container) { Raw = bytes; }
+		override public byte[] Save() { return Raw; }
+	}
 }

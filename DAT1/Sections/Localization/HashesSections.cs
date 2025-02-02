@@ -5,20 +5,16 @@
 
 using DAT1.Sections.Generic;
 
-namespace DAT1.Sections.Localization
-{
-    public class KeyHashesSection : UInt32ArraySection
-    {
-        public const uint TAG = 0x06A58050;
-    }
+namespace DAT1.Sections.Localization {
+	public class KeyHashesSection: UInt32ArraySection {
+		public const uint TAG = 0x06A58050;
+	}
 
-    public class SortedKeyHashesSection : UInt32ArraySection
-    {
-        public const uint TAG = 0xC43731B5; // Localization SortedHashes Built
-    }
+	public class SortedKeyHashesSection: UInt32ArraySection {
+		public const uint TAG = 0xC43731B5; // Localization SortedHashes Built
+	}
 
-    public class SortedIndexesSection : UInt16ArraySection
-    {
-        public const uint TAG = 0x0CD2CFE9; // Localization SortedIndexes Built
-    }
+	public class SortedIndexesSection: UInt16ArraySection {
+		public const uint TAG = 0x0CD2CFE9; // Localization SortedIndexes Built
+	}
 }

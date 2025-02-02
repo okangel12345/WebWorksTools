@@ -5,10 +5,8 @@
 
 using DAT1.Sections.Generic;
 
-namespace DAT1.Sections.Config
-{
-    public class ConfigTypeSection : SerializedSection
-    {
+namespace DAT1.Sections.Config {
+	public class ConfigTypeSection: SerializedSection {
         public const uint TAG = 0x4A128222; // Config Type
     }
 }

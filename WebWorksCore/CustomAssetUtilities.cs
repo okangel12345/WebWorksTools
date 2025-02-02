@@ -45,6 +45,28 @@ namespace WebWorksCore
             return null;
         }
 
+        public static int GetAssetSectionOffset(byte[] asset, uint section)
+        {
+            int index = Find1TADMarker(asset);
+            if (index == -1) return -1;
+
+            int offset = index + 16;
+            int numSections = BitConverter.ToInt32(asset, index + 12);
+
+            for (int i = 0; i < numSections; i++)
+            {
+                int sectionIndex = offset + (i * 12);
+                uint sectionID = BitConverter.ToUInt32(asset, sectionIndex);
+                if (sectionID == section)
+                {
+                    int sectionOffset = BitConverter.ToInt32(asset, sectionIndex + 4) + index;
+                    return sectionOffset;
+                }
+            }
+            return -1;
+        }
+
+
         public static byte[] GetAssetHeader(byte[] asset)
         {
             int index = Find1TADMarker(asset);

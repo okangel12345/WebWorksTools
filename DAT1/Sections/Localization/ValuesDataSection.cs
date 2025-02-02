@@ -5,10 +5,8 @@
 
 using DAT1.Sections.Generic;
 
-namespace DAT1.Sections.Localization
-{
-    public class ValuesDataSection : StringsSection
-    {
-        public const uint TAG = 0x70A382B8; // Localization Text Built
-    }
+namespace DAT1.Sections.Localization {
+	public class ValuesDataSection: StringsSection {
+		public const uint TAG = 0x70A382B8; // Localization Text Built
+	}
 }

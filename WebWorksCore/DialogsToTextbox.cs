@@ -8,7 +8,7 @@ namespace WebWorksCore
 {
     public class DialogsToTextbox
     {
-        public static void OpenFileDialogAndSaveToTextbox(TextBox textBox, params string[] extensions)
+        public static string OpenFileDialogAndSaveToTextbox(TextBox textBox, params string[] extensions)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -27,11 +27,14 @@ namespace WebWorksCore
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = openFileDialog.FileName;
+                    return openFileDialog.FileName;
                 }
+
+                return null;
             }
         }
 
-        public static void OpenSaveFileDialogAndSaveToTextbox(TextBox textBox, params string[] extensions)
+        public static string OpenSaveFileDialogAndSaveToTextbox(TextBox textBox, params string[] extensions)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
@@ -50,6 +53,11 @@ namespace WebWorksCore
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     textBox.Text = saveFileDialog.FileName;
+                    return saveFileDialog.FileName;
+                }
+                else
+                {
+                    return null;
                 }
             }
         }

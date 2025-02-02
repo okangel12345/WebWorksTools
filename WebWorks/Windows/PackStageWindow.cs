@@ -16,6 +16,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace WebWorks.Windows
 {
@@ -29,8 +31,6 @@ namespace WebWorks.Windows
         private string _modName;
         private string _author;
         private string _gameId;
-        private string _description;
-        private string _cover;
 
         private List<Game> _games = new();
         private BindingList<AssetReplace> _assets = new BindingList<AssetReplace>();
@@ -192,19 +192,12 @@ namespace WebWorks.Windows
                 return;
             }
 
-            if (string.IsNullOrEmpty(AuthorTextBox.Text) || string.IsNullOrEmpty(NameTextBox.Text))
-            {
-                MessageBox.Show("There are one or two missing required fields.");
-                return;
-            }
-
             var tocHasTextureSections = (_gameId != "MSMR" && _gameId != "MM");
             if (_mainWindowAddedAssets.Count > 0 && tocHasTextureSections)
             {
                 MessageBox.Show($"Warning: adding new .texture assets is not implemented.\n\nThe game might work incorrectly with these or even crash because of them.", "Warning", MessageBoxButtons.OK);
             }
 
-            var headerless = new JArray();
             var stageFileName = dialog.FileName;
             try
             {
@@ -222,11 +215,6 @@ namespace WebWorks.Windows
                         if (asset.FullPath != null)
                             assetPath = $"{asset.Span}/" + DAT1.Utils.Normalize(asset.FullPath);
 
-                        if (!asset.HasHeader)
-                        {
-                            headerless.Add(assetPath);
-                        }
-
                         var entry = zip.CreateEntry(assetPath);
                         using var ef = entry.Open();
                         ef.Write(bytes, 0, bytes.Length);
@@ -242,7 +230,7 @@ namespace WebWorks.Windows
                         ["game"] = _gameId,
                         ["name"] = _modName,
                         ["author"] = _author,
-                        ["headerless"] = headerless
+                        ["format_version"] = 2
                     };
 
                     var text = j.ToString();
@@ -253,9 +241,10 @@ namespace WebWorks.Windows
                     ef.Write(data, 0, data.Length);
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 MessageBox.Show($"Error: failed to write '{stageFileName}'!", "Error", MessageBoxButtons.OK);
+                MessageBox.Show(ex.ToString());
                 return;
             }
 
