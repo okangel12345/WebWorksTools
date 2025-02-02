@@ -69,8 +69,6 @@
                     br.ReadUInt32() != 1145132081 ||
                     !resourceids.Contains(br.ReadUInt32()))
                 {
-                    MessageBox.Show("Offset " + DAT1Offset.ToString());
-
                     fs.Seek(DAT1Offset, SeekOrigin.Current);
                     br.ReadUInt32();
 

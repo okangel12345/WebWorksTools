@@ -162,11 +162,6 @@ namespace Spiderman
 
             public ShaderOverrides(byte[] data) : base(data)
             {
-                string hexData = BitConverter.ToString(data).Replace("-", " ");
-
-                // Show in MessageBox
-                MessageBox.Show(hexData, "Data (Hex)", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 size = BitConverter.ToUInt32(data, 0);
                 floatcount = BitConverter.ToUInt32(data, 0x4);
                 floatoffset = BitConverter.ToUInt32(data, 0x8);
