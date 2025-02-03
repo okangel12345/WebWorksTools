@@ -35,6 +35,7 @@
             Value = new DataGridViewTextBoxColumn();
             Description = new DataGridViewTextBoxColumn();
             Offset = new DataGridViewTextBoxColumn();
+            Mode = new DataGridViewTextBoxColumn();
             LoadAtmosphere_Button = new Button();
             SaveAtmosphere_Button = new Button();
             textBox_AtmospherePath = new TextBox();
@@ -65,6 +66,7 @@
             label7 = new Label();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
+            checkBox_AdvancedSettings = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)AtmosphereValues_grid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AtmosphereHashes_grid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -78,11 +80,12 @@
             AtmosphereValues_grid.AllowUserToResizeRows = false;
             AtmosphereValues_grid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             AtmosphereValues_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            AtmosphereValues_grid.Columns.AddRange(new DataGridViewColumn[] { Names, Type, Value, Description, Offset });
+            AtmosphereValues_grid.Columns.AddRange(new DataGridViewColumn[] { Names, Type, Value, Description, Offset, Mode });
             AtmosphereValues_grid.Location = new Point(12, 70);
             AtmosphereValues_grid.Name = "AtmosphereValues_grid";
             AtmosphereValues_grid.Size = new Size(625, 688);
             AtmosphereValues_grid.TabIndex = 0;
+            AtmosphereValues_grid.CellValidating += AtmosphereValues_grid_CellValidating;
             // 
             // Names
             // 
@@ -120,6 +123,12 @@
             Offset.Name = "Offset";
             Offset.Visible = false;
             // 
+            // Mode
+            // 
+            Mode.HeaderText = "Mode";
+            Mode.Name = "Mode";
+            Mode.Visible = false;
+            // 
             // LoadAtmosphere_Button
             // 
             LoadAtmosphere_Button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -134,6 +143,7 @@
             // SaveAtmosphere_Button
             // 
             SaveAtmosphere_Button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SaveAtmosphere_Button.Enabled = false;
             SaveAtmosphere_Button.Location = new Point(946, 12);
             SaveAtmosphere_Button.Name = "SaveAtmosphere_Button";
             SaveAtmosphere_Button.Size = new Size(121, 23);
@@ -162,10 +172,10 @@
             AtmosphereHashes_grid.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             AtmosphereHashes_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             AtmosphereHashes_grid.Columns.AddRange(new DataGridViewColumn[] { Names_hashes, Hash_hashes, Extension_hashes, Address_hashes });
-            AtmosphereHashes_grid.Location = new Point(643, 41);
+            AtmosphereHashes_grid.Location = new Point(643, 45);
             AtmosphereHashes_grid.Name = "AtmosphereHashes_grid";
             AtmosphereHashes_grid.RowHeadersVisible = false;
-            AtmosphereHashes_grid.Size = new Size(424, 297);
+            AtmosphereHashes_grid.Size = new Size(424, 293);
             AtmosphereHashes_grid.TabIndex = 4;
             // 
             // Names_hashes
@@ -202,7 +212,7 @@
             Search_Textbox.Location = new Point(12, 41);
             Search_Textbox.Name = "Search_Textbox";
             Search_Textbox.PlaceholderText = "Search...";
-            Search_Textbox.Size = new Size(599, 23);
+            Search_Textbox.Size = new Size(477, 23);
             Search_Textbox.TabIndex = 6;
             Search_Textbox.KeyUp += Search_Textbox_KeyUp;
             // 
@@ -447,11 +457,24 @@
             pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox2.BackgroundImage = Properties.Resources.Search;
             pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox2.Location = new Point(617, 41);
+            pictureBox2.Location = new Point(495, 41);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(20, 23);
             pictureBox2.TabIndex = 28;
             pictureBox2.TabStop = false;
+            // 
+            // checkBox_AdvancedSettings
+            // 
+            checkBox_AdvancedSettings.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            checkBox_AdvancedSettings.AutoSize = true;
+            checkBox_AdvancedSettings.ForeColor = SystemColors.Control;
+            checkBox_AdvancedSettings.Location = new Point(519, 45);
+            checkBox_AdvancedSettings.Name = "checkBox_AdvancedSettings";
+            checkBox_AdvancedSettings.Size = new Size(123, 19);
+            checkBox_AdvancedSettings.TabIndex = 29;
+            checkBox_AdvancedSettings.Text = "Advanced settings";
+            checkBox_AdvancedSettings.UseVisualStyleBackColor = true;
+            checkBox_AdvancedSettings.CheckedChanged += checkBox_AdvancedSettings_CheckedChanged;
             // 
             // WeatherTunerForm
             // 
@@ -459,6 +482,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(12, 12, 12);
             ClientSize = new Size(1079, 770);
+            Controls.Add(checkBox_AdvancedSettings);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(label7);
@@ -501,11 +525,6 @@
         private Button SaveAtmosphere_Button;
         private TextBox textBox_AtmospherePath;
         public DataGridView AtmosphereValues_grid;
-        private DataGridViewTextBoxColumn Names;
-        private DataGridViewTextBoxColumn Type;
-        private DataGridViewTextBoxColumn Value;
-        private DataGridViewTextBoxColumn Description;
-        private DataGridViewTextBoxColumn Offset;
         public DataGridView AtmosphereHashes_grid;
         private DataGridViewTextBoxColumn Names_hashes;
         private DataGridViewTextBoxColumn Hash_hashes;
@@ -533,5 +552,12 @@
         private Label label7;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        public CheckBox checkBox_AdvancedSettings;
+        private DataGridViewTextBoxColumn Names;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Value;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewTextBoxColumn Offset;
+        private DataGridViewTextBoxColumn Mode;
     }
 }

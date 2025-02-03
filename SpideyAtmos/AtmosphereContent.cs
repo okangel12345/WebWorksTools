@@ -27,7 +27,7 @@ namespace WeatherTuner
                 fileBytes = File.ReadAllBytes(atmospherePath);
                 var assetType = AssetUtilities.CheckAssetType(fileBytes);
 
-                if (assetType != AssetUtilities.AssetType.Atmosphere)
+                if (assetType != AssetUtilities.AssetType.MSM2_Atmosphere)
                 {
                     MessageBox.Show("Not a MSM2 atmosphere file! Expected MAGIC = 0x4FBCF482", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -156,11 +156,11 @@ namespace WeatherTuner
                     targetGrid.Rows[parentRowIndex].Cells[0].Style.Font = new Font(targetGrid.DefaultCellStyle.Font, FontStyle.Bold); // Set font to bold
                     targetGrid.Rows[parentRowIndex].Cells[1].Value = "";
                     targetGrid.Rows[parentRowIndex].Cells[2].Value = "+";
-                    targetGrid.Rows[parentRowIndex].Tag = "expanded";
+                    targetGrid.Rows[parentRowIndex].Tag = "collapsed";
                 }));
             }
 
-            foreach (var (name, address, type, description) in filteredValues)
+            foreach (var (name, address, type, mode, description) in filteredValues)
             {
                 object value = null;
 
@@ -181,6 +181,7 @@ namespace WeatherTuner
                     targetGrid.Rows[subrowIndex].Cells[2].Value = value;
                     targetGrid.Rows[subrowIndex].Cells[3].Value = description;
                     targetGrid.Rows[subrowIndex].Cells[4].Value = address;
+                    targetGrid.Rows[subrowIndex].Cells[5].Value = mode.ToString();
 
                     targetGrid.Rows[subrowIndex].Tag = parentRowIndex;
 
@@ -338,12 +339,24 @@ namespace WeatherTuner
             {
                 if (row.Tag is int parentRow && parentRow == parentRowIndex)
                 {
-                    row.Visible = true;
+                    bool isAdvanced = row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "Advanced";
+
+                    // Always show rows with "Simplified" mode
+                    if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "Simplified")
+                    {
+                        row.Visible = true;
+                    }
+                    else
+                    {
+                        // Show only if it's not advanced or if the checkbox is checked
+                        row.Visible = !isAdvanced || WeatherTunerForm.Instance.checkBox_AdvancedSettings.Checked;
+                    }
                 }
             }
 
             targetGrid.Rows[parentRowIndex].Cells[2].Value = "-";
             targetGrid.Rows[parentRowIndex].Tag = "expanded";
         }
+
     }
 }

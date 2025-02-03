@@ -44,6 +44,8 @@ namespace WeatherTuner
 
             if (!string.IsNullOrEmpty(openPath) || !string.IsNullOrEmpty(filePath))
             {
+                SaveAtmosphere_Button.Enabled = true;
+
                 label1.Visible = true;
                 label2.Visible = true;
                 label3.Visible = true;
@@ -139,7 +141,22 @@ namespace WeatherTuner
         //------------------------------------------------------------------------------------------
         private void LoadAtmosphere_Button_Click(object sender, EventArgs e)
         {
-            Open();
+            if (AtmosphereValues_grid.Rows.Count > 5)
+            {
+                var r = MessageBox.Show("Are you sure you want to load a different file? All unsaved progress will be lost",
+                                            "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (r == DialogResult.Yes)
+                {
+                    AtmosphereValues_grid.Rows.Clear();
+                    AtmosphereHashes_grid.Rows.Clear();
+
+                    Open();
+                }
+            }
+            else
+            {
+                Open();
+            }
         }
 
         private void SaveAtmosphere_Button_Click(object sender, EventArgs e)
@@ -246,6 +263,55 @@ namespace WeatherTuner
             }
 
             UpdateColorToTextbox();
+        }
+
+        private void AtmosphereValues_grid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.ColumnIndex == 2 && e.RowIndex >= 0)
+            {
+                var grid = (DataGridView)sender;
+                var typeCell = grid.Rows[e.RowIndex].Cells[1];
+                var valueCell = grid.Rows[e.RowIndex].Cells[2];
+
+                if (typeCell.Value != null && valueCell.Value != null)
+                {
+                    string type = typeCell.Value.ToString()?.Trim();
+                    string newValue = e.FormattedValue.ToString()?.Trim();
+
+                    if (type == "Int" && !int.TryParse(newValue, out _))
+                    {
+                        MessageBox.Show("Invalid value. Expected an integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Cancel = true;
+                    }
+                    else if (type == "Float" && !float.TryParse(newValue, out _))
+                    {
+                        MessageBox.Show("Invalid value. Expected a float.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Cancel = true;
+                    }
+                }
+            }
+        }
+
+        private void checkBox_AdvancedSettings_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in AtmosphereValues_grid.Rows)
+            {
+                int parentRowIndex;
+
+                // Ensure Tag is neither "expanded" nor "collapsed" before parsing
+                if (row.Tag.ToString() != "expanded" && row.Tag.ToString() != "collapsed")
+                {
+                    if (int.TryParse(row.Tag.ToString(), out parentRowIndex)) // Safely parse to avoid exceptions
+                    {
+                        if (row.Cells[5].Value != null &&
+                            row.Cells[5].Value.ToString() == "Advanced" &&
+                            AtmosphereValues_grid.Rows[parentRowIndex].Tag.ToString() == "expanded")
+                        {
+                            row.Visible = checkBox_AdvancedSettings.Checked;
+                        }
+                    }
+                }
+            }
         }
     }
 }

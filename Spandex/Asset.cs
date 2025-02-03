@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text;
-using WebWorksCore;
+using System.Threading.Tasks;
 
 namespace Spiderman
 {
     // base class for parsing game assets
     public class Asset<GenericSectionType>
     {
-        public static byte[] binary;
+        public byte[] binary;
         public byte[] newbinary;
         public string assetfile;
 
@@ -28,26 +31,16 @@ namespace Spiderman
             assetfile = filename;
             Parse();
         }
-
-        public static int DAT1Offset;
-        public static uint DAT1OffsetUint;
-
         public void Parse()
         {
-            DAT1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(binary);
-            DAT1OffsetUint = (uint)WebWorksCore.AssetUtilities.Find1TADMarker(binary);
-
             sectionheaders = new OrderedDictionary();
             sections = new OrderedDictionary();
-
             using (var ms = new MemoryStream(binary))
             using (var br = new BinaryReader(ms))
             {
-                ps4header = new PS4Header(br.ReadBytes(DAT1Offset));
-
+                ps4header = new PS4Header(br.ReadBytes(PS4Header.length));
                 var s = ms.Length - ms.Position;
                 header = new Header(br.ReadBytes(Header.length));
-
                 if (s < header.fileSize)
                     throw new Exception("Too little data");
 
@@ -66,17 +59,17 @@ namespace Spiderman
                 {
                     // assuming there can be more than one
                     segments[i] = new DataSegmentHeader(br.ReadBytes(8));
-                    segments[i].ParseExternalData(br, DAT1OffsetUint, sectionlayout);
+                    segments[i].ParseExternalData(br, PS4Header.length, sectionlayout);
                     sectionlayout.Insert(i, $"data{i}", segments[i]);
                 }
 
                 description = ReadStringZ(br);
                 if (segments.Length == 0)
                 {
-                    uint segsize = ((SectionHeader)sectionlayout[0]).offset + DAT1OffsetUint - (uint)br.BaseStream.Position;
+                    uint segsize = ((SectionHeader)sectionlayout[0]).offset + PS4Header.length - (uint)br.BaseStream.Position;
                     if (segsize > 0)
                     {
-                        uint start = (uint)br.BaseStream.Position - DAT1OffsetUint;
+                        uint start = (uint)br.BaseStream.Position - PS4Header.length;
                         var headerless = new Headerless(br.ReadBytes((int)segsize));
                         headerless.offset = start;
                         headerless.size = segsize;
@@ -94,7 +87,7 @@ namespace Spiderman
                     var sh = (SectionHeader)sectionlayout[i];
                     if (i > 0 && sh.offset > lastsectionend)
                     {
-                        br.BaseStream.Seek(lastsectionend + DAT1OffsetUint, SeekOrigin.Begin);
+                        br.BaseStream.Seek(lastsectionend + PS4Header.length, SeekOrigin.Begin);
                         var d = br.ReadBytes((int)(sh.offset - lastsectionend));
                         if (UnpackStrings(d).Item1.Count > 0)
                         {
@@ -113,7 +106,7 @@ namespace Spiderman
                 for (int i = 0; i < header.sectionCount; i++)
                 {
                     var sh = sectionheaders.Values.OfType<SectionHeader>().Skip(i).First();
-                    ms.Seek(sh.offset + DAT1OffsetUint, SeekOrigin.Begin);
+                    ms.Seek(sh.offset + PS4Header.length, SeekOrigin.Begin);
                     byte[] data = br.ReadBytes((int)sh.size);
                     if (sections.Contains(sh.type))
                         throw new Exception("Duplicate sections");
@@ -127,7 +120,7 @@ namespace Spiderman
                 // processing that references other data by offset
                 // sections should override ExternalDataParser()
                 foreach (DictionaryEntry kv in sections)
-                    ((Section)kv.Value).ParseExternalData(br, DAT1OffsetUint, sectionlayout);
+                    ((Section)kv.Value).ParseExternalData(br, PS4Header.length, sectionlayout);
             }
         }
 
@@ -150,7 +143,7 @@ namespace Spiderman
                         section = (Section)sections[key];
                         break;
                     case string s:
-                        section = h;
+                        section = (Section)h;
                         break;
                     default:
                         throw new Exception();
@@ -165,7 +158,7 @@ namespace Spiderman
             uint size = (uint)sectionlayout.GetTotalSize();
             ps4header.facedataoffset = size;
             ps4header.remainingsize = 0;
-            newbinary = new byte[size + DAT1OffsetUint];
+            newbinary = new byte[size + PS4Header.length];
             binary.Take(Math.Min(binary.Length, newbinary.Length)).ToArray().CopyTo(newbinary, 0);
 
             using (var ms = new MemoryStream(newbinary))
@@ -174,7 +167,7 @@ namespace Spiderman
                 ps4header.ToBytes();
                 w.Write(ps4header.newdata);
 
-                header.fileSize = size;
+                header.fileSize = (uint)size;
                 header.ToBytes();
                 w.Write(header.newdata);
 
@@ -205,7 +198,7 @@ namespace Spiderman
                             section = (Section)sections[key];
                             break;
                         case string s:
-                            section = h;
+                            section = (Section)h;
                             break;
                         default:
                             throw new Exception();
@@ -228,14 +221,14 @@ namespace Spiderman
 
                     if (section.newdata is not null)
                     {
-                        w.BaseStream.Seek(h.offset + DAT1OffsetUint, SeekOrigin.Begin);
+                        w.BaseStream.Seek(h.offset + PS4Header.length, SeekOrigin.Begin);
                         w.Write(section.newdata);
                         while (w.BaseStream.Position % 16 != 4)
                             w.Write((byte)0);
 
                         if (i + 1 < sectionlayout.Count)
                         {
-                            uint nextOffset = ((SectionHeader)sectionlayout[i + 1]).offset + DAT1OffsetUint;
+                            uint nextOffset = ((SectionHeader)sectionlayout[i + 1]).offset + PS4Header.length;
                             long position = w.BaseStream.Position;
 
                             if (nextOffset > position)

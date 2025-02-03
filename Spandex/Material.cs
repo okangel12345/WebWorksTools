@@ -100,7 +100,7 @@ namespace Spiderman
                 foreach (DictionaryEntry kv in entries)
                 {
                     var entry = (ShaderTextureEntry)kv.Value;
-                    br.BaseStream.Seek(entry.nameoffset + DAT1OffsetUint, SeekOrigin.Begin);
+                    br.BaseStream.Seek(entry.nameoffset + PS4Header.length, SeekOrigin.Begin);
                     entry.name = ReadStringZ(br);
                 }
             }

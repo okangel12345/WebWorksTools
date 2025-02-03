@@ -10,9 +10,11 @@ namespace Spandex
         public Material[] materials;
         public Dictionary<uint, GridEntry> textures { get; set; }
         public Dictionary<uint, GridEntry[]> values { get; set; }
+
         public HashSet<string> texturelist;
         public HashSet<string> materialgraphlist;
         string lastsourcedir, lastoutputdir, lastsavefile;
+
         bool _openWith;
 
         string _hashesOption;
@@ -22,10 +24,11 @@ namespace Spandex
         public Form1(string[] argv, string WebWorksHashes = null)
         {
             InitializeComponent();
-            materials = new Material[2];
-            comboBox1.Items.Add("Marvel's Spider-Man Remastered");
-            comboBox1.Items.Add("Marvel's Spider-Man: Miles Morales");
+            WebWorksShared.ToolboxStyle.ApplyToolBoxStyle(this, Handle);
 
+            materials = new Material[2];
+
+            // Check WebWorks selected hashes for autocompletion
             if (WebWorksHashes != null)
             {
                 _hashesOption = WebWorksHashes;
@@ -35,6 +38,7 @@ namespace Spandex
                 _hashesOption = "hashes.txt";
             }
 
+            // Create grid entries for textures and values
             textures = new Dictionary<uint, GridEntry>();
             stringGrid.DataSource = textures.Values.ToList();
             stringGrid.AutoResizeColumns();
@@ -46,9 +50,10 @@ namespace Spandex
             if (argv.Length > 0 && File.Exists(argv[0]))
                 Open(argv[0]);
 
+            // Set name and statusLabel
             this.Text = $"Spandex v{Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
             statusLabel.Image = global::Spandex.Properties.Resources.warning;
-            statusLabel.Text = $"layout.csv / {_hashesOption} weren't found, autocomplete is disabled";
+            statusLabel.Text = $"{_hashesOption} weren't found, autocomplete is disabled";
 
             LoadTextureStrings();
 
@@ -56,8 +61,6 @@ namespace Spandex
             {
                 Open();
             }
-
-            WebWorksShared.ToolboxStyle.ApplyToolBoxStyle(this, Handle);
 
             if (Screen.PrimaryScreen.WorkingArea.Width > this.Width)
             {
@@ -67,48 +70,46 @@ namespace Spandex
             }
         }
 
-
+        // User input / Open and save a material
+        //------------------------------------------------------------------------------------------
         private void openbutton_Click(object sender, EventArgs e)
         {
-            Open();
+            try
+            {
+                Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"There was an error opening the material. \n\nError: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void savebutton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"There was an error saving the material. \n\nError: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private byte[] originalBinary;
 
         private bool resizedSplit = true;
 
+        // Load texture strings
+        //------------------------------------------------------------------------------------------
         private void LoadTextureStrings()
         {
             texturelist = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             materialgraphlist = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            if (File.Exists("layout.csv"))
-            {
-                using (var reader = new StreamReader("layout.csv"))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        var commaIndex = line.IndexOf(',');
-                        if (commaIndex >= 0)
-                        {
-                            var s = line.Substring(0, commaIndex).Replace("\"", "").Trim();
-                            if (!string.IsNullOrEmpty(s))
-                            {
-                                if (s.EndsWith(".texture", StringComparison.OrdinalIgnoreCase))
-                                    texturelist.Add(s);
-                                else if (s.EndsWith(".materialgraph", StringComparison.OrdinalIgnoreCase))
-                                    materialgraphlist.Add(s);
-                            }
-                        }
-                    }
-                }
-
-                statusLabel.Image = Properties.Resources.ok;
-                statusLabel.Text = "Loaded layout.csv";
-                label1.Text = "Autocompleting with layout.csv";
-            }
-            else if (File.Exists(_hashesOption))
+            // Attempt to look for _hashesOption - layout.csv is obsolete
+            //--------------------------------------------------------------------------------------
+            if (File.Exists(_hashesOption))
             {
                 using (var reader = new StreamReader(_hashesOption))
                 {
@@ -120,6 +121,7 @@ namespace Spandex
                         {
                             var texturePath = fields[1].Trim().Replace("\\", "/");
 
+                            // Mantain only .texture and .materialgraphs, the rest is unnecessary
                             if (texturePath.EndsWith(".texture", StringComparison.OrdinalIgnoreCase))
                             {
                                 texturelist.Add(texturePath);
@@ -132,6 +134,7 @@ namespace Spandex
                     }
                 }
 
+                // Update status label
                 statusLabel.Image = Properties.Resources.ok;
                 statusLabel.Text = $"Loaded {_hashesOption}";
                 label1.Text = $"Autocompleting with {_hashesOption}";
@@ -140,18 +143,20 @@ namespace Spandex
             {
                 statusLabel.Image = Properties.Resources.warning;
                 statusLabel.Text = "No valid data found.";
-                label1.Text = $"No layout.csv or {_hashesOption} found.";
+                label1.Text = $"No {_hashesOption} found.";
             }
         }
 
 
-
-
+        // Open a material, trigerred by the button or WebWorks
+        //------------------------------------------------------------------------------------------
         public void Open(string filename = "")
         {
+            // Update text
             this.Text = $"Spandex v{Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
             textures = new Dictionary<uint, GridEntry>();
             values = new Dictionary<uint, GridEntry[]>();
+
             statusLabel.Image = null;
             statusLabel.Text = "Open a material file";
             savebutton.Enabled = false;
@@ -167,21 +172,23 @@ namespace Spandex
                 UseWaitCursor = true;
                 Application.DoEvents();
 
-                // Read magic and store as bytes
+                originalBinary = File.ReadAllBytes(f.FileName);
 
-                byte[] fileData = File.ReadAllBytes(f.FileName);
 
-                if (fileData.Length >= 0x2C)  // Ensure there's enough data
+                // Find 1TAD marker and get the magic
+                int dat1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(originalBinary);
+
+                if (dat1Offset >= 0 && originalBinary.Length >= dat1Offset + 8)
                 {
-                    fileMagicNumber = fileData.Skip(0x28).Take(4).ToArray();
+                    fileMagicNumber = originalBinary.AsSpan(dat1Offset + 4, 4).ToArray();
                 }
 
+                // Update paths
                 lastsourcedir = Path.GetDirectoryName(f.FileName) + @"\";
                 lastsavefile = Path.ChangeExtension(Path.GetFileName(f.FileName), $".modified{Path.GetExtension(f.FileName)}");
 
                 ProcessFile(f.FileName, 0);
-                originalBinary = File.ReadAllBytes(f.FileName);
-
+                
                 // Detect magic number and set ComboBox selection
                 bool isMaterialGraph = Path.GetExtension(f.FileName).Equals(".materialgraph", StringComparison.OrdinalIgnoreCase);
 
@@ -252,6 +259,219 @@ namespace Spandex
                 ThenBy(v => v.ID).
                 ToList();
             valueGrid.AutoResizeColumns();
+        }
+        private void Save()
+        {
+            var material = materials[0];
+
+            var f = new SaveFileDialog();
+
+            switch (material.ps4header.type)
+            {
+                case Material.SectionType.SM_MATERIALTEMPLATE:
+                case Material.SectionType.MM_MATERIALTEMPLATE:
+                    f.Filter = "Material template asset|*.materialgraph";
+                    break;
+                default:
+                    f.Filter = "Material asset|*.material";
+                    break;
+            }
+
+            if (lastoutputdir is not null)
+                f.InitialDirectory = Path.GetDirectoryName(lastoutputdir);
+            f.FileName = lastsavefile;
+
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                lastoutputdir = Path.GetDirectoryName(f.FileName) + @"\";
+                lastsavefile = f.FileName;
+                UseWaitCursor = true;
+                Application.DoEvents();
+
+                if (material.assetfile == f.FileName)
+                {
+                    MessageBox.Show("Can't overwrite the original. Choose a new filename.", "Aborted", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+
+                // reset
+                materials[0] = new Material(material.assetfile);
+                material = materials[0];
+
+                var tl = material.GetSection<Material.ShaderTextures>();
+                var datastrings = new List<string>();
+                var material8 = material.GetSection<Material.ShaderOverrides>();
+                Material.SectionHeader dataseg = tl == null ? (material.segments.Length > 0 ? material.segments[0] : null) : material.sectionlayout.GetSectionByOffset(((Material.ShaderTextures.ShaderTextureEntry)tl.entries[0]).nameoffset);
+
+                if (textures.ContainsKey(0))
+                    datastrings.Add((string?)textures[0].values[GridEntry.SLOTOVERRIDE].Value ?? String.Empty);
+
+                foreach (var kv in textures)
+                {
+                    if (kv.Key == 0)
+                        continue;
+
+                    if (tl != null)
+                    {
+                        if (kv.Value.values[GridEntry.SLOTINTERNAL].Slot != null)
+                            datastrings.Add(((string?)kv.Value.values[GridEntry.SLOTINTERNAL].Value) ?? String.Empty);
+                    }
+
+                    if (material8 != null)
+                    {
+                        if (!removeUndefTextures.Checked || materials[1] == null || kv.Value.values[GridEntry.SLOTEXTERNAL].Slot != null)
+                            material8.Textures[kv.Key] = kv.Value.values[GridEntry.SLOTOVERRIDE].Value ?? String.Empty;
+                        else if (material8.Textures.Contains(kv.Key))
+                            material8.Textures.Remove(kv.Key);
+                    }
+                }
+
+                if (dataseg != null)
+                {
+                    (dataseg.newdata, var offsets) = Material.PackStrings(datastrings);
+
+                    if (tl != null)
+                    {
+                        offsets = offsets.Skip(offsets.Length - tl.entries.Count).ToArray();
+                        for (int i = 0; i < tl.entries.Count; i++)
+                            ((Material.ShaderTextures.ShaderTextureEntry)tl.entries[i]).nameoffset = offsets[i] + dataseg.offset;
+                    }
+                }
+
+
+                var shaderfloats = material.GetSection<Material.ShaderFloats>();
+                var shaderints = material.GetSection<Material.ShaderIntegers>();
+
+                
+
+                foreach (var kv in values)
+                {
+                    var k = kv.Key;
+                    var v = kv.Value;
+
+                    // Debugging: Check the size of v
+                    if (v == null)
+                    {
+                        //MessageBox.Show("v is NULL");
+                        continue;
+                    }
+                    if (v.Length == 0)
+                    {
+                        //MessageBox.Show("v is EMPTY");
+                        continue;
+                    }
+                    if (v[0] == null)
+                    {
+                        //MessageBox.Show("v[0] is NULL");
+                        continue;
+                    }
+                    if (v[0].values == null)
+                    {
+                        //MessageBox.Show("v[0].values is NULL");
+                        continue;
+                    }
+
+                    if (v[0].values[GridEntry.SLOTINTERNAL].Slot != null)
+                    {
+                        // internal template
+                        object[] varray = v.Select(v => v.values[GridEntry.SLOTINTERNAL].Value).ToArray();
+                        int slot = (int)v[0].values[GridEntry.SLOTINTERNAL].Slot;
+
+
+                        switch (v[0].Type)
+                        {
+                            case GridEntry.TypeOrder.Float:
+                                switch (varray[0])
+                                {
+                                    case float:
+                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<float>().ToArray();
+                                        break;
+                                    case ushort:
+                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<ushort>().ToArray();
+                                        break;
+                                    case byte:
+                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<byte>().ToArray();
+                                        break;
+                                }
+                                break;
+                            case GridEntry.TypeOrder.Integer:
+                                shaderints.integers[slot] = (uint)(varray[0] ?? v[0].values[GridEntry.SLOTEXTERNAL].Value);
+                                break;
+                        }
+                    }
+
+                    if (v[0].values[GridEntry.SLOTOVERRIDE].Slot != null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null)
+                    {
+                        // material8
+                        object[] varray = v.Select(v => v.values[GridEntry.SLOTOVERRIDE].Value).ToArray();
+
+                        switch (v[0].Type)
+                        {
+                            case GridEntry.TypeOrder.Float:
+                                if (!varray.All(v => v == null) && (!removeUndefFloats.Checked || materials[1] == null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null))
+                                    switch (varray[0])
+                                    {
+                                        case float:
+                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<float>().ToArray();
+                                            break;
+                                        case ushort:
+                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<ushort>().ToArray();
+                                            break;
+                                        case byte:
+                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<byte>().ToArray();
+                                            break;
+                                    }
+                                else if (material8.Floats.Contains(k))
+                                    material8.Floats.Remove(k);
+                                break;
+
+                            case GridEntry.TypeOrder.Integer:
+                                if (!varray.All(v => v == null) && (!removeUndefInts.Checked || materials[1] == null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null))
+                                    material8.Ints[k] = (uint)(varray[0] ?? v[0].values[GridEntry.SLOTEXTERNAL].Value);
+                                else if (material8.Ints.Contains(k))
+                                    material8.Ints.Remove(k);
+                                break;
+                        }
+                    }
+                }
+
+                if (shaderfloats != null)
+                    // hack, but why is this in a separate section anyway?
+                    shaderfloats.WriteValues(material.GetSection<Material.ShaderFloatValues>()?.newdata);
+
+                material.ToBytes();
+                // Replace the first 4 bytes with the magic number based on the selection in the comboBox1
+                byte[] magicNumber = GetMagicNumber(f.FileName);
+                //Array.Copy(magicNumber, 0, material.binary, 0, magicNumber.Length);
+                //Array.Copy(magicNumber, 0, material.binary, 40, magicNumber.Length);
+
+                material.Save(lastsavefile);
+                
+                statusLabel.Image = global::Spandex.Properties.Resources.ok;
+                statusLabel.Text = $"Saved material: {lastsavefile}";
+                UseWaitCursor = false;
+            }
+
+            // Replace with magic
+
+            // Open "lastsavefile" and jump to 0x28, replace the following 4 bytes with fileMagicNumber
+
+            if (File.Exists(lastsavefile))
+            {
+                using (FileStream fs = new FileStream(lastsavefile, FileMode.Open, FileAccess.Write))
+                {
+                    if (fs.Length >= 0x2C)
+                    {
+                        fs.Seek(0x28, SeekOrigin.Begin); // Move to offset 0x28
+                        fs.Write(fileMagicNumber, 0, fileMagicNumber.Length); // Overwrite 4 bytes
+                    }
+                }
+            }
+
+            // Do Universal Header
+            if (checkBox_UniversalHeader.Checked)
+            { UniversalHeaderOverride(); }
+            else { }
         }
 
         private byte[] ReplaceBytesAtOffset(byte[] data, int offset, byte[] newBytes)
@@ -404,6 +624,9 @@ namespace Spandex
 
                     }
 
+                    // TODO: Check this code, this may be what is causing some materials to crash when saved, it's a
+                    // really silly workaround.
+
                     //values.TryAdd((uint)c.ID, new GridEntry[vs.Count]);
                     //var varray = values[(uint)c.ID];
                     //for (int j = 0; j < vs.Count; j++)
@@ -516,236 +739,7 @@ namespace Spandex
 
         private void SetComboBoxSelection(byte[] magicNumber)
         {
-            if (magicNumber.SequenceEqual(new byte[] { 0x8C, 0xEF, 0x04, 0x1C }))
-            {
-                comboBox1.SelectedIndex = 0; // Marvel's Spider-Man Remastered
-            }
-            else if (magicNumber.SequenceEqual(new byte[] { 0x9C, 0x7E, 0x75, 0x18 }))
-            {
-                comboBox1.SelectedIndex = 1; // Marvel's Spider-Man: Miles Morales
-            }
-            else if (magicNumber.SequenceEqual(new byte[] { 0xE3, 0x03, 0xDC, 0x07 }))
-            {
-                comboBox1.SelectedIndex = 0; // Marvel's Spider-Man Remastered
-            }
-            else if (magicNumber.SequenceEqual(new byte[] { 0x2A, 0x34, 0x60, 0xFF }))
-            {
-                comboBox1.SelectedIndex = 1; // Marvel's Spider-Man: Miles Morales
-            }
-            else
-            {
-                comboBox1.SelectedIndex = -1; // Unknown magic number
-            }
-        }
 
-        private void savebutton_Click(object sender, EventArgs e)
-        {
-            var material = materials[0];
-
-            var f = new SaveFileDialog();
-            switch (material.ps4header.type)
-            {
-                case Material.SectionType.SM_MATERIALTEMPLATE:
-                case Material.SectionType.MM_MATERIALTEMPLATE:
-                    f.Filter = "Material template asset|*.materialgraph";
-                    break;
-                default:
-                    f.Filter = "Material asset|*.material";
-                    break;
-            }
-            if (lastoutputdir is not null)
-                f.InitialDirectory = Path.GetDirectoryName(lastoutputdir);
-            f.FileName = lastsavefile;
-
-            if (f.ShowDialog() == DialogResult.OK)
-            {
-                lastoutputdir = Path.GetDirectoryName(f.FileName) + @"\";
-                lastsavefile = f.FileName;
-                UseWaitCursor = true;
-                Application.DoEvents();
-
-                if (material.assetfile == f.FileName)
-                {
-                    MessageBox.Show("Can't overwrite the original. Choose a new filename.", "Aborted", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-                // reset
-                materials[0] = new Material(material.assetfile);
-                material = materials[0];
-
-
-                var tl = material.GetSection<Material.ShaderTextures>();
-                var datastrings = new List<string>();
-                var material8 = material.GetSection<Material.ShaderOverrides>();
-                Material.SectionHeader dataseg = tl == null ? (material.segments.Length > 0 ? material.segments[0] : null) : material.sectionlayout.GetSectionByOffset(((Material.ShaderTextures.ShaderTextureEntry)tl.entries[0]).nameoffset);
-
-                if (textures.ContainsKey(0))
-                    datastrings.Add((string?)textures[0].values[GridEntry.SLOTOVERRIDE].Value ?? String.Empty);
-
-                foreach (var kv in textures)
-                {
-                    if (kv.Key == 0)
-                        continue;
-
-                    if (tl != null)
-                    {
-                        if (kv.Value.values[GridEntry.SLOTINTERNAL].Slot != null)
-                            datastrings.Add(((string?)kv.Value.values[GridEntry.SLOTINTERNAL].Value) ?? String.Empty);
-                    }
-
-                    if (material8 != null)
-                    {
-                        if (!removeUndefTextures.Checked || materials[1] == null || kv.Value.values[GridEntry.SLOTEXTERNAL].Slot != null)
-                            material8.Textures[kv.Key] = kv.Value.values[GridEntry.SLOTOVERRIDE].Value ?? String.Empty;
-                        else if (material8.Textures.Contains(kv.Key))
-                            material8.Textures.Remove(kv.Key);
-                    }
-                }
-
-                if (dataseg != null)
-                {
-                    (dataseg.newdata, var offsets) = Material.PackStrings(datastrings);
-
-                    if (tl != null)
-                    {
-                        offsets = offsets.Skip(offsets.Length - tl.entries.Count).ToArray();
-                        for (int i = 0; i < tl.entries.Count; i++)
-                            ((Material.ShaderTextures.ShaderTextureEntry)tl.entries[i]).nameoffset = offsets[i] + dataseg.offset;
-                    }
-                }
-
-
-                var shaderfloats = material.GetSection<Material.ShaderFloats>();
-                var shaderints = material.GetSection<Material.ShaderIntegers>();
-
-                foreach (var kv in values)
-                {
-                    var k = kv.Key;
-                    var v = kv.Value;
-
-                    // Debugging: Check the size of v
-                    if (v == null)
-                    {
-                        //MessageBox.Show("v is NULL");
-                        continue;
-                    }
-                    if (v.Length == 0)
-                    {
-                        //MessageBox.Show("v is EMPTY");
-                        continue;
-                    }
-                    if (v[0] == null)
-                    {
-                        //MessageBox.Show("v[0] is NULL");
-                        continue;
-                    }
-                    if (v[0].values == null)
-                    {
-                        //MessageBox.Show("v[0].values is NULL");
-                        continue;
-                    }
-
-                    if (v[0].values[GridEntry.SLOTINTERNAL].Slot != null)
-                    {
-                        // internal template
-                        object[] varray = v.Select(v => v.values[GridEntry.SLOTINTERNAL].Value).ToArray();
-                        int slot = (int)v[0].values[GridEntry.SLOTINTERNAL].Slot;
-
-
-                        switch (v[0].Type)
-                        {
-                            case GridEntry.TypeOrder.Float:
-                                switch (varray[0])
-                                {
-                                    case float:
-                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<float>().ToArray();
-                                        break;
-                                    case ushort:
-                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<ushort>().ToArray();
-                                        break;
-                                    case byte:
-                                        shaderfloats.values[slot] = varray.Select(f => f ?? 0f).Cast<byte>().ToArray();
-                                        break;
-                                }
-                                break;
-                            case GridEntry.TypeOrder.Integer:
-                                shaderints.integers[slot] = (uint)(varray[0] ?? v[0].values[GridEntry.SLOTEXTERNAL].Value);
-                                break;
-                        }
-                    }
-
-                    if (v[0].values[GridEntry.SLOTOVERRIDE].Slot != null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null)
-                    {
-                        // material8
-                        object[] varray = v.Select(v => v.values[GridEntry.SLOTOVERRIDE].Value).ToArray();
-
-                        switch (v[0].Type)
-                        {
-                            case GridEntry.TypeOrder.Float:
-                                if (!varray.All(v => v == null) && (!removeUndefFloats.Checked || materials[1] == null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null))
-                                    switch (varray[0])
-                                    {
-                                        case float:
-                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<float>().ToArray();
-                                            break;
-                                        case ushort:
-                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<ushort>().ToArray();
-                                            break;
-                                        case byte:
-                                            material8.Floats[k] = varray.Select((f, i) => f = f ?? v[i].values[GridEntry.SLOTEXTERNAL].Value).Cast<byte>().ToArray();
-                                            break;
-                                    }
-                                else if (material8.Floats.Contains(k))
-                                    material8.Floats.Remove(k);
-                                break;
-
-                            case GridEntry.TypeOrder.Integer:
-                                if (!varray.All(v => v == null) && (!removeUndefInts.Checked || materials[1] == null || v[0].values[GridEntry.SLOTEXTERNAL].Slot != null))
-                                    material8.Ints[k] = (uint)(varray[0] ?? v[0].values[GridEntry.SLOTEXTERNAL].Value);
-                                else if (material8.Ints.Contains(k))
-                                    material8.Ints.Remove(k);
-                                break;
-                        }
-                    }
-                }
-
-                if (shaderfloats != null)
-                    // hack, but why is this in a separate section anyway?
-                    shaderfloats.WriteValues(material.GetSection<Material.ShaderFloatValues>()?.newdata);
-
-                material.ToBytes();
-
-                // Replace the first 4 bytes with the magic number based on the selection in the comboBox1
-                byte[] magicNumber = GetMagicNumber(f.FileName);
-                //Array.Copy(magicNumber, 0, material.binary, 0, magicNumber.Length);
-                //Array.Copy(magicNumber, 0, material.binary, 40, magicNumber.Length);
-
-                material.Save(lastsavefile);
-                statusLabel.Image = global::Spandex.Properties.Resources.ok;
-                statusLabel.Text = $"Saved material: {lastsavefile}";
-                UseWaitCursor = false;
-            }
-
-            // Replace with magic
-
-            // Open "lastsavefile" and jump to 0x28, replace the following 4 bytes with fileMagicNumber
-
-            if (File.Exists(lastsavefile))
-            {
-                using (FileStream fs = new FileStream(lastsavefile, FileMode.Open, FileAccess.Write))
-                {
-                    if (fs.Length >= 0x2C)
-                    {
-                        fs.Seek(0x28, SeekOrigin.Begin); // Move to offset 0x28
-                        fs.Write(fileMagicNumber, 0, fileMagicNumber.Length); // Overwrite 4 bytes
-                    }
-                }
-            }
-
-            // Do Universal Header
-            if (checkBox_UniversalHeader.Checked)
-            { UniversalHeaderOverride(); }
-            else { }
         }
 
         private void UniversalHeaderOverride()
@@ -904,6 +898,7 @@ namespace Spandex
             }
         }
 
+        //------------------------------------------------------------------------------------------
         private void valueGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0)
@@ -923,6 +918,7 @@ namespace Spandex
                 }
         }
 
+        //------------------------------------------------------------------------------------------
         private void ValueGrid_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
         {
             // back out invalid values here because cell validation is completely broken
@@ -951,6 +947,7 @@ namespace Spandex
                 }
             }
         }
+        //------------------------------------------------------------------------------------------
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -973,6 +970,8 @@ namespace Spandex
         }
     }
 
+    // Class for the grid entries
+    //----------------------------------------------------------------------------------------------
     public class GridEntry
     {
         public const int SLOTINTERNAL = 0;

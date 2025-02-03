@@ -24,7 +24,7 @@ namespace WebWorksCore
         //------------------------------------------------------------------------------------------
         public enum AssetType
         {
-            Atmosphere,
+            MSM2_Atmosphere,
             Texture,
             Unknown
         }
@@ -46,7 +46,7 @@ namespace WebWorksCore
             switch (typeValue)
             {
                 case 0x4FBCF482:
-                    return AssetType.Atmosphere;
+                    return AssetType.MSM2_Atmosphere;
                 default:
                     return AssetType.Unknown;
             }
