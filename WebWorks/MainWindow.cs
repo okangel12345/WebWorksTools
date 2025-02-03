@@ -1411,9 +1411,9 @@ namespace WebWorks
             SetEnvironment.ConfigWeaver();
         }
 
-        private void ToolStrip_SpideyAtmos_Click(object sender, EventArgs e)
+        private void ToolStrip_WeatherTuner_Click(object sender, EventArgs e)
         {
-            SetEnvironment.SpideyAtmos();
+            SetEnvironment.WeatherTuner();
         }
     }
 }

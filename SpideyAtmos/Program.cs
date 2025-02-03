@@ -1,4 +1,4 @@
-namespace SpideyAtmos
+namespace WeatherTuner
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace SpideyAtmos
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new SpideyAtmosForm());
+            Application.Run(new WeatherTunerForm());
         }
     }
 }

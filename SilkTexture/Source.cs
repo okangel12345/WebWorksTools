@@ -56,7 +56,7 @@
                 return false;
             }
 
-            int DAT1Offset = WebWorksCore.CustomAssetUtilities.Find1TADMarker(File.ReadAllBytes(Filename));
+            int DAT1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(File.ReadAllBytes(Filename));
 
             using (var fs = File.Open(Filename, FileMode.Open, FileAccess.Read))
 

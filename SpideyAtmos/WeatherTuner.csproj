@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DAT1\DAT1.csproj" />
     <ProjectReference Include="..\WebWorksCore\WebWorksCore.csproj" />
   </ItemGroup>
 

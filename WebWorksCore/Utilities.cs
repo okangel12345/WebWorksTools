@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,16 @@ namespace WebWorksCore
 
                 return;
             }
+        }
+
+        public static void CopyToClipboard(string input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                Clipboard.SetText(input);
+                SystemSounds.Hand.Play();
+            }
+
         }
     }
 }

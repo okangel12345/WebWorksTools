@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebWorksCore
 {
-    public class CustomAssetUtilities
+    public class AssetUtilities
     {
         //------------------------------------------------------------------------------------------
         public static int Find1TADMarker(byte[] data)
@@ -19,6 +19,37 @@ namespace WebWorksCore
                     return i;
             }
             return -1;
+        }
+
+        //------------------------------------------------------------------------------------------
+        public enum AssetType
+        {
+            Atmosphere,
+            Texture,
+            Unknown
+        }
+
+        public static AssetType CheckAssetType(byte[] asset)
+        {
+            int DAT1Offset = Find1TADMarker(asset);
+
+            if (DAT1Offset == -1)
+            {
+                return AssetType.Unknown; // If the marker is not found
+            }
+
+            byte[] magicBytes = asset.Skip(DAT1Offset + 4).Take(4).ToArray();
+            Array.Reverse(magicBytes);
+
+            uint typeValue = BitConverter.ToUInt32(magicBytes, 0);
+
+            switch (typeValue)
+            {
+                case 0x4FBCF482:
+                    return AssetType.Atmosphere;
+                default:
+                    return AssetType.Unknown;
+            }
         }
 
         //------------------------------------------------------------------------------------------

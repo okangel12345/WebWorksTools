@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebWorksCore;
 
-namespace SpideyAtmos
+namespace WeatherTuner
 {
     public class AtmosphereContent
     {
@@ -22,14 +22,30 @@ namespace SpideyAtmos
 
         public static void LoadAtmosphere(string atmospherePath)
         {
-            fileBytes = File.ReadAllBytes(atmospherePath);
+            try
+            {
+                fileBytes = File.ReadAllBytes(atmospherePath);
+                var assetType = AssetUtilities.CheckAssetType(fileBytes);
 
-            sectionContent = CustomAssetUtilities.GetAssetSection(fileBytes, sectionID);
-            sectionOffset = CustomAssetUtilities.GetAssetSectionOffset(fileBytes, sectionID);
+                if (assetType != AssetUtilities.AssetType.Atmosphere)
+                {
+                    MessageBox.Show("Not a MSM2 atmosphere file! Expected MAGIC = 0x4FBCF482", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Couldn't read the .atmosphere file. Error: {ex}");
+                return;
+            }
 
-            var AtmosphereValues_grid = SpideyAtmosForm.Instance.AtmosphereValues_grid;
-            var AtmosphereHashes_grid = SpideyAtmosForm.Instance.AtmosphereHashes_grid;
+            sectionContent = AssetUtilities.GetAssetSection(fileBytes, sectionID);
+            sectionOffset = AssetUtilities.GetAssetSectionOffset(fileBytes, sectionID);
 
+            var AtmosphereValues_grid = WeatherTunerForm.Instance.AtmosphereValues_grid;
+            var AtmosphereHashes_grid = WeatherTunerForm.Instance.AtmosphereHashes_grid;
+
+            // Read the settings range and use them to load the settings into the AtmosphereValues_grid
             //--------------------------------------------------------------------------------------
             var settingsRanges = new List<(string ParentName, int MinAddress, int MaxAddress)>
             {
@@ -76,6 +92,7 @@ namespace SpideyAtmos
                 ("Ocean Settings", 480, 691)
             };
 
+            // Load values and hashes
             //--------------------------------------------------------------------------------------
             foreach (var (parentName, minAddress, maxAddress) in settingsRanges)
             {
@@ -85,11 +102,34 @@ namespace SpideyAtmos
             LoadAtmosphereHashes(sectionContent, AtmosphereHashes_grid);
         }
 
-        public static void SaveAtmosphere(string filePath, DataGridView modified_AtmosphereValues_grid)
+        //------------------------------------------------------------------------------------------
+        public static void SaveAtmosphere(string filePath, DataGridView modified_AtmosphereValues_grid, DataGridView modified_AtmosphereHashes_grid)
         {
-            SaveAtmosphere(sectionContent, modified_AtmosphereValues_grid, fileBytes, sectionOffset, filePath);
+            // Save the atmosphere values and hashes
+            try
+            { 
+                SaveAtmosphereValues(sectionContent, modified_AtmosphereValues_grid, fileBytes, sectionOffset);
+                SaveAtmosphereHashes(sectionContent, modified_AtmosphereHashes_grid, fileBytes, sectionOffset);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred updating the atmosphere content. Error: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Write the modified atmosphere file bytes to user-specified path
+            try
+            {
+                File.WriteAllBytes(filePath, fileBytes);
+                MessageBox.Show("Atmosphere values saved successfully.", "Success!", MessageBoxButtons.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
+        // Load atmosphere methods
         //------------------------------------------------------------------------------------------
         private static void LoadAtmosphereValues(byte[] content, DataGridView targetGrid, int minAddress, int maxAddress, string parentName)
         {
@@ -97,7 +137,6 @@ namespace SpideyAtmos
                 .Where(entry => entry.Address >= minAddress && entry.Address <= maxAddress)
                 .ToList();
 
-            // Add the parent row
             int parentRowIndex = -1;
             foreach (DataGridViewRow row in targetGrid.Rows)
             {
@@ -108,36 +147,32 @@ namespace SpideyAtmos
                 }
             }
 
-            // If no existing parent row is found, add a new one
             if (parentRowIndex == -1)
             {
                 targetGrid.Invoke((MethodInvoker)(() =>
                 {
                     parentRowIndex = targetGrid.Rows.Add(); // Add a parent row
-                    targetGrid.Rows[parentRowIndex].Cells[0].Value = parentName; // Set parent row's name
+                    targetGrid.Rows[parentRowIndex].Cells[0].Value = parentName;
                     targetGrid.Rows[parentRowIndex].Cells[0].Style.Font = new Font(targetGrid.DefaultCellStyle.Font, FontStyle.Bold); // Set font to bold
-                    targetGrid.Rows[parentRowIndex].Cells[1].Value = ""; // Description for the parent
-                    targetGrid.Rows[parentRowIndex].Cells[2].Value = "+"; // Expand/Collapse button text
-                    targetGrid.Rows[parentRowIndex].Tag = "expanded"; // Tag to keep track of the state (collapsed or expanded)
+                    targetGrid.Rows[parentRowIndex].Cells[1].Value = "";
+                    targetGrid.Rows[parentRowIndex].Cells[2].Value = "+";
+                    targetGrid.Rows[parentRowIndex].Tag = "expanded";
                 }));
             }
 
-            // Iterate through the filtered values and add them as subrows under the parent
             foreach (var (name, address, type, description) in filteredValues)
             {
                 object value = null;
 
-                // Parse based on type (float or int)
                 if (type == AtmosphereDefs.t.Float)
                 {
-                    value = BitConverter.ToSingle(content, address); // Parsing as float
+                    value = BitConverter.ToSingle(content, address);
                 }
                 else if (type == AtmosphereDefs.t.Int)
                 {
-                    value = BitConverter.ToInt32(content, address); // Parsing as int
+                    value = BitConverter.ToInt32(content, address);
                 }
 
-                // Add subrow (child row) under the parent row
                 targetGrid.Invoke((MethodInvoker)(() =>
                 {
                     int subrowIndex = targetGrid.Rows.Add();
@@ -147,48 +182,35 @@ namespace SpideyAtmos
                     targetGrid.Rows[subrowIndex].Cells[3].Value = description;
                     targetGrid.Rows[subrowIndex].Cells[4].Value = address;
 
-                    // Set the row as a subrow of the parent row
-                    targetGrid.Rows[subrowIndex].Tag = parentRowIndex; // Link subrow to parent
+                    targetGrid.Rows[subrowIndex].Tag = parentRowIndex;
 
-                    // Initially hide child rows
                     targetGrid.Rows[subrowIndex].Visible = false;
                 }));
             }
 
-            // Remove any previous event handler to avoid duplication
             targetGrid.RowHeaderMouseClick -= TargetGrid_RowHeaderMouseClick;
-
-            // Add event handler to handle row clicks (for expanding/collapsing)
             targetGrid.RowHeaderMouseClick += TargetGrid_RowHeaderMouseClick;
         }
+
         private static void LoadAtmosphereHashes(byte[] content, DataGridView targetGrid)
         {
             var allHashes = AtmosphereDefs.Hashes.ToList();
 
             foreach (var (name, address, description) in allHashes)
             {
-                byte[] pathBytes = new byte[4];
-                Array.Copy(content, address, pathBytes, 0, 4);
+                int startAddress = address;
 
-                for (int i = 0; i < 2; i++)
-                {
-                    byte temp = pathBytes[i * 2];
-                    pathBytes[i * 2] = pathBytes[i * 2 + 1];
-                    pathBytes[i * 2 + 1] = temp;
-                }
+                byte[] pathHashBytes = content.Skip(startAddress).Take(8).ToArray();
+                string pathHash = BitConverter.ToString(pathHashBytes).Replace("-", "");
 
-                byte[] hashBytes = new byte[4];
-                Array.Copy(content, address + 20, hashBytes, 0, 4);
+                // Reverse the pathHash in pairs
+                pathHash = ReverseInPairs(pathHash);
 
-                for (int i = 0; i < 2; i++)
-                {
-                    byte temp = hashBytes[i * 2];
-                    hashBytes[i * 2] = hashBytes[i * 2 + 1];
-                    hashBytes[i * 2 + 1] = temp;
-                }
+                int extensionHashStart = startAddress + 8 + 12;
+                byte[] extensionHashBytes = content.Skip(extensionHashStart).Take(4).ToArray();
+                string extensionHash = BitConverter.ToString(extensionHashBytes).Replace("-", "");
 
-                string pathHash = BitConverter.ToString(pathBytes).Replace("-", "");
-                string extensionHash = BitConverter.ToString(hashBytes).Replace("-", "");
+                extensionHash = ReverseInPairs(extensionHash);
 
                 targetGrid.Invoke((MethodInvoker)(() =>
                 {
@@ -199,10 +221,23 @@ namespace SpideyAtmos
                     targetGrid.Rows[rowIndex].Cells[3].Value = address;
                 }));
             }
-
         }
 
-        private static void SaveAtmosphere(byte[] sectionContent, DataGridView targetGrid, byte[] fileBytes, int sectionOffset, string filePath)
+        // Helper method to reverse the string in pairs of two characters
+        private static string ReverseInPairs(string hexString)
+        {
+            var pairs = new List<string>();
+            for (int i = 0; i < hexString.Length; i += 2)
+            {
+                pairs.Add(hexString.Substring(i, 2));
+            }
+            pairs.Reverse();
+            return string.Join("", pairs);
+        }
+
+        // Save atmosphere methods
+        //------------------------------------------------------------------------------------------
+        private static void SaveAtmosphereValues(byte[] sectionContent, DataGridView targetGrid, byte[] fileBytes, int sectionOffset)
         {
             foreach (DataGridViewRow row in targetGrid.Rows)
             {
@@ -224,19 +259,47 @@ namespace SpideyAtmos
             }
 
             Array.Copy(sectionContent, 0, fileBytes, sectionOffset, sectionContent.Length);
-
-            try
-            {
-                File.WriteAllBytes(filePath, fileBytes);
-                MessageBox.Show("Atmosphere values saved successfully.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error saving file: {ex.Message}");
-            }
         }
 
+        private static void SaveAtmosphereHashes(byte[] sectionContent, DataGridView targetGrid, byte[] fileBytes, int sectionOffset)
+        {
+            foreach (DataGridViewRow row in targetGrid.Rows)
+            {
+                string pathHashValue = row.Cells[1].Value?.ToString();
+                string extensionHashValue = row.Cells[2].Value?.ToString();
 
+                int address = Convert.ToInt32(row.Cells[3].Value);
+
+                // Convert hex string values to byte arrays
+                byte[] pathHashBytes = ConvertHexStringToByteArray(pathHashValue);
+                byte[] extensionHashBytes = ConvertHexStringToByteArray(extensionHashValue);
+
+                Array.Reverse(pathHashBytes);
+                Array.Reverse(extensionHashBytes);
+
+                Array.Copy(pathHashBytes, 0, sectionContent, address, pathHashBytes.Length);
+                Array.Copy(extensionHashBytes, 0, sectionContent, address + 8 + 12, extensionHashBytes.Length);
+            }
+
+            Array.Copy(sectionContent, 0, fileBytes, sectionOffset, sectionContent.Length);
+        }
+
+        // Helper method to convert to byte array
+        private static byte[] ConvertHexStringToByteArray(string hexString)
+        {
+            int numberOfChars = hexString.Length;
+            byte[] byteArray = new byte[numberOfChars / 2];
+
+            for (int i = 0; i < byteArray.Length; i++)
+            {
+                byteArray[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            }
+
+            return byteArray;
+        }
+
+        // User input helper methods (Collapse and expand)
+        //------------------------------------------------------------------------------------------
         private static void TargetGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView targetGrid = (DataGridView)sender;
@@ -255,36 +318,32 @@ namespace SpideyAtmos
             }
         }
 
-        // Collapse rows function
-        private static void CollapseRows(DataGridView targetGrid, int parentRowIndex)
+        public static void CollapseRows(DataGridView targetGrid, int parentRowIndex)
         {
             foreach (DataGridViewRow row in targetGrid.Rows)
             {
                 if (row.Tag is int parentRow && parentRow == parentRowIndex)
                 {
-                    row.Visible = false; // Hide child row
+                    row.Visible = false;
                 }
             }
 
-            // Change the parent row to indicate it's collapsed
-            targetGrid.Rows[parentRowIndex].Cells[2].Value = "+"; // Show the "+" icon for collapse
-            targetGrid.Rows[parentRowIndex].Tag = "collapsed"; // Update the parent row's tag to "collapsed"
+            targetGrid.Rows[parentRowIndex].Cells[2].Value = "+";
+            targetGrid.Rows[parentRowIndex].Tag = "collapsed";
         }
 
-        // Expand rows function
-        private static void ExpandRows(DataGridView targetGrid, int parentRowIndex)
+        public static void ExpandRows(DataGridView targetGrid, int parentRowIndex)
         {
             foreach (DataGridViewRow row in targetGrid.Rows)
             {
                 if (row.Tag is int parentRow && parentRow == parentRowIndex)
                 {
-                    row.Visible = true; // Show child row
+                    row.Visible = true;
                 }
             }
 
-            // Change the parent row to indicate it's expanded
-            targetGrid.Rows[parentRowIndex].Cells[2].Value = "-"; // Show the "-" icon for expand
-            targetGrid.Rows[parentRowIndex].Tag = "expanded"; // Update the parent row's tag to "expanded"
+            targetGrid.Rows[parentRowIndex].Cells[2].Value = "-";
+            targetGrid.Rows[parentRowIndex].Tag = "expanded";
         }
     }
 }

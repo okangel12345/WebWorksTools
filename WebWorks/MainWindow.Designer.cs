@@ -78,7 +78,7 @@
             ToolStrip_SilkTextureTool = new ToolStripMenuItem();
             ToolStrip_ConfigWeaver = new ToolStripMenuItem();
             ToolStrip_ModelToolGUI = new ToolStripMenuItem();
-            ToolStrip_SpideyAtmos = new ToolStripMenuItem();
+            ToolStrip_WeatherTuner = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             ToolStrip_Information = new ToolStripMenuItem();
@@ -423,7 +423,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ConfigWeaver, ToolStrip_ModelToolGUI, ToolStrip_SpideyAtmos, toolStripMenuItem1 });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ToolStrip_Home, ToolStrip_HashTool, toolStripMenuItem11, ToolStrip_ModdingTool, ToolStrip_SpandexTool, ToolStrip_SilkTextureTool, ToolStrip_ConfigWeaver, ToolStrip_ModelToolGUI, ToolStrip_WeatherTuner, toolStripMenuItem1 });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -499,15 +499,13 @@
             ToolStrip_ModelToolGUI.Text = "Model Tools GUI";
             ToolStrip_ModelToolGUI.Click += ToolStrip_ModelToolGUI_Click;
             // 
-            // ToolStrip_SpideyAtmos
+            // ToolStrip_WeatherTuner
             // 
-            ToolStrip_SpideyAtmos.Enabled = false;
-            ToolStrip_SpideyAtmos.Name = "ToolStrip_SpideyAtmos";
-            ToolStrip_SpideyAtmos.ShortcutKeys = Keys.Control | Keys.D6;
-            ToolStrip_SpideyAtmos.Size = new Size(218, 22);
-            ToolStrip_SpideyAtmos.Text = "Spidey Atmos";
-            ToolStrip_SpideyAtmos.Visible = false;
-            ToolStrip_SpideyAtmos.Click += ToolStrip_SpideyAtmos_Click;
+            ToolStrip_WeatherTuner.Name = "ToolStrip_WeatherTuner";
+            ToolStrip_WeatherTuner.ShortcutKeys = Keys.Control | Keys.D6;
+            ToolStrip_WeatherTuner.Size = new Size(218, 22);
+            ToolStrip_WeatherTuner.Text = "Weather Tuner";
+            ToolStrip_WeatherTuner.Click += ToolStrip_WeatherTuner_Click;
             // 
             // toolStripMenuItem1
             // 
@@ -739,6 +737,6 @@
         private ToolStripMenuItem ToolStrip_ModelToolGUI;
         private ToolStripMenuItem ToolStrip_ConfigWeaver;
         private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem ToolStrip_SpideyAtmos;
+        private ToolStripMenuItem ToolStrip_WeatherTuner;
     }
 }

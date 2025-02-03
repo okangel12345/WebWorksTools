@@ -28,7 +28,7 @@ namespace WebWorks.Utilities
         public static SpideyTexture? silkTextureForm;
         public static ModelToolsGUI.ModelToolGUI? modelToolGUI;
         public static ConfigWeaver.ConfigWeaverForm? configWeaver;
-        public static SpideyAtmos.SpideyAtmosForm? spideyAtmos;
+        public static WeatherTuner.WeatherTunerForm? weatherTuner;
         static MainWindow mainWindow = MainWindow.Instance;
 
         // Environments
@@ -79,12 +79,12 @@ namespace WebWorks.Utilities
             }, "WebWorks - Config Weaver");
         }
 
-        public static void SpideyAtmos()
+        public static void WeatherTuner()
         {
-            LoadForm(ref spideyAtmos, () =>
+            LoadForm(ref weatherTuner, () =>
             {
-                spideyAtmos = new SpideyAtmos.SpideyAtmosForm();
-            }, "WebWorks - Spidey Atmos");
+                weatherTuner = new WeatherTuner.WeatherTunerForm();
+            }, "WebWorks - Weather Tuner");
         }
 
         public static void Search()

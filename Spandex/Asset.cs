@@ -34,8 +34,8 @@ namespace Spiderman
 
         public void Parse()
         {
-            DAT1Offset = WebWorksCore.CustomAssetUtilities.Find1TADMarker(binary);
-            DAT1OffsetUint = (uint)WebWorksCore.CustomAssetUtilities.Find1TADMarker(binary);
+            DAT1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(binary);
+            DAT1OffsetUint = (uint)WebWorksCore.AssetUtilities.Find1TADMarker(binary);
 
             sectionheaders = new OrderedDictionary();
             sections = new OrderedDictionary();
