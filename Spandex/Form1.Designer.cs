@@ -81,7 +81,6 @@
             checkBox_Autocompletion = new CheckBox();
             label2 = new Label();
             label1 = new Label();
-            checkBox_UniversalHeader = new CheckBox();
             textBox_FileLoaded = new TextBox();
             button1 = new Button();
             comboBox1 = new ComboBox();
@@ -452,7 +451,6 @@
             panel1.Controls.Add(checkBox_Autocompletion);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(checkBox_UniversalHeader);
             panel1.Controls.Add(textBox_FileLoaded);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(comboBox1);
@@ -472,7 +470,7 @@
             checkBox_Autocompletion.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             checkBox_Autocompletion.AutoSize = true;
             checkBox_Autocompletion.ForeColor = SystemColors.ActiveBorder;
-            checkBox_Autocompletion.Location = new Point(867, 31);
+            checkBox_Autocompletion.Location = new Point(990, 33);
             checkBox_Autocompletion.Margin = new Padding(2);
             checkBox_Autocompletion.Name = "checkBox_Autocompletion";
             checkBox_Autocompletion.Size = new Size(133, 19);
@@ -486,7 +484,7 @@
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.ForeColor = Color.FromArgb(210, 210, 210);
-            label2.Location = new Point(511, 32);
+            label2.Location = new Point(634, 34);
             label2.Name = "label2";
             label2.Size = new Size(141, 15);
             label2.TabIndex = 9;
@@ -502,19 +500,6 @@
             label1.TabIndex = 8;
             label1.Text = "120, 120, 120";
             label1.Visible = false;
-            // 
-            // checkBox_UniversalHeader
-            // 
-            checkBox_UniversalHeader.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            checkBox_UniversalHeader.AutoSize = true;
-            checkBox_UniversalHeader.ForeColor = SystemColors.ActiveBorder;
-            checkBox_UniversalHeader.Location = new Point(1008, 31);
-            checkBox_UniversalHeader.Margin = new Padding(2);
-            checkBox_UniversalHeader.Name = "checkBox_UniversalHeader";
-            checkBox_UniversalHeader.Size = new Size(115, 19);
-            checkBox_UniversalHeader.TabIndex = 7;
-            checkBox_UniversalHeader.Text = "Universal Header";
-            checkBox_UniversalHeader.UseVisualStyleBackColor = true;
             // 
             // textBox_FileLoaded
             // 
@@ -559,7 +544,7 @@
             removeUndefInts.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             removeUndefInts.AutoSize = true;
             removeUndefInts.ForeColor = SystemColors.ActiveBorder;
-            removeUndefInts.Location = new Point(791, 31);
+            removeUndefInts.Location = new Point(914, 33);
             removeUndefInts.Margin = new Padding(2);
             removeUndefInts.Name = "removeUndefInts";
             removeUndefInts.Size = new Size(68, 19);
@@ -572,7 +557,7 @@
             removeUndefFloats.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             removeUndefFloats.AutoSize = true;
             removeUndefFloats.ForeColor = SystemColors.ActiveBorder;
-            removeUndefFloats.Location = new Point(730, 31);
+            removeUndefFloats.Location = new Point(853, 33);
             removeUndefFloats.Margin = new Padding(2);
             removeUndefFloats.Name = "removeUndefFloats";
             removeUndefFloats.Size = new Size(57, 19);
@@ -585,7 +570,7 @@
             removeUndefTextures.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             removeUndefTextures.AutoSize = true;
             removeUndefTextures.ForeColor = SystemColors.ActiveBorder;
-            removeUndefTextures.Location = new Point(657, 31);
+            removeUndefTextures.Location = new Point(780, 33);
             removeUndefTextures.Margin = new Padding(2);
             removeUndefTextures.Name = "removeUndefTextures";
             removeUndefTextures.Size = new Size(69, 19);
@@ -712,7 +697,6 @@
         private Button button1;
         private SplitContainer splitContainer1;
         private TextBox textBox_FileLoaded;
-        private CheckBox checkBox_UniversalHeader;
         private Label label1;
         private Label label2;
         private CheckBox checkBox_Autocompletion;

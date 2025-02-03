@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,10 @@ namespace Spiderman
     {
         public byte[] binary;
         public byte[] newbinary;
+
+        public byte[] headerSM2;
+        public bool isMSM2;
+
         public string assetfile;
 
         public PS4Header ps4header;
@@ -29,8 +34,50 @@ namespace Spiderman
             // read source
             binary = File.ReadAllBytes(filename);
             assetfile = filename;
+
+            // Header trick for SM2 - TODO: find a better approach
+            //--------------------------------------------------------------------------------------
+            int offset = WebWorksCore.AssetUtilities.Find1TADMarker(binary);
+
+            if (offset != -1 && binary.Length >= offset + 8)
+            {
+                byte[] expectedBytes = new byte[] { 0xB4, 0x0D, 0x18, 0x3B };
+                isMSM2 = true;
+
+                // Check MAGIC
+                for (int i = 0; i < 4; i++)
+                {
+                    if (binary[offset + 4 + i] != expectedBytes[i])
+                    {
+                        isMSM2 = false;
+                        break;
+                    }
+                }
+
+                if (isMSM2)
+                {
+                    byte[] bytesToInsert = new byte[] { 0x00, 0x00, 0x00, 0x00 };
+                    binary = InsertBytesAtOffset(binary, offset, bytesToInsert);
+
+                    headerSM2 = new byte[0x20];
+                    Array.Copy(binary, 0, headerSM2, 0, 0x20);
+                }
+            }
+            //--------------------------------------------------------------------------------------
+
             Parse();
         }
+
+        private byte[] InsertBytesAtOffset(byte[] original, int offset, byte[] bytesToInsert)
+        {
+            byte[] result = new byte[original.Length + bytesToInsert.Length];
+            Buffer.BlockCopy(original, 0, result, 0, offset);
+            Buffer.BlockCopy(bytesToInsert, 0, result, offset, bytesToInsert.Length);
+            Buffer.BlockCopy(original, offset, result, offset + bytesToInsert.Length, original.Length - offset);
+
+            return result;
+        }
+
         public void Parse()
         {
             sectionheaders = new OrderedDictionary();
@@ -243,11 +290,33 @@ namespace Spiderman
 
             return newbinary;
         }
-
         public void Save(string? filename = null)
         {
-
             string f = filename ?? Path.ChangeExtension(assetfile, $"modified.{Path.GetExtension(assetfile)}");
+
+            byte[] sizeBytes;
+            if (isMSM2)
+            {
+                sizeBytes = new byte[4];
+
+                Array.Copy(newbinary, 0x4, sizeBytes, 0, 4);
+
+                string sizeBytesHex = BitConverter.ToString(sizeBytes).Replace("-", " ");
+                MessageBox.Show(sizeBytesHex);
+
+                Array.Copy(headerSM2, 0, newbinary, 0, 32);
+
+                byte[] resizedBinary = new byte[newbinary.Length];
+
+                Array.Copy(newbinary, 0, resizedBinary, 0, 0x20);
+                Array.Copy(newbinary, 0x24, resizedBinary, 0x20, newbinary.Length - 0x24);
+
+                Array.Copy(sizeBytes, 0, resizedBinary, 0x18, 3);
+                Array.Copy(sizeBytes, 0, resizedBinary, 0x28, 4);
+
+                newbinary = resizedBinary;
+            }
+
             File.WriteAllBytes(f, newbinary);
         }
 

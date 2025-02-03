@@ -460,26 +460,9 @@ namespace Spandex
                 UseWaitCursor = false;
             }
 
-            // Replace with magic
-
-            // Open "lastsavefile" and jump to 0x28, replace the following 4 bytes with fileMagicNumber
-
-            if (File.Exists(lastsavefile))
-            {
-                using (FileStream fs = new FileStream(lastsavefile, FileMode.Open, FileAccess.Write))
-                {
-                    if (fs.Length >= 0x2C)
-                    {
-                        fs.Seek(0x28, SeekOrigin.Begin); // Move to offset 0x28
-                        fs.Write(fileMagicNumber, 0, fileMagicNumber.Length); // Overwrite 4 bytes
-                    }
-                }
-            }
+            // Replace with magic - Deprecated
 
             // Do Universal Header
-            if (checkBox_UniversalHeader.Checked)
-            { UniversalHeaderOverride(); }
-            else { }
         }
 
         private byte[] ReplaceBytesAtOffset(byte[] data, int offset, byte[] newBytes)
@@ -748,58 +731,6 @@ namespace Spandex
         private void SetComboBoxSelection(byte[] magicNumber)
         {
 
-        }
-
-        private void UniversalHeaderOverride()
-        {
-            byte[] fileBytes = File.ReadAllBytes(lastsavefile);
-
-            string fileExtension = Path.GetExtension(lastsavefile).ToLower();
-
-            byte[] headerBytes = GetHeaderBytes(fileExtension, fileBytes);
-
-            if (headerBytes == null)
-            {
-                MessageBox.Show("Checked null");
-                return;
-            }
-
-            // Replace the start of the file with the new headerBytes
-            int overrideLength = Math.Min(headerBytes.Length, fileBytes.Length);
-            Array.Copy(headerBytes, 0, fileBytes, 0, overrideLength);
-
-            File.WriteAllBytes(lastsavefile, fileBytes);
-        }
-
-        private static byte[] GetHeaderBytes(string fileExtension, byte[] fileBytes)
-        {
-            // Skip 36 bytes more because of the default header
-            byte[] sizeBytes = fileBytes.Skip(8 + 36).Take(3).ToArray();
-
-            // We just need .materialgraph and .nodegraph for Spandex
-            var headerDictionary = new Dictionary<string, (byte[] header, byte[] additionalBytes)>
-            {
-                {
-                    ".materialgraph", (
-                        new byte[] { 0x5B, 0xDC, 0x1A, 0x1C, 0x00, 0x01, 0x00, 0x00 },
-                        new byte[] { 0x40, 0x71, 0x55, 0x00, 0x10, 0x0C, 0x53, 0x77, 0xBA, 0x00, 0x04, 0x10, 0x00, 0x40, 0x10, 0x00, 0x80, 0x45, 0x0D, 0x00, 0x10, 0x4C, 0x51, 0x00, 0x80 }
-                    )
-                },
-                {
-                    ".material", (
-                        new byte[] { 0x68, 0x67, 0x6C, 0x4C, 0x00, 0x01, 0x00, 0x00 },
-                        new byte[] { 0x80, 0x7F, 0x00, 0x00, 0x10, 0x6A, 0xF6, 0xB1, 0x28, 0x00, 0x02, 0x00, 0x00, 0x40, 0x04, 0x00, 0x00, 0xC9, 0x09, 0x00, 0x10, 0x00, 0x37, 0x00, 0x00 }
-                    )
-                }
-            };
-
-            if (headerDictionary.ContainsKey(fileExtension))
-            {
-                var (header, additionalBytes) = headerDictionary[fileExtension];
-                return header.Concat(sizeBytes).Concat(additionalBytes).ToArray();
-            }
-
-            return null;
         }
 
 
