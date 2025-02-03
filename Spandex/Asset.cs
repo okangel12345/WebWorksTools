@@ -302,7 +302,6 @@ namespace Spiderman
                 Array.Copy(newbinary, 0x4, sizeBytes, 0, 4);
 
                 string sizeBytesHex = BitConverter.ToString(sizeBytes).Replace("-", " ");
-                MessageBox.Show(sizeBytesHex);
 
                 Array.Copy(headerSM2, 0, newbinary, 0, 32);
 

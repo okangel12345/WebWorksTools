@@ -74,14 +74,6 @@ namespace Spandex
         //------------------------------------------------------------------------------------------
         private void openbutton_Click(object sender, EventArgs e)
         {
-            var r = MessageBox.Show("MSM2 materials currently have issues with Spandex, are you sure you want to continue?",
-                                    "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (r != DialogResult.Yes)
-            {
-                return;
-            }
-
             try
             {
                 Open();
