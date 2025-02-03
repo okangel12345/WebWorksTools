@@ -1150,7 +1150,7 @@ namespace WebWorks
         {
             using (var f = new OpenFileDialog())
             {
-                f.Filter = "Supported Assets|*.texture;*.material;*.config;*.json";
+                f.Filter = "Supported Assets|*.atmosphere;*.texture;*.material;*.config;*.json";
                 f.Title = "Open asset...";
 
                 if (f.ShowDialog() == DialogResult.OK)
@@ -1376,6 +1376,11 @@ namespace WebWorks
                 case ".json":
                     SetEnvironment.ConfigWeaver();
                     SetEnvironment.configWeaver?.Open(filePath);
+                    skipHome = true;
+                    break;
+                case ".atmosphere":
+                    SetEnvironment.WeatherTuner();
+                    SetEnvironment.weatherTuner?.Open(filePath);
                     skipHome = true;
                     break;
 

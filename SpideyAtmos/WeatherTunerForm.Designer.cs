@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeatherTunerForm));
             AtmosphereValues_grid = new DataGridView();
             Names = new DataGridViewTextBoxColumn();
             Type = new DataGridViewTextBoxColumn();
@@ -52,8 +53,22 @@
             textBox_Path1 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            colorDialog1 = new ColorDialog();
+            sharpColorPicker1 = new SharpColorPicker.SharpColorPicker();
+            textBox_Red = new TextBox();
+            textBox_Green = new TextBox();
+            textBox_Blue = new TextBox();
+            textBox_Hexadecimal = new TextBox();
+            label4 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)AtmosphereValues_grid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AtmosphereHashes_grid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // AtmosphereValues_grid
@@ -66,7 +81,7 @@
             AtmosphereValues_grid.Columns.AddRange(new DataGridViewColumn[] { Names, Type, Value, Description, Offset });
             AtmosphereValues_grid.Location = new Point(12, 70);
             AtmosphereValues_grid.Name = "AtmosphereValues_grid";
-            AtmosphereValues_grid.Size = new Size(625, 525);
+            AtmosphereValues_grid.Size = new Size(625, 688);
             AtmosphereValues_grid.TabIndex = 0;
             // 
             // Names
@@ -187,7 +202,7 @@
             Search_Textbox.Location = new Point(12, 41);
             Search_Textbox.Name = "Search_Textbox";
             Search_Textbox.PlaceholderText = "Search...";
-            Search_Textbox.Size = new Size(625, 23);
+            Search_Textbox.Size = new Size(599, 23);
             Search_Textbox.TabIndex = 6;
             Search_Textbox.KeyUp += Search_Textbox_KeyUp;
             // 
@@ -195,20 +210,22 @@
             // 
             checkBox_Normalize.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             checkBox_Normalize.AutoSize = true;
-            checkBox_Normalize.Location = new Point(922, 388);
+            checkBox_Normalize.ForeColor = SystemColors.Control;
+            checkBox_Normalize.Location = new Point(988, 345);
             checkBox_Normalize.Name = "checkBox_Normalize";
             checkBox_Normalize.Size = new Size(80, 19);
             checkBox_Normalize.TabIndex = 15;
             checkBox_Normalize.Text = "Normalize";
             checkBox_Normalize.UseVisualStyleBackColor = true;
             checkBox_Normalize.Visible = false;
+            checkBox_Normalize.CheckedChanged += checkBox_Normalize_CheckedChanged;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.ButtonShadow;
-            label3.Location = new Point(641, 437);
+            label3.Location = new Point(641, 441);
             label3.Name = "label3";
             label3.Size = new Size(110, 15);
             label3.TabIndex = 14;
@@ -221,7 +238,7 @@
             textBox_Hash2.BackColor = Color.FromArgb(22, 22, 22);
             textBox_Hash2.BorderStyle = BorderStyle.FixedSingle;
             textBox_Hash2.ForeColor = SystemColors.Window;
-            textBox_Hash2.Location = new Point(644, 457);
+            textBox_Hash2.Location = new Point(644, 461);
             textBox_Hash2.Name = "textBox_Hash2";
             textBox_Hash2.ReadOnly = true;
             textBox_Hash2.Size = new Size(358, 23);
@@ -233,7 +250,7 @@
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.ButtonShadow;
-            label2.Location = new Point(641, 389);
+            label2.Location = new Point(641, 393);
             label2.Name = "label2";
             label2.Size = new Size(83, 15);
             label2.TabIndex = 12;
@@ -246,7 +263,7 @@
             textBox_Hash1.BackColor = Color.FromArgb(22, 22, 22);
             textBox_Hash1.BorderStyle = BorderStyle.FixedSingle;
             textBox_Hash1.ForeColor = SystemColors.Window;
-            textBox_Hash1.Location = new Point(644, 409);
+            textBox_Hash1.Location = new Point(644, 413);
             textBox_Hash1.Name = "textBox_Hash1";
             textBox_Hash1.ReadOnly = true;
             textBox_Hash1.Size = new Size(358, 23);
@@ -258,7 +275,7 @@
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(641, 341);
+            label1.Location = new Point(641, 345);
             label1.Name = "label1";
             label1.Size = new Size(34, 15);
             label1.TabIndex = 10;
@@ -271,7 +288,7 @@
             textBox_Path1.BackColor = Color.FromArgb(22, 22, 22);
             textBox_Path1.BorderStyle = BorderStyle.FixedSingle;
             textBox_Path1.ForeColor = SystemColors.Window;
-            textBox_Path1.Location = new Point(644, 361);
+            textBox_Path1.Location = new Point(644, 365);
             textBox_Path1.Name = "textBox_Path1";
             textBox_Path1.PlaceholderText = "Path to .texture, .material, etc.";
             textBox_Path1.Size = new Size(424, 23);
@@ -282,7 +299,7 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(1008, 409);
+            button1.Location = new Point(1008, 413);
             button1.Name = "button1";
             button1.Size = new Size(60, 23);
             button1.TabIndex = 16;
@@ -294,7 +311,7 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button2.Location = new Point(1008, 457);
+            button2.Location = new Point(1008, 461);
             button2.Name = "button2";
             button2.Size = new Size(60, 23);
             button2.TabIndex = 17;
@@ -303,12 +320,156 @@
             button2.Visible = false;
             button2.Click += button2_Click;
             // 
+            // sharpColorPicker1
+            // 
+            sharpColorPicker1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            sharpColorPicker1.Color = Color.White;
+            sharpColorPicker1.Location = new Point(643, 492);
+            sharpColorPicker1.Margin = new Padding(4, 3, 4, 3);
+            sharpColorPicker1.Name = "sharpColorPicker1";
+            sharpColorPicker1.Size = new Size(248, 235);
+            sharpColorPicker1.TabIndex = 18;
+            sharpColorPicker1.Visible = false;
+            sharpColorPicker1.ColorChanged += sharpColorPicker1_ColorChanged;
+            // 
+            // textBox_Red
+            // 
+            textBox_Red.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            textBox_Red.BackColor = Color.FromArgb(22, 22, 22);
+            textBox_Red.BorderStyle = BorderStyle.FixedSingle;
+            textBox_Red.ForeColor = SystemColors.ActiveBorder;
+            textBox_Red.Location = new Point(898, 512);
+            textBox_Red.Name = "textBox_Red";
+            textBox_Red.Size = new Size(169, 23);
+            textBox_Red.TabIndex = 19;
+            textBox_Red.Visible = false;
+            textBox_Red.KeyUp += textBox_Color_KeyUp;
+            // 
+            // textBox_Green
+            // 
+            textBox_Green.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            textBox_Green.BackColor = Color.FromArgb(22, 22, 22);
+            textBox_Green.BorderStyle = BorderStyle.FixedSingle;
+            textBox_Green.ForeColor = SystemColors.ActiveBorder;
+            textBox_Green.Location = new Point(898, 558);
+            textBox_Green.Name = "textBox_Green";
+            textBox_Green.Size = new Size(169, 23);
+            textBox_Green.TabIndex = 20;
+            textBox_Green.Visible = false;
+            textBox_Green.KeyUp += textBox_Color_KeyUp;
+            // 
+            // textBox_Blue
+            // 
+            textBox_Blue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            textBox_Blue.BackColor = Color.FromArgb(22, 22, 22);
+            textBox_Blue.BorderStyle = BorderStyle.FixedSingle;
+            textBox_Blue.ForeColor = SystemColors.ActiveBorder;
+            textBox_Blue.Location = new Point(898, 606);
+            textBox_Blue.Name = "textBox_Blue";
+            textBox_Blue.Size = new Size(169, 23);
+            textBox_Blue.TabIndex = 21;
+            textBox_Blue.Visible = false;
+            textBox_Blue.KeyUp += textBox_Color_KeyUp;
+            // 
+            // textBox_Hexadecimal
+            // 
+            textBox_Hexadecimal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            textBox_Hexadecimal.BackColor = Color.FromArgb(22, 22, 22);
+            textBox_Hexadecimal.BorderStyle = BorderStyle.FixedSingle;
+            textBox_Hexadecimal.ForeColor = SystemColors.ActiveBorder;
+            textBox_Hexadecimal.Location = new Point(898, 695);
+            textBox_Hexadecimal.Name = "textBox_Hexadecimal";
+            textBox_Hexadecimal.Size = new Size(169, 23);
+            textBox_Hexadecimal.TabIndex = 22;
+            textBox_Hexadecimal.Visible = false;
+            textBox_Hexadecimal.KeyUp += textBox_Color_KeyUp;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.ForeColor = SystemColors.ButtonShadow;
+            label4.Location = new Point(895, 494);
+            label4.Name = "label4";
+            label4.Size = new Size(65, 15);
+            label4.TabIndex = 23;
+            label4.Text = "Red (float):";
+            label4.Visible = false;
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label5.AutoSize = true;
+            label5.ForeColor = SystemColors.ButtonShadow;
+            label5.Location = new Point(895, 540);
+            label5.Name = "label5";
+            label5.Size = new Size(76, 15);
+            label5.TabIndex = 24;
+            label5.Text = "Green (float):";
+            label5.Visible = false;
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label6.AutoSize = true;
+            label6.ForeColor = SystemColors.ButtonShadow;
+            label6.Location = new Point(895, 586);
+            label6.Name = "label6";
+            label6.Size = new Size(68, 15);
+            label6.TabIndex = 25;
+            label6.Text = "Blue (float):";
+            label6.Visible = false;
+            // 
+            // label7
+            // 
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label7.AutoSize = true;
+            label7.ForeColor = SystemColors.Control;
+            label7.Location = new Point(895, 677);
+            label7.Name = "label7";
+            label7.Size = new Size(79, 15);
+            label7.TabIndex = 26;
+            label7.Text = "Hexadecimal:";
+            label7.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox1.Location = new Point(643, 731);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(424, 27);
+            pictureBox1.TabIndex = 27;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pictureBox2.BackgroundImage = Properties.Resources.Search;
+            pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox2.Location = new Point(617, 41);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(20, 23);
+            pictureBox2.TabIndex = 28;
+            pictureBox2.TabStop = false;
+            // 
             // WeatherTunerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(12, 12, 12);
-            ClientSize = new Size(1079, 607);
+            ClientSize = new Size(1079, 770);
+            Controls.Add(pictureBox2);
+            Controls.Add(pictureBox1);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(textBox_Hexadecimal);
+            Controls.Add(textBox_Blue);
+            Controls.Add(textBox_Green);
+            Controls.Add(textBox_Red);
+            Controls.Add(sharpColorPicker1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(checkBox_Normalize);
@@ -324,10 +485,13 @@
             Controls.Add(SaveAtmosphere_Button);
             Controls.Add(LoadAtmosphere_Button);
             Controls.Add(AtmosphereValues_grid);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WeatherTunerForm";
-            Text = "Form1";
+            Text = "Weather Tuner";
             ((System.ComponentModel.ISupportInitialize)AtmosphereValues_grid).EndInit();
             ((System.ComponentModel.ISupportInitialize)AtmosphereHashes_grid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -357,5 +521,17 @@
         private TextBox textBox_Path1;
         private Button button1;
         private Button button2;
+        private ColorDialog colorDialog1;
+        private SharpColorPicker.SharpColorPicker sharpColorPicker1;
+        private TextBox textBox_Red;
+        private TextBox textBox_Green;
+        private TextBox textBox_Blue;
+        private TextBox textBox_Hexadecimal;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
     }
 }

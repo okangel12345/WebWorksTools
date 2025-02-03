@@ -14,6 +14,19 @@ namespace WeatherTuner
             Int
         }
 
+        // Atmosphere definitions
+        //------------------------------------------------------------------------------------------
+        // Hello there! These are the atmosphere definitions. I've divided them into two sections.
+        // One for numerical values, and another for hashes (so it's easier to work with them).
+        //
+        // Offsets are relative to the beginning of the atmosphere content section (only section
+        // in MSM2 atmospheres).
+        //
+        // You can update any definition here and it'll show up in the list. Most definitions are
+        // grouped together in the .atmosphere file, so we use "settingsRanges" to group settings
+        // between a minimum and maximum offset.
+        //------------------------------------------------------------------------------------------
+
         public static List<(string Name, int Address, t value, string Description)> Values = new() {
             // Key Light settings
             //--------------------------------------------------------------------------------------
@@ -347,7 +360,7 @@ namespace WeatherTuner
         };
 
         public static List<(string Name, int Address, string Description)> Hashes = new() {
-            ("Sky Box Image (hash)", 56, ""),
+            ("Sky Box Image", 56, ""),
             ("Key Light Material", 168, ""),
             ("Dirtness Texture", 1384, ""),
             ("LUT Path (Deprecated)", 1592, ""),
@@ -357,7 +370,7 @@ namespace WeatherTuner
             ("Splashing Texture", 280, ""),
             ("Porosity Texture", 304, ""),
             ("Streak Texture", 328, ""),
-            ("Particles material", 1136, ""),
+            ("Particles Material", 1136, ""),
         };
     }
 }

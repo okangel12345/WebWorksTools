@@ -501,6 +501,7 @@
             // 
             // ToolStrip_WeatherTuner
             // 
+            ToolStrip_WeatherTuner.Image = ApplicationIcons.WeatherTuner_PNG;
             ToolStrip_WeatherTuner.Name = "ToolStrip_WeatherTuner";
             ToolStrip_WeatherTuner.ShortcutKeys = Keys.Control | Keys.D6;
             ToolStrip_WeatherTuner.Size = new Size(218, 22);
