@@ -2,6 +2,7 @@ using Spiderman;
 using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
+using WebWorksCore;
 
 namespace Spandex
 {
@@ -176,7 +177,8 @@ namespace Spandex
 
 
                 // Find 1TAD marker and get the magic
-                int dat1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(originalBinary);
+                AssetManager _material = new AssetManager(originalBinary);
+                int dat1Offset = _material._DAT1Offset;
 
                 if (dat1Offset >= 0 && originalBinary.Length >= dat1Offset + 8)
                 {

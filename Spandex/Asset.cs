@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebWorksCore;
 
 namespace Spiderman
 {
@@ -14,6 +15,8 @@ namespace Spiderman
     {
         public byte[] binary;
         public byte[] newbinary;
+
+        private static AssetManager _material;
 
         public byte[] headerSM2;
         public bool isMSM2;
@@ -35,9 +38,11 @@ namespace Spiderman
             binary = File.ReadAllBytes(filename);
             assetfile = filename;
 
+            _material = new AssetManager(binary);
+
             // Header trick for SM2 - TODO: find a better approach
             //--------------------------------------------------------------------------------------
-            int offset = WebWorksCore.AssetUtilities.Find1TADMarker(binary);
+            int offset = _material._DAT1Offset;
 
             if (offset != -1 && binary.Length >= offset + 8)
             {

@@ -1,4 +1,6 @@
-﻿namespace SpideyTextureScaler
+﻿using WebWorksCore;
+
+namespace SpideyTextureScaler
 {
     public class Source : TextureBase
     {
@@ -56,7 +58,8 @@
                 return false;
             }
 
-            int DAT1Offset = WebWorksCore.AssetUtilities.Find1TADMarker(File.ReadAllBytes(Filename));
+            AssetManager _texture = new AssetManager(File.ReadAllBytes(Filename));
+            int DAT1Offset = _texture._DAT1Offset;
 
             using (var fs = File.Open(Filename, FileMode.Open, FileAccess.Read))
 

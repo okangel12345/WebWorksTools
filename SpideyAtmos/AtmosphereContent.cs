@@ -20,14 +20,17 @@ namespace WeatherTuner
         static byte[] sectionContent;
         static int sectionOffset;
 
+        private static AssetManager _atmosphere;
+
         public static void LoadAtmosphere(string atmospherePath)
         {
             try
             {
                 fileBytes = File.ReadAllBytes(atmospherePath);
-                var assetType = AssetUtilities.CheckAssetType(fileBytes);
+                _atmosphere = new AssetManager(fileBytes);
 
-                if (assetType != AssetUtilities.AssetType.MSM2_Atmosphere)
+                if (_atmosphere._assetType != AssetManager.AssetType.Atmosphere &&
+                    _atmosphere._assetGame != AssetManager.AssetGame.MSM2)
                 {
                     MessageBox.Show("Not a MSM2 atmosphere file! Expected MAGIC = 0x4FBCF482", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -39,8 +42,8 @@ namespace WeatherTuner
                 return;
             }
 
-            sectionContent = AssetUtilities.GetAssetSection(fileBytes, sectionID);
-            sectionOffset = AssetUtilities.GetAssetSectionOffset(fileBytes, sectionID);
+            sectionContent = _atmosphere.GetAssetSection(sectionID);
+            sectionOffset = _atmosphere.GetAssetSectionOffset(sectionID);
 
             var AtmosphereValues_grid = WeatherTunerForm.Instance.AtmosphereValues_grid;
             var AtmosphereHashes_grid = WeatherTunerForm.Instance.AtmosphereHashes_grid;

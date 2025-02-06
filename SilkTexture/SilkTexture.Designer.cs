@@ -145,7 +145,6 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
@@ -169,7 +168,7 @@
             dataGridView1.RowHeadersWidth = 72;
             dataGridView1.RowTemplate.Height = 37;
             dataGridView1.ShowEditingIcon = false;
-            dataGridView1.Size = new Size(885, 84);
+            dataGridView1.Size = new Size(843, 84);
             dataGridView1.TabIndex = 7;
             // 
             // nameDataGridViewTextBoxColumn
@@ -285,7 +284,7 @@
             statusgroup.Margin = new Padding(2);
             statusgroup.Name = "statusgroup";
             statusgroup.Padding = new Padding(2);
-            statusgroup.Size = new Size(673, 146);
+            statusgroup.Size = new Size(631, 146);
             statusgroup.TabIndex = 8;
             statusgroup.TabStop = false;
             statusgroup.Text = "Log";
@@ -302,7 +301,7 @@
             outputbox.Name = "outputbox";
             outputbox.ReadOnly = true;
             outputbox.ScrollBars = ScrollBars.Vertical;
-            outputbox.Size = new Size(655, 114);
+            outputbox.Size = new Size(613, 114);
             outputbox.TabIndex = 0;
             // 
             // sourcelabel
@@ -365,7 +364,6 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(ddsfilenamelabel);
             groupBox1.Controls.Add(sourcelabel);
             groupBox1.Controls.Add(saveddsbutton);
@@ -374,7 +372,7 @@
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2);
-            groupBox1.Size = new Size(885, 84);
+            groupBox1.Size = new Size(843, 84);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             groupBox1.Text = "Source";
@@ -390,21 +388,19 @@
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(ddslabel);
             groupBox2.Controls.Add(ddsbutton);
             groupBox2.Location = new Point(14, 100);
             groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(2);
-            groupBox2.Size = new Size(885, 60);
+            groupBox2.Size = new Size(843, 60);
             groupBox2.TabIndex = 12;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modified Texture";
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox3.Controls.Add(hdlabel);
             groupBox3.Controls.Add(label1);
             groupBox3.Controls.Add(extrasdctl);
@@ -418,7 +414,7 @@
             groupBox3.Margin = new Padding(2);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(2);
-            groupBox3.Size = new Size(885, 204);
+            groupBox3.Size = new Size(843, 204);
             groupBox3.TabIndex = 13;
             groupBox3.TabStop = false;
             groupBox3.Text = "Modified Output";
@@ -471,7 +467,7 @@
             // 
             // groupBox4
             // 
-            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox4.Controls.Add(label3);
             groupBox4.Controls.Add(numericUpDown_batchExtrasd);
             groupBox4.Controls.Add(checkBox_batchIgnoreFormat);
@@ -483,7 +479,7 @@
             groupBox4.Controls.Add(data_Batch);
             groupBox4.Location = new Point(14, 461);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(885, 276);
+            groupBox4.Size = new Size(843, 276);
             groupBox4.TabIndex = 14;
             groupBox4.TabStop = false;
             groupBox4.Text = "Batch conversion";
@@ -520,7 +516,7 @@
             // btn_batchFolderChoose
             // 
             btn_batchFolderChoose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_batchFolderChoose.Location = new Point(760, 22);
+            btn_batchFolderChoose.Location = new Point(718, 22);
             btn_batchFolderChoose.Name = "btn_batchFolderChoose";
             btn_batchFolderChoose.Size = new Size(116, 23);
             btn_batchFolderChoose.TabIndex = 6;
@@ -576,7 +572,7 @@
             data_Batch.Columns.AddRange(new DataGridViewColumn[] { batchTexturePath, batchDDSPath, batchOutputDir, btn_batchClearRow });
             data_Batch.Location = new Point(14, 81);
             data_Batch.Name = "data_Batch";
-            data_Batch.Size = new Size(862, 189);
+            data_Batch.Size = new Size(820, 189);
             data_Batch.TabIndex = 0;
             data_Batch.CellClick += data_Batch_CellClick;
             data_Batch.CellDoubleClick += data_Batch_CellDoubleClick;
@@ -617,7 +613,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(22, 22, 22);
-            ClientSize = new Size(911, 749);
+            ClientSize = new Size(869, 749);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);

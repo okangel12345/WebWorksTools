@@ -117,6 +117,11 @@ namespace SpideyTextureScaler
 
         private void saveddsbutton_Click(object sender, EventArgs e)
         {
+            SaveAsDDS();
+        }
+
+        private void SaveAsDDS(PictureBox pictureBox = null, bool showInPictureBox = false)
+        {
             var tex = (Source)program.texturestats[0];
             var savedds = new DDS();
             savedds.Filename = Path.ChangeExtension(tex.Filename, ".dds");
@@ -152,8 +157,18 @@ namespace SpideyTextureScaler
                 }
             }
 
-            savedds.Write(hdmips, tex.mipmaps, out output);
-            outputbox.Text = output;
+            if (showInPictureBox)
+            {
+                // Convert DDS to Bitmap and display in PictureBox
+                Bitmap bitmap = ConvertDDSToBitmap(savedds, hdmips, tex.mipmaps);
+                pictureBox.Image = bitmap;
+            }
+            else
+            {
+                // Save DDS to file
+                savedds.Write(hdmips, tex.mipmaps, out output);
+                outputbox.Text = output;
+            }
         }
 
         private void ddsbutton_Click(object sender, EventArgs e)
