@@ -65,7 +65,10 @@ namespace WebWorks.Utilities
                 }
             }
 
-            catch { }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Error: " + ex);
+            }
 
             static void Align16(BinaryWriter w)
             {
@@ -101,6 +104,8 @@ namespace WebWorks.Utilities
             for (int i = 0; i < assetPaths.Length; i++)
             {
                 string assetPath = Path.Combine(stagePath, $"{spans[i]}", assetPaths[i]);
+                string assetDir = Path.GetDirectoryName(assetPath);
+                if (!Directory.Exists(assetDir)) Directory.CreateDirectory(assetDir);
                 ExtractAsset(assetIDs[i], spans[i], assetPath, _toc);
             }
         }
