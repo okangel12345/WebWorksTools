@@ -627,6 +627,7 @@
             ToolStrip_CopyPath.BackColor = Color.Black;
             ToolStrip_CopyPath.ForeColor = SystemColors.Control;
             ToolStrip_CopyPath.Name = "ToolStrip_CopyPath";
+            ToolStrip_CopyPath.ShortcutKeys = Keys.Control | Keys.C;
             ToolStrip_CopyPath.Size = new Size(214, 22);
             ToolStrip_CopyPath.Text = "Copy path";
             ToolStrip_CopyPath.Click += ToolStrip_CopyPath_Click;

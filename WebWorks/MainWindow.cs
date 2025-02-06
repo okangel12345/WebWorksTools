@@ -405,6 +405,7 @@ namespace WebWorks
                         // Set Modding Tool environment
                         menuStrip1.Visible = true;
                         SetEnvironment.ModdingTool();
+                        ToolStrip_GeneralSettings_MouseEnter();
                     });
                 }
                 catch (Exception ex)
@@ -795,7 +796,7 @@ namespace WebWorks
         // Handle user's input across the Main Window form
         //
         //------------------------------------------------------------------------------------------
-        private void ToolStrip_GeneralSettings_MouseEnter(object sender, EventArgs e)
+        private void ToolStrip_GeneralSettings_MouseEnter(object sender = null, EventArgs e = null)
         {
             int replacedAssetsCount = _replacedAssets.Count;
             int addedAssetsCount = _addedAssets.Count;
@@ -863,6 +864,14 @@ namespace WebWorks
         { SetEnvironment.Home(); }
         private void ToolStrip_Information_Click(object sender, EventArgs e)
         { SetEnvironment.Information(); }
+        private void ToolStrip_ModelToolGUI_Click(object sender, EventArgs e)
+        { SetEnvironment.ModelToolGUI(); }
+
+        private void ToolStrip_ConfigWeaver_Click(object sender, EventArgs e)
+        { SetEnvironment.ConfigWeaver(); }
+
+        private void ToolStrip_WeatherTuner_Click(object sender, EventArgs e)
+        { SetEnvironment.WeatherTuner(); }
 
         // Extract
         private void ToolStrip_ExtractToStage_Click(object sender, EventArgs e)
@@ -1129,6 +1138,12 @@ namespace WebWorks
             if (e.Control && e.KeyCode == Keys.E)
             {
                 ToolStrip_ExtractSelected_Click(sender, e);
+            }
+
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                e.SuppressKeyPress = true;
+                ToolStrip_CopyPath_Click(sender, e);
             }
         }
 
@@ -1404,21 +1419,6 @@ namespace WebWorks
             {
                 SetEnvironment.Home();
             }
-        }
-
-        private void ToolStrip_ModelToolGUI_Click(object sender, EventArgs e)
-        {
-            SetEnvironment.ModelToolGUI();
-        }
-
-        private void ToolStrip_ConfigWeaver_Click(object sender, EventArgs e)
-        {
-            SetEnvironment.ConfigWeaver();
-        }
-
-        private void ToolStrip_WeatherTuner_Click(object sender, EventArgs e)
-        {
-            SetEnvironment.WeatherTuner();
         }
 
         private int lastSortedColumn = -1;
