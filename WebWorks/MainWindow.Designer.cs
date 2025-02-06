@@ -152,6 +152,7 @@
             dataGridView_Files.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView_Files.Size = new Size(624, 508);
             dataGridView_Files.TabIndex = 2;
+            dataGridView_Files.ColumnHeaderMouseClick += SortBySize_MouseClick;
             dataGridView_Files.KeyDown += CommandsDataGrid;
             dataGridView_Files.MouseClick += OpenContextMenu;
             // 

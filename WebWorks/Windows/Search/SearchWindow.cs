@@ -137,5 +137,10 @@ namespace WebWorks.Windows.Search
 
             mainWindow.JumpTo(path);
         }
+
+        private void dataGridView_Files_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            MainWindow.Instance.SortBySize_MouseClick(sender, e);
+        }
     }
 }

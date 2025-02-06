@@ -145,6 +145,7 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
@@ -364,6 +365,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(ddsfilenamelabel);
             groupBox1.Controls.Add(sourcelabel);
             groupBox1.Controls.Add(saveddsbutton);
@@ -388,6 +390,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(ddslabel);
             groupBox2.Controls.Add(ddsbutton);
             groupBox2.Location = new Point(14, 100);
@@ -401,6 +404,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox3.Controls.Add(hdlabel);
             groupBox3.Controls.Add(label1);
             groupBox3.Controls.Add(extrasdctl);
@@ -467,7 +471,7 @@
             // 
             // groupBox4
             // 
-            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox4.Controls.Add(label3);
             groupBox4.Controls.Add(numericUpDown_batchExtrasd);
             groupBox4.Controls.Add(checkBox_batchIgnoreFormat);
@@ -623,7 +627,7 @@
             Margin = new Padding(2);
             MinimumSize = new Size(640, 607);
             Name = "SpideyTexture";
-            Text = "SpideyTextureScaler";
+            Text = "SilkTexture";
             Load += SpideyTexture_Load;
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

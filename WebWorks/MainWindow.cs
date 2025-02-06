@@ -1420,5 +1420,43 @@ namespace WebWorks
         {
             SetEnvironment.WeatherTuner();
         }
+
+        private int lastSortedColumn = -1;
+        private SortOrder lastSortOrder = SortOrder.None;
+        public void SortBySize_MouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (GetCurrentAssets.DataGridView().Columns[e.ColumnIndex].Name != "Size")
+            {
+                if (lastSortedColumn != -1)
+                {
+                    GetCurrentAssets.DataGridView().Columns[lastSortedColumn].HeaderCell.SortGlyphDirection = SortOrder.None;
+                    lastSortedColumn = -1;
+                    lastSortOrder = SortOrder.None;
+                }
+                return;
+            }
+
+            if (e.ColumnIndex == lastSortedColumn)
+            {
+                if (lastSortOrder == SortOrder.Ascending)
+                    lastSortOrder = SortOrder.Descending;
+                else if (lastSortOrder == SortOrder.Descending)
+                    lastSortOrder = SortOrder.None;
+                else
+                    lastSortOrder = SortOrder.Ascending;
+            }
+            else
+            {
+                lastSortedColumn = e.ColumnIndex;
+                lastSortOrder = SortOrder.Ascending;
+            }
+
+            if (lastSortOrder != SortOrder.None)
+            {
+                GetCurrentAssets.DataGridView().Sort(new SizeComparer(e.ColumnIndex, lastSortOrder));
+            }
+
+            GetCurrentAssets.DataGridView().Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = lastSortOrder;
+        }
     }
 }
