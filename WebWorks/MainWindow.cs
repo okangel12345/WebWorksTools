@@ -8,8 +8,6 @@ using WebWorks.Utilities;
 using WebWorks.Windows;
 using WebWorks.Windows.Tools;
 using WebWorks.Windows.Asserts;
-using WebWorks.Windows;
-using WebWorks.Utilities;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -368,20 +366,16 @@ namespace WebWorks
             // Set home environment
             SetEnvironment.Home();
 
-            // Load original TOC file (toc.BAK) created by Overstrike
-            if (!settings._loadtocModded)
-            {
-                string gameFolder = Path.GetDirectoryName(path);
-                string backupTOC = Path.Combine(gameFolder, "toc.BAK");
+            string gameFolder = Path.GetDirectoryName(path);
+            string backupTOC = Path.Combine(gameFolder, "toc.BAK");
 
-                if (File.Exists(backupTOC))
-                {
-                    tocPath = backupTOC;
-                }
-                else
-                {
-                    tocPath = path;
-                }
+            if (File.Exists(backupTOC))
+            {
+                tocPath = backupTOC;
+            }
+            else
+            {
+                tocPath = path;
             }
 
             // Verify file exists
@@ -1111,7 +1105,8 @@ namespace WebWorks
                     ToolStrip_ReplaceAsset.Visible = true;
                 }
 
-                dataGridView.CurrentCell = dataGridView[hitTestInfo.ColumnIndex, hitTestInfo.RowIndex];
+                int rowIndex = hitTestInfo.RowIndex;
+                dataGridView.CurrentCell = dataGridView[0, rowIndex];
 
                 string assetType = Path.GetExtension(dataGridView.CurrentCell.Value?.ToString() ?? string.Empty);
 

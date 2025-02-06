@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebWorks.Windows;
 using WebWorks.Windows.Tools;
+using Spiderman;
 
 namespace WebWorks.Utilities
 {
@@ -108,54 +109,71 @@ namespace WebWorks.Utilities
         //------------------------------------------------------------------------------------------
         public static void ExtractAsDDS()
         {
-            string tempName = "temp_asset";
-            string tempTexture = tempName + ".texture";
-            string tempHDTexture = tempName + ".hd.texture";
-            string tempDDS = tempName + ".dds";
-            string assetName = Path.GetFileNameWithoutExtension(GetCurrentAssets.Names()[0]) + ".dds";
+            string[] assetNames = GetCurrentAssets.Names();
+            ulong[] assetIDs = GetCurrentAssets.IDs();
+
+            if (assetNames.Length == 0 || assetIDs.Length == 0)
+            {
+                MessageBox.Show("No assets found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             using (var saveFileDialog = new SaveFileDialog
             {
                 Title = "Save .dds file",
-                Filter = "DDS Files (*.dds)|*.txt|All Files (*.*)|*.*",
-                FileName = assetName,
+                Filter = "DDS Files (*.dds)|*.dds|All Files (*.*)|*.*",
+                FileName = Path.GetFileNameWithoutExtension(assetNames[0]) + ".dds",
                 AddExtension = true
             })
             {
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+
+                string workingDirectory = Path.GetDirectoryName(saveFileDialog.FileName);
+
+                foreach (var assetIndex in Enumerable.Range(0, assetNames.Length))
                 {
-                    string finalName = Path.GetFileName(saveFileDialog.FileName);
-                    string workingDirectory = Path.GetDirectoryName(saveFileDialog.FileName);
-                    string silkInput = Path.Combine(workingDirectory, tempTexture);
-                    string silkHD = Path.Combine(workingDirectory, tempHDTexture);
+                    string assetBaseName = Path.GetFileNameWithoutExtension(assetNames[assetIndex]);
+                    string tempTexture = Path.Combine(workingDirectory, assetBaseName + ".texture");
+                    string tempHDTexture = Path.Combine(workingDirectory, assetBaseName + ".hd.texture");
+                    string tempDDS = Path.Combine(workingDirectory, assetBaseName + ".dds");
+                    string finalDDS = Path.Combine(workingDirectory, assetBaseName + ".dds");
 
                     try
                     {
-                        ExtractAsset(GetCurrentAssets.IDs()[0], 0, silkInput, MainWindow._toc);
-                        ExtractAsset(GetCurrentAssets.IDs()[0], 1, silkHD, MainWindow._toc);
+                        ExtractAsset(assetIDs[assetIndex], 0, tempTexture, MainWindow._toc);
+                        ExtractAsset(assetIDs[assetIndex], 1, tempHDTexture, MainWindow._toc);
 
                         var p = new SpideyTextureScaler.Program
                         {
-                            texturestats = new List<TextureBase>
-                            {
-                                new Source(),
-                                new DDS(),
-                                new Output()
-                            }
+                            texturestats = new List<TextureBase> { new Source(), new DDS(), new Output() }
                         };
 
-                        p.Extract(new FileInfo(silkInput), new DirectoryInfo(workingDirectory), true);
+                        p.Extract(new FileInfo(tempTexture), new DirectoryInfo(workingDirectory), true);
 
-                        File.Delete(silkInput);
-                        File.Delete(silkHD);
-
-                        string tempNamePath = Path.Combine(workingDirectory, tempDDS);
-                        string finalNamePath = Path.Combine(workingDirectory, finalName);
-
-                        if (File.Exists(tempNamePath)) File.Move(tempNamePath, finalNamePath);
+                        if (File.Exists(tempDDS))
+                            File.Move(tempDDS, finalDDS, true);
                     }
-                    catch {}
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error extracting {assetBaseName}: {ex.Message}", "Extraction Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        TryDelete(tempTexture);
+                        TryDelete(tempHDTexture);
+                    }
                 }
+            }
+        }
+        private static void TryDelete(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath)) File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to delete {filePath}: {ex.Message}", "Cleanup Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

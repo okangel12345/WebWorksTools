@@ -21,7 +21,6 @@ namespace WebWorks
             textBox_AuthorName.Text = settings._authorName;
 
             check_AutoLoadToc.Checked = settings._autoloadRecent;
-            check_LoadModToc.Checked = settings._loadtocModded;
             check_ExperimentalFeatures.Checked = settings._experimentalFeatures;
 
             comboBox_PreferredGame.SelectedIndex = settings._preferredGameIndex;
@@ -57,7 +56,6 @@ namespace WebWorks
             {
                 _autoloadRecent = check_AutoLoadToc.Checked,
                 _authorName = textBox_AuthorName.Text,
-                _loadtocModded = check_LoadModToc.Checked,
                 _experimentalFeatures = check_ExperimentalFeatures.Checked,
                 _preferredGameIndex = comboBox_PreferredGame.SelectedIndex,
 

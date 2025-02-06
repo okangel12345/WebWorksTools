@@ -33,7 +33,6 @@
             textBox_AuthorName = new TextBox();
             check_AutoLoadToc = new CheckBox();
             label1 = new Label();
-            check_LoadModToc = new CheckBox();
             check_ExperimentalFeatures = new CheckBox();
             comboBox_PreferredGame = new ComboBox();
             label2 = new Label();
@@ -83,19 +82,6 @@
             label1.TabIndex = 4;
             label1.Text = "Author name:";
             // 
-            // check_LoadModToc
-            // 
-            check_LoadModToc.AutoSize = true;
-            check_LoadModToc.Checked = true;
-            check_LoadModToc.CheckState = CheckState.Checked;
-            check_LoadModToc.ForeColor = SystemColors.Control;
-            check_LoadModToc.Location = new Point(12, 94);
-            check_LoadModToc.Name = "check_LoadModToc";
-            check_LoadModToc.Size = new Size(130, 19);
-            check_LoadModToc.TabIndex = 5;
-            check_LoadModToc.Text = "Load modded TOCs";
-            check_LoadModToc.UseVisualStyleBackColor = true;
-            // 
             // check_ExperimentalFeatures
             // 
             check_ExperimentalFeatures.AutoSize = true;
@@ -140,7 +126,6 @@
             Controls.Add(label2);
             Controls.Add(comboBox_PreferredGame);
             Controls.Add(check_ExperimentalFeatures);
-            Controls.Add(check_LoadModToc);
             Controls.Add(label1);
             Controls.Add(textBox_AuthorName);
             Controls.Add(check_AutoLoadToc);
@@ -159,7 +144,6 @@
         private CheckBox check_AutoLoadToc;
         private TextBox textBox_AuthorName;
         private Label label1;
-        private CheckBox check_LoadModToc;
         private CheckBox check_ExperimentalFeatures;
         private ComboBox comboBox_PreferredGame;
         private Label label2;
