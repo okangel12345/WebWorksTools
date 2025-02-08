@@ -42,10 +42,10 @@
             // 
             panel1.BackColor = Color.Black;
             panel1.BackgroundImage = FormIcons.WebWorks_IconBlue;
-            panel1.BackgroundImageLayout = ImageLayout.Center;
-            panel1.Location = new Point(607, 68);
+            panel1.BackgroundImageLayout = ImageLayout.Zoom;
+            panel1.Location = new Point(13, 9);
             panel1.Name = "panel1";
-            panel1.Size = new Size(508, 544);
+            panel1.Size = new Size(589, 97);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -53,7 +53,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Xeroda", 42F);
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(3, 9);
+            label1.Location = new Point(5, 109);
             label1.Name = "label1";
             label1.Size = new Size(273, 56);
             label1.TabIndex = 1;
@@ -63,11 +63,12 @@
             // 
             richTextBox1.BackColor = Color.Black;
             richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.CausesValidation = false;
             richTextBox1.Font = new Font("Segoe UI", 11F);
             richTextBox1.ForeColor = SystemColors.Control;
-            richTextBox1.Location = new Point(12, 68);
+            richTextBox1.Location = new Point(13, 171);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(589, 544);
+            richTextBox1.Size = new Size(589, 307);
             richTextBox1.TabIndex = 2;
             richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -76,7 +77,7 @@
             pictureBox1.BackgroundImage = FormIcons.Github;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Location = new Point(551, 618);
+            pictureBox1.Location = new Point(549, 494);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(50, 50);
             pictureBox1.TabIndex = 3;
@@ -100,13 +101,13 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(1127, 681);
+            ClientSize = new Size(611, 556);
+            Controls.Add(label1);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(richTextBox1);
-            Controls.Add(label1);
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "InformationWindow";

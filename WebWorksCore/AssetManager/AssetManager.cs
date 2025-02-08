@@ -28,10 +28,13 @@ namespace WebWorksCore
             RCRA,
             MSM2
         }
+
+        // Define asset parameters
         //------------------------------------------------------------------------------------------
-        private readonly byte[] _assetBytes;
+        public byte[] _assetBytes;
         public AssetType _assetType { get; }
         public AssetGame _assetGame { get; }
+        public byte[] _assetHeader { get; }
         public int _DAT1Offset { get; }
 
         //------------------------------------------------------------------------------------------
@@ -45,10 +48,12 @@ namespace WebWorksCore
             // Define asset parameters
             _DAT1Offset = Find1TADMarker();
             (_assetType, _assetGame) = GetAssetType();
+            _assetHeader = GetAssetHeader();
         }
 
+        // Private method to find the "1TAD" offset in the asset
         //------------------------------------------------------------------------------------------
-        public int Find1TADMarker()
+        private int Find1TADMarker()
         {
             byte[] marker = { 0x31, 0x54, 0x41, 0x44 };
 
@@ -60,6 +65,8 @@ namespace WebWorksCore
             return -1;
         }
 
+        // Generally we can use MAGIC to identify the asset type as well as the game, it may be worth
+        // looking to use the built string instead
         //------------------------------------------------------------------------------------------
         private (AssetType, AssetGame) GetAssetType()
         {
@@ -84,8 +91,14 @@ namespace WebWorksCore
             }
         }
 
+        // Get the bytes of any asset section
         //------------------------------------------------------------------------------------------
-        public byte[] GetAssetSection(uint section)
+        public byte[] GetAssetSection(Enum sectionType)
+        {
+            return GetAssetSection(Convert.ToUInt32(sectionType));
+        }
+
+        private byte[] GetAssetSection(uint section)
         {
             if (_DAT1Offset == -1) return null;
 
@@ -108,29 +121,35 @@ namespace WebWorksCore
             return null;
         }
 
+        // Get the offset of any asset section
         //------------------------------------------------------------------------------------------
-        public int GetAssetSectionOffset(uint section)
+        public int GetAssetSectionOffset(Enum sectionType)
+        {
+            return GetAssetSectionOffset(Convert.ToUInt32(sectionType));
+        }
+        private int GetAssetSectionOffset(uint section)
         {
             if (_DAT1Offset == -1) return -1;
 
-            int offset = _DAT1Offset + 16;
+            int offset = _DAT1Offset + 16; // Skip "1TAD", MAGIC, Asset Size, and Number of Sections
             int numSections = BitConverter.ToInt32(_assetBytes, _DAT1Offset + 12);
 
             for (int i = 0; i < numSections; i++)
             {
                 int sectionIndex = offset + (i * 12);
-                uint sectionID = BitConverter.ToUInt32(_assetBytes, sectionIndex);
-                if (sectionID == section)
+                uint foundSectionID = BitConverter.ToUInt32(_assetBytes, sectionIndex);
+
+                if (foundSectionID == section)
                 {
-                    int sectionOffset = BitConverter.ToInt32(_assetBytes, sectionIndex + 4) + _DAT1Offset;
-                    return sectionOffset;
+                    return BitConverter.ToInt32(_assetBytes, sectionIndex + 4) + _DAT1Offset;
                 }
             }
             return -1;
         }
 
+        // Get the header bytes of any asset (all the bytes before 1TAD)
         //------------------------------------------------------------------------------------------
-        public byte[] GetAssetHeader()
+        private byte[] GetAssetHeader()
         {
             if (_DAT1Offset == -1)
             {

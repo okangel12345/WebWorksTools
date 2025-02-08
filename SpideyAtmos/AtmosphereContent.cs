@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebWorksCore;
+using WebWorksCore.Sections;
 
 namespace WeatherTuner
 {
@@ -16,7 +17,6 @@ namespace WeatherTuner
     {
         static byte[] fileBytes;
 
-        static uint sectionID = 0x02F06D4E;
         static byte[] sectionContent;
         static int sectionOffset;
 
@@ -29,7 +29,7 @@ namespace WeatherTuner
                 fileBytes = File.ReadAllBytes(atmospherePath);
                 _atmosphere = new AssetManager(fileBytes);
 
-                if (_atmosphere._assetType != AssetManager.AssetType.Atmosphere &&
+                if (_atmosphere._assetType != AssetManager.AssetType.Atmosphere ||
                     _atmosphere._assetGame != AssetManager.AssetGame.MSM2)
                 {
                     MessageBox.Show("Not a MSM2 atmosphere file! Expected MAGIC = 0x4FBCF482", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -42,8 +42,17 @@ namespace WeatherTuner
                 return;
             }
 
-            sectionContent = _atmosphere.GetAssetSection(sectionID);
-            sectionOffset = _atmosphere.GetAssetSectionOffset(sectionID);
+            var atmosphereContentID = Section.Atmosphere.Content;
+
+            sectionContent = _atmosphere.GetAssetSection(atmosphereContentID);
+            sectionOffset = _atmosphere.GetAssetSectionOffset(atmosphereContentID);
+
+            // Exit if the content can't be found
+            if (sectionContent == null)
+            {
+                MessageBox.Show("Atmosphere content couldn't be found. Aborting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             var AtmosphereValues_grid = WeatherTunerForm.Instance.AtmosphereValues_grid;
             var AtmosphereHashes_grid = WeatherTunerForm.Instance.AtmosphereHashes_grid;
@@ -111,8 +120,8 @@ namespace WeatherTuner
             // Save the atmosphere values and hashes
             try
             { 
-                SaveAtmosphereValues(sectionContent, modified_AtmosphereValues_grid, fileBytes, sectionOffset);
-                SaveAtmosphereHashes(sectionContent, modified_AtmosphereHashes_grid, fileBytes, sectionOffset);
+                SaveAtmosphereValues(sectionContent, modified_AtmosphereValues_grid, _atmosphere._assetBytes, sectionOffset);
+                SaveAtmosphereHashes(sectionContent, modified_AtmosphereHashes_grid, _atmosphere._assetBytes, sectionOffset);
             }
             catch (Exception ex)
             {
@@ -123,7 +132,7 @@ namespace WeatherTuner
             // Write the modified atmosphere file bytes to user-specified path
             try
             {
-                File.WriteAllBytes(filePath, fileBytes);
+                File.WriteAllBytes(filePath, _atmosphere._assetBytes);
                 MessageBox.Show("Atmosphere values saved successfully.", "Success!", MessageBoxButtons.OK);
             }
             catch (Exception ex)
@@ -285,7 +294,7 @@ namespace WeatherTuner
                 Array.Copy(extensionHashBytes, 0, sectionContent, address + 8 + 12, extensionHashBytes.Length);
             }
 
-            Array.Copy(sectionContent, 0, fileBytes, sectionOffset, sectionContent.Length);
+            Array.Copy(sectionContent, 0, _atmosphere._assetBytes, sectionOffset, sectionContent.Length);
         }
 
         // Helper method to convert to byte array

@@ -33,7 +33,7 @@ namespace WebWorks.Windows
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/okangel12345/InsomniacToolbox",
+                FileName = "https://github.com/okangel12345/WebWorksTools",
                 UseShellExecute = true
             });
         }
