@@ -24,6 +24,8 @@ namespace WebWorks
             check_ExperimentalFeatures.Checked = settings._experimentalFeatures;
 
             comboBox_PreferredGame.SelectedIndex = settings._preferredGameIndex;
+
+            check_DisableAutoUpdate.Checked = settings._disableAutoUpdateCheck;
         }
 
         // Save and load methods
@@ -58,6 +60,7 @@ namespace WebWorks
                 _authorName = textBox_AuthorName.Text,
                 _experimentalFeatures = check_ExperimentalFeatures.Checked,
                 _preferredGameIndex = comboBox_PreferredGame.SelectedIndex,
+                _disableAutoUpdateCheck = check_DisableAutoUpdate.Checked,
 
                 _recentHashes = currentSettings._recentHashes,
 

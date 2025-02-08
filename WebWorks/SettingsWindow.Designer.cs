@@ -36,11 +36,12 @@
             check_ExperimentalFeatures = new CheckBox();
             comboBox_PreferredGame = new ComboBox();
             label2 = new Label();
+            check_DisableAutoUpdate = new CheckBox();
             SuspendLayout();
             // 
             // btn_Save
             // 
-            btn_Save.Location = new Point(337, 133);
+            btn_Save.Location = new Point(337, 158);
             btn_Save.Name = "btn_Save";
             btn_Save.Size = new Size(129, 30);
             btn_Save.TabIndex = 1;
@@ -117,12 +118,26 @@
             label2.TabIndex = 8;
             label2.Text = "Preferred game:";
             // 
+            // check_DisableAutoUpdate
+            // 
+            check_DisableAutoUpdate.AutoSize = true;
+            check_DisableAutoUpdate.Checked = true;
+            check_DisableAutoUpdate.CheckState = CheckState.Checked;
+            check_DisableAutoUpdate.ForeColor = SystemColors.Control;
+            check_DisableAutoUpdate.Location = new Point(12, 169);
+            check_DisableAutoUpdate.Name = "check_DisableAutoUpdate";
+            check_DisableAutoUpdate.Size = new Size(195, 19);
+            check_DisableAutoUpdate.TabIndex = 9;
+            check_DisableAutoUpdate.Text = "Disable automatic update check";
+            check_DisableAutoUpdate.UseVisualStyleBackColor = true;
+            // 
             // SettingsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(12, 12, 12);
-            ClientSize = new Size(478, 180);
+            ClientSize = new Size(478, 201);
+            Controls.Add(check_DisableAutoUpdate);
             Controls.Add(label2);
             Controls.Add(comboBox_PreferredGame);
             Controls.Add(check_ExperimentalFeatures);
@@ -147,5 +162,6 @@
         private CheckBox check_ExperimentalFeatures;
         private ComboBox comboBox_PreferredGame;
         private Label label2;
+        private CheckBox check_DisableAutoUpdate;
     }
 }

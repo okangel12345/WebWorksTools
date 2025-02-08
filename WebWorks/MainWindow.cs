@@ -1414,6 +1414,12 @@ namespace WebWorks
             {
                 SetEnvironment.Home();
             }
+
+            // Check for updates
+            if (!settings._disableAutoUpdateCheck)
+            {
+                Task.Run(async () => await WebWorksCore.Updater.UpdateChecker.CheckForUpdateAsync());
+            }
         }
 
         private int lastSortedColumn = -1;

@@ -8,6 +8,7 @@
         public string _authorName { get; set; }
         public string _recentHashes { get; set; }
         public bool _experimentalFeatures { get; set; }
+        public bool _disableAutoUpdateCheck {  get; set; }
         public int _preferredGameIndex { get; set; }
 
         // Save most recent TOCs
