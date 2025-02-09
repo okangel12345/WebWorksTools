@@ -54,6 +54,8 @@ namespace ModelToolsGUI
                 return;
             }
 
+            richTextBox1.Text = "";
+
             string game = AsciiToModel_ComboBox.Text;
 
             ModelConversionHelpers.InjectAsciiToModel(asciiToModel_Ascii, asciiToModel_Materials, asciiToModel_Model, game, this);
@@ -87,6 +89,8 @@ namespace ModelToolsGUI
                 return;
             }
 
+            richTextBox1.Text = "";
+
             string game = ModelToAscii_ComboBox.Text;
 
             ModelConversionHelpers.ConvertModelToAscii(modelToAscii_Model, modelToAscii_Ascii, game, this);
@@ -110,6 +114,8 @@ namespace ModelToolsGUI
                 MessageBox.Show("One or more missing parameters!");
                 return;
             }
+
+            richTextBox1.Text = "";
 
             ModelConversionHelpers.RemoveHairStrands(RemoveHairStrands_ModelTextBox.Text, this);
         }

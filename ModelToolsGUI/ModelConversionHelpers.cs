@@ -18,9 +18,6 @@ namespace ModelToolsGUI
 
             if (game == "MSM2")
             {
-                MessageBox.Show(".ascii to .model conversion isn't supported for MSM2 yet!");
-                return;
-
                 executablePath = WebWorksPaths.SpiderMan2_ModelImportToolPath;
             }
             else
@@ -42,18 +39,18 @@ namespace ModelToolsGUI
             string executablePath;
             string materials = $"{Path.GetDirectoryName(ascii)}\\{Path.GetFileNameWithoutExtension(ascii)}_materials.txt";
 
-            string arguments = $"\"{model}\" \"{ascii}\" \"{materials}\"";
+            string arguments;
+            string asciiPath;
 
             if (game == "MSM2")
             {
-                MessageBox.Show("Direct .model to .ascii conversion isn't supported for MSM2 yet!");
-                return;
-
                 executablePath = WebWorksPaths.SpiderMan2_ModelExtractToolPath;
+                arguments = $"\"{model}\"";
             }
             else
             {
                 executablePath = WebWorksPaths.ALERT_ModelExtractToolPath;
+                arguments = $"\"{model}\" \"{ascii}\" \"{materials}\"";
             }
 
             if (!File.Exists(executablePath))
@@ -63,6 +60,36 @@ namespace ModelToolsGUI
             }
 
             StartToolWithArgs(executablePath, arguments, mainWindow);
+
+            if (game == "MSM2")
+            {
+                MoveMSM2Model(arguments, ascii);
+            }
+        }
+
+        private static void MoveMSM2Model(string arguments, string asciiOutputPath)
+        {
+            string modelName = Path.GetFileNameWithoutExtension(arguments);     // hero_spiderman.model
+
+            string asciiName = $"{modelName}.ascii";                            // hero_spiderman.ascii
+            string materialsName = $"{modelName}_materials.txt";                // hero_spiderman_materials.txt
+
+            string programDir = AppDomain.CurrentDomain.BaseDirectory;
+
+            string asciiOutput = Path.Combine(programDir, asciiName);           // C:/Path/To/WebWorks/hero_spiderman.ascii
+            string materialsOutput = Path.Combine(programDir, materialsName);   // C:/Path/To/WebWorks/hero_spiderman_materials.ascii
+
+            string materialsOutputPath = Path.Combine(Path.GetDirectoryName(asciiOutputPath), $"{Path.GetFileNameWithoutExtension(asciiOutputPath)}_materials.txt");   // C:/User/Path/To/ascii_materials.txt
+
+            try
+            {
+                File.Move(asciiOutput, asciiOutputPath, true);
+                File.Move(materialsOutput, materialsOutputPath, true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"There was an error while attempting to move generated files. Error: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public static void RemoveHairStrands(string model, ModelToolGUI mainWindow)

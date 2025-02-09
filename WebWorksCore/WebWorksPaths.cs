@@ -19,8 +19,8 @@ namespace WebWorksShared
         public static readonly string Tool_RemoveHairStrands = Path.Combine(MiscFolder, "remove_HairStrands.exe");
 
         // Paths to Spider-Man 2 model tools
-        public static readonly string SpiderMan2_ModelExtractToolPath = Path.Combine(MiscFolder, "sm2_extract.exe");
-        public static readonly string SpiderMan2_ModelImportToolPath = Path.Combine(MiscFolder, "sm2_import.exe");
+        public static readonly string SpiderMan2_ModelExtractToolPath = Path.Combine(MiscFolder, "spiderman_2_pc_model.exe");
+        public static readonly string SpiderMan2_ModelImportToolPath = Path.Combine(MiscFolder, "spiderman_2_pc_mi.exe");
 
         // Spider-Man 2's "spider.ini" path
         // Note: This is exclusive of the tool developed by id-daemon for i30 (Unofficial port of MSM2)
