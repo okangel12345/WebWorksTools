@@ -30,7 +30,7 @@ namespace WeatherTuner
                 _atmosphere = new AssetManager(fileBytes);
 
                 if (_atmosphere._assetType != AssetManager.AssetType.Atmosphere ||
-                    _atmosphere._assetGame != AssetManager.AssetGame.MSM2)
+                    _atmosphere._assetGame != AssetManager.Game.MSM2)
                 {
                     MessageBox.Show("Not a MSM2 atmosphere file! Expected MAGIC = 0x4FBCF482", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

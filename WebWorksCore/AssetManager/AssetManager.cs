@@ -21,10 +21,10 @@ namespace WebWorksCore
             Material
         }
 
-        public enum AssetGame
+        public enum Game
         {
+            Unknown,
             MSM1,
-            MSMM,
             RCRA,
             MSM2
         }
@@ -33,8 +33,9 @@ namespace WebWorksCore
         //------------------------------------------------------------------------------------------
         public byte[] _assetBytes;
         public AssetType _assetType { get; }
-        public AssetGame _assetGame { get; }
+        public Game _assetGame { get; }
         public byte[] _assetHeader { get; }
+        public int _assetSections { get; }
         public int _DAT1Offset { get; }
 
         //------------------------------------------------------------------------------------------
@@ -47,6 +48,7 @@ namespace WebWorksCore
 
             // Define asset parameters
             _DAT1Offset = Find1TADMarker();
+            _assetSections = GetAssetSectionsNumber();
             (_assetType, _assetGame) = GetAssetType();
             _assetHeader = GetAssetHeader();
         }
@@ -68,11 +70,11 @@ namespace WebWorksCore
         // Generally we can use MAGIC to identify the asset type as well as the game, it may be worth
         // looking to use the built string instead
         //------------------------------------------------------------------------------------------
-        private (AssetType, AssetGame) GetAssetType()
+        private (AssetType, Game) GetAssetType()
         {
             if (_DAT1Offset == -1)
             {
-                return (AssetType.Unknown, AssetGame.MSM1); // If the marker is not found
+                return (AssetType.Unknown, Game.MSM1); // If the marker is not found
             }
 
             byte[] magicBytes = _assetBytes.Skip(_DAT1Offset + 4).Take(4).ToArray();
@@ -80,14 +82,28 @@ namespace WebWorksCore
 
             uint foundMagic = BitConverter.ToUInt32(magicBytes, 0);
 
-            // Define MAGIC and their respective values
-
+            // Define MAGIC and their respective values, this should be parsed exactly the same way it appears in the file
+            // since we're reversing the bytes. Check line 79
             switch (foundMagic)
             {
+                // MSM2
+                //----------------------------------------------------------------------------------
                 case 0x4FBCF482:
-                    return (AssetType.Atmosphere, AssetGame.MSM2);
+                    return (AssetType.Atmosphere, Game.MSM2);
+                case 0xC886783E:
+                    return (AssetType.Texture, Game.MSM2);
+
+                // Legacy
+                //----------------------------------------------------------------------------------
+                case 0xB980455C:
+                    return (AssetType.Texture, Game.MSM1);
+                case 0x99A1538F:
+                    return (AssetType.Texture, Game.RCRA);
+
+                // Unknown
+                //----------------------------------------------------------------------------------
                 default:
-                    return (AssetType.Unknown, AssetGame.MSM1); // Default game to MSM1
+                    return (AssetType.Unknown, Game.Unknown); // Default game to MSM1
             }
         }
 
@@ -100,14 +116,11 @@ namespace WebWorksCore
 
         private byte[] GetAssetSection(uint section)
         {
-            if (_DAT1Offset == -1) return null;
-
-            int offset = _DAT1Offset + 16; // Skip "1TAD", MAGIC, Asset Size, and Number of Sections
-            int numSections = BitConverter.ToInt32(_assetBytes, _DAT1Offset + 12);
+            int numSections = GetAssetSectionsNumber();
 
             for (int i = 0; i < numSections; i++)
             {
-                int sectionIndex = offset + (i * 12);
+                int sectionIndex = _DAT1Offset + 16 + (i * 12);
                 uint sectionID = BitConverter.ToUInt32(_assetBytes, sectionIndex);
 
                 if (sectionID == section)
@@ -121,6 +134,21 @@ namespace WebWorksCore
             return null;
         }
 
+        // Get the number of sections in the asset
+        //------------------------------------------------------------------------------------------
+        private int GetAssetSectionsNumber()
+        {
+            if (_DAT1Offset == -1 || _assetBytes == null || _assetBytes.Length < _DAT1Offset + 16)
+                return 0;
+
+            int position = _DAT1Offset;
+            position += 12;
+
+            int numSections = BitConverter.ToInt32(_assetBytes, position);
+
+            return numSections;
+        }
+
         // Get the offset of any asset section
         //------------------------------------------------------------------------------------------
         public int GetAssetSectionOffset(Enum sectionType)
@@ -132,7 +160,7 @@ namespace WebWorksCore
             if (_DAT1Offset == -1) return -1;
 
             int offset = _DAT1Offset + 16; // Skip "1TAD", MAGIC, Asset Size, and Number of Sections
-            int numSections = BitConverter.ToInt32(_assetBytes, _DAT1Offset + 12);
+            int numSections = _assetSections;
 
             for (int i = 0; i < numSections; i++)
             {
@@ -142,6 +170,30 @@ namespace WebWorksCore
                 if (foundSectionID == section)
                 {
                     return BitConverter.ToInt32(_assetBytes, sectionIndex + 4) + _DAT1Offset;
+                }
+            }
+            return -1;
+        }
+
+        public int GetAssetSectionSize(Enum sectionType)
+        {
+            return GetAssetSectionSize(Convert.ToUInt32(sectionType));
+        }
+        private int GetAssetSectionSize(uint section)
+        {
+            if (_DAT1Offset == -1) return -1;
+
+            int offset = _DAT1Offset + 16; // Skip "1TAD", MAGIC, Asset Size, and Number of Sections
+            int numSections = _assetSections;
+
+            for (int i = 0; i < numSections; i++)
+            {
+                int sectionIndex = offset + (i * 12);
+                uint foundSectionID = BitConverter.ToUInt32(_assetBytes, sectionIndex);
+
+                if (foundSectionID == section)
+                {
+                    return BitConverter.ToInt32(_assetBytes, sectionIndex + 8) + _DAT1Offset;
                 }
             }
             return -1;

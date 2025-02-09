@@ -12,5 +12,10 @@ namespace WebWorksCore.Sections
         {
             Content = 0x02F06D4E
         }
+
+        public enum Texture
+        {
+            Content = 0x4EDE3593
+        }
     }
 }
