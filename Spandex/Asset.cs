@@ -300,8 +300,8 @@ namespace Spiderman
             string f = filename ?? Path.ChangeExtension(assetfile, $"modified.{Path.GetExtension(assetfile)}");
 
             // Temporary workaround for ".texture." bugs - may require refinement
-            byte[] targetSequence = { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x0A };
-            byte[] replacementSequence = { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x00 };
+            byte[] targetSequence      =    { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x0A };
+            byte[] replacementSequence =    { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x00 };
 
             for (int i = 0; i <= newbinary.Length - targetSequence.Length; i++)
             {
