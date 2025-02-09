@@ -442,10 +442,6 @@ namespace Spandex
                     shaderfloats.WriteValues(material.GetSection<Material.ShaderFloatValues>()?.newdata);
 
                 material.ToBytes();
-                // Replace the first 4 bytes with the magic number based on the selection in the comboBox1
-                byte[] magicNumber = GetMagicNumber(f.FileName);
-                //Array.Copy(magicNumber, 0, material.binary, 0, magicNumber.Length);
-                //Array.Copy(magicNumber, 0, material.binary, 40, magicNumber.Length);
 
                 material.Save(lastsavefile);
                 

@@ -299,14 +299,22 @@ namespace Spiderman
         {
             string f = filename ?? Path.ChangeExtension(assetfile, $"modified.{Path.GetExtension(assetfile)}");
 
-            byte[] sizeBytes;
+            // Temporary workaround for ".texture." bugs - may require refinement
+            byte[] targetSequence = { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x0A };
+            byte[] replacementSequence = { 0x74, 0x65, 0x78, 0x74, 0x75, 0x72, 0x65, 0x00 };
+
+            for (int i = 0; i <= newbinary.Length - targetSequence.Length; i++)
+            {
+                if (newbinary.AsSpan(i, targetSequence.Length).SequenceEqual(targetSequence))
+                {
+                    replacementSequence.CopyTo(newbinary.AsSpan(i));
+                }
+            }
+
             if (isMSM2)
             {
-                sizeBytes = new byte[4];
-
+                byte[] sizeBytes = new byte[4];
                 Array.Copy(newbinary, 0x4, sizeBytes, 0, 4);
-
-                string sizeBytesHex = BitConverter.ToString(sizeBytes).Replace("-", " ");
 
                 Array.Copy(headerSM2, 0, newbinary, 0, 32);
 
