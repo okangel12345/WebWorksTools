@@ -108,6 +108,7 @@
             // 
             // Size
             // 
+            Size.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Size.FillWeight = 25F;
             Size.HeaderText = "Size";
             Size.Name = "Size";
@@ -116,6 +117,7 @@
             // 
             // Archive
             // 
+            Archive.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Archive.FillWeight = 19F;
             Archive.HeaderText = "Archive";
             Archive.Name = "Archive";
@@ -123,6 +125,7 @@
             // 
             // Span
             // 
+            Span.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Span.FillWeight = 6F;
             Span.HeaderText = "Span";
             Span.Name = "Span";

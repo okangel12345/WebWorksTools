@@ -81,6 +81,28 @@ namespace WebWorks.Utilities
             }
         }
 
+        public static void ExtractAssetTree()
+        {
+            var selectedNode = MainWindow.Instance.TreeView_Assets.SelectedNode;
+            if (selectedNode == null) return;
+
+            string fullPath = selectedNode.FullPath.Replace("Root\\", "");
+
+            var assetPaths = new List<string>();
+            var assetIDs = new List<ulong>();
+            var spans = new List<byte>();
+
+            foreach (var assetName in MainWindow.Instance._assetsByPath[fullPath])
+            {
+                var asset = MainWindow.Instance._assets[assetName];
+                assetPaths.Add(asset.FullPath);
+                assetIDs.Add(asset.Id);
+                spans.Add(asset.Span);
+            }
+
+            MainWindow.Instance.ExtractMultipleAssetsDialog(assetPaths.ToArray(), spans.ToArray(), assetIDs.ToArray());
+        }
+
         // Extract to stage
         //------------------------------------------------------------------------------------------
         public static void ExtractToStage()
@@ -92,10 +114,8 @@ namespace WebWorks.Utilities
 
             if (window.Stage == null) return;
 
-            var cwd = Directory.GetCurrentDirectory();
-            var path = Path.Combine(cwd, "stages");
-            var stagePath = Path.Combine(path, window.Stage);
-            if (!Directory.Exists(stagePath)) Directory.CreateDirectory(stagePath);
+            var stagePath = Path.Combine(Directory.GetCurrentDirectory(), "stages", window.Stage);
+            Directory.CreateDirectory(stagePath);
 
             string[] assetPaths = GetCurrentAssets.Paths();
             ulong[] assetIDs = GetCurrentAssets.IDs();
@@ -103,12 +123,42 @@ namespace WebWorks.Utilities
 
             for (int i = 0; i < assetPaths.Length; i++)
             {
-                string assetPath = Path.Combine(stagePath, $"{spans[i]}", assetPaths[i]);
+                string assetPath = Path.Combine(stagePath, spans[i].ToString(), assetPaths[i]);
                 string assetDir = Path.GetDirectoryName(assetPath);
-                if (!Directory.Exists(assetDir)) Directory.CreateDirectory(assetDir);
+                Directory.CreateDirectory(assetDir);
                 ExtractAsset(assetIDs[i], spans[i], assetPath, _toc);
             }
         }
+
+        public static void ExtractToStageTree()
+        {
+            TOCBase _toc = MainWindow._toc;
+
+            var selectedNode = MainWindow.Instance.TreeView_Assets.SelectedNode;
+            if (selectedNode == null) return;
+
+            string fullPath = selectedNode.FullPath.Replace("Root\\", "");
+
+            if (!MainWindow.Instance._assetsByPath.ContainsKey(fullPath)) return;
+
+            var window = new StageSelectorWindow();
+            window.ShowDialog();
+
+            if (window.Stage == null) return;
+
+            var stagePath = Path.Combine(Directory.GetCurrentDirectory(), "stages", window.Stage);
+            Directory.CreateDirectory(stagePath);
+
+            foreach (var assetName in MainWindow.Instance._assetsByPath[fullPath])
+            {
+                var asset = MainWindow.Instance._assets[assetName];
+                var assetPath = Path.Combine(stagePath, asset.Span.ToString(), asset.FullPath);
+                string assetDir = Path.GetDirectoryName(assetPath);
+                Directory.CreateDirectory(assetDir);
+                ExtractAsset(asset.Id, asset.Span, assetPath, _toc);
+            }
+        }
+
 
         // Extract as DDS
         //------------------------------------------------------------------------------------------

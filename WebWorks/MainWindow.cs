@@ -44,6 +44,7 @@ namespace WebWorks
             Instance = this;
 
             ToolUtils.ApplyStyle(this, Handle, menuStrip1, contextMenuStrip1);
+            WebWorksShared.ToolboxStyle.ApplyContextMenuStripDark(contextMenuStrip_Tree);
 
             panel_Main.Dock = DockStyle.Fill;
 
@@ -867,7 +868,7 @@ namespace WebWorks
         private void ToolStrip_WeatherTuner_Click(object sender, EventArgs e)
         { SetEnvironment.WeatherTuner(); }
 
-        // Extract
+        // Extract ---------------------------------------------------------------------------------
         private void ToolStrip_ExtractToStage_Click(object sender, EventArgs e)
         { ExtractionMethods.ExtractToStage(); }
         private void ToolStrip_ExtractAsAscii_Click(object sender, EventArgs e)
@@ -875,20 +876,34 @@ namespace WebWorks
         private void ToolStrip_ExtractAsDDS_Click(object sender, EventArgs e)
         { ExtractionMethods.ExtractAsDDS(); }
 
-        // Copy
+        // Tree view -------------------------------------------------------------------------------
+        private void ToolStrip_ExtractAll_Tree_Click(object sender, EventArgs e)
+        { ExtractionMethods.ExtractAssetTree(); }
+
+        private void ToolStrip_ExtractToStage_Tree_Click(object sender, EventArgs e)
+        { ExtractionMethods.ExtractToStageTree(); }
+
+        // Copy ------------------------------------------------------------------------------------
         private void ToolStrip_CopyPath_Click(object sender, EventArgs e)
         { ToolUtils.copyToClipboard(GetCurrentAssets.Paths()); }
         private void ToolStrip_CopyHash_Click(object sender, EventArgs e)
         { ToolUtils.copyToClipboard(GetCurrentAssets.Hashes()); }
+        private void ToolStrip_CopyPath_Tree_Click(object sender, EventArgs e)
+        {
+            string currentPath = TreeView_Assets.SelectedNode.FullPath;
+            string shortenedPath = currentPath.Replace("Root\\", "");
 
-        // Replace
+            ToolUtils.copyToClipboard(new string[] { shortenedPath });
+        }
+
+        // Replace ---------------------------------------------------------------------------------
         private void ToolStrip_ReplaceAsset_Click(object sender, EventArgs e)
         {
             var selected = GetCurrentAssets.IDs().Count();
-            if (selected != 1) return;
+            if (selected < 1) return;
 
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "Select file to replace asset with...";
+            dialog.Title = "Select file to replace assets with...";
             dialog.Multiselect = false;
             dialog.RestoreDirectory = true;
             dialog.Filter = "All files(*.*) | *.*";
@@ -900,24 +915,26 @@ namespace WebWorks
 
             string path = dialog.FileName;
 
-            Asset asset = GetCurrentAssets.Assets()[0];
+            Asset[] assets = GetCurrentAssets.Assets();
 
-            var existingAsset = _replacedAssets.FirstOrDefault(a => a.Key.Id == asset.Id && a.Key.Span == asset.Span);
+            for (int i = 0; i < assets.Length; i++)
+            {
+                var existingAsset = _replacedAssets.FirstOrDefault(a => a.Key.Id == assets[i].Id && a.Key.Span == assets[i].Span);
 
-            if (existingAsset.Key != null)
-            {
-                // Update the existing asset
-                _replacedAssets[existingAsset.Key] = path;
-            }
-            else
-            {
-                // Add the new asset
-                _replacedAssets.Set(asset, path);
+                if (existingAsset.Key != null)
+                {
+                    // Update the existing asset
+                    _replacedAssets[existingAsset.Key] = path;
+                }
+                else
+                {
+                    // Add the new asset
+                    _replacedAssets.Set(assets[i], path);
+                }
             }
         }
 
-        // Extract all selected asset rows
-        //--------------------------------------------------------------------------------------
+        // Extract all selected asset rows ---------------------------------------------------------
         private void ToolStrip_ExtractSelected_Click(object sender, EventArgs e)
         {
             var dataGridView = GetCurrentAssets.DataGridView();
@@ -934,8 +951,7 @@ namespace WebWorks
             }
         }
 
-        // Menu Item
-        //--------------------------------------------------------------------------------------
+        // Menu Item -------------------------------------------------------------------------------
         private void menuItem_PackAsStage_Click(object sender, EventArgs e)
         {
             var window = new PackStageWindow(_replacedAssets, _addedAssets, _toc);
@@ -1021,50 +1037,7 @@ namespace WebWorks
                 }
             }
         }
-        private void SaveAsWWPROJ()
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "WWProj Files (*.wwproj)|*.wwproj",
-                DefaultExt = ".wwproj",
-                AddExtension = true
-            };
-
-            // Show the dialog and check if the user selected a file
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = saveFileDialog.FileName;
-
-                WWProj.Write(filePath);
-            }
-        }
-        private void AddFromWWPROJ()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "WWProj Files (*.wwproj)|*.wwproj",
-                DefaultExt = ".wwproj",
-                AddExtension = true
-            };
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = openFileDialog.FileName;
-
-                WWProj.Read(filePath);
-            }
-        }
-        private void menuItem_ModWWPROJ_Click(object sender, EventArgs e)
-        {
-            if (_replacedAssets.Count > 0 || _addedAssets.Count > 0)
-            {
-                SaveAsWWPROJ();
-            }
-            else
-            {
-                AddFromWWPROJ();
-            }
-        }
+        
         private void discordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo
@@ -1084,8 +1057,12 @@ namespace WebWorks
             int selectedRows = dataGridView.SelectedRows.Count;
             var hitTestInfo = dataGridView.HitTest(e.X, e.Y);
 
+            ToolStrip_ExtractAll.Visible = false;
             ToolStrip_ExtractAsAscii.Visible = false;
             ToolStrip_ExtractAsDDS.Visible = false;
+
+            ToolStrip_CopyHash.Visible = true;
+            ToolStrip_ReplaceAsset.Visible = true;
 
             if (e.Button == MouseButtons.Right && hitTestInfo.RowIndex >= 0 && hitTestInfo.ColumnIndex >= 0)
             {
@@ -1094,15 +1071,6 @@ namespace WebWorks
                     dataGridView.ClearSelection();
                     dataGridView.Rows[hitTestInfo.RowIndex].Selected = true;
                     selectedRows = 1;
-                }
-
-                if (selectedRows != 1)
-                {
-                    ToolStrip_ReplaceAsset.Visible = false;
-                }
-                else
-                {
-                    ToolStrip_ReplaceAsset.Visible = true;
                 }
 
                 int rowIndex = hitTestInfo.RowIndex;
@@ -1139,6 +1107,23 @@ namespace WebWorks
             {
                 e.SuppressKeyPress = true;
                 ToolStrip_CopyPath_Click(sender, e);
+            }
+        }
+
+        private void OpenContextMenu_Tree(object sender, MouseEventArgs e)
+        {
+            var treeView = TreeView_Assets;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                TreeNode selectedNode = treeView.GetNodeAt(e.X, e.Y);
+
+                if (selectedNode != null)
+                {
+                    treeView.SelectedNode = selectedNode;
+                }
+
+                contextMenuStrip_Tree.Show(treeView, new Point(e.X, e.Y));
             }
         }
 
@@ -1202,7 +1187,7 @@ namespace WebWorks
 
         // Extract multiple assets dialog
         //------------------------------------------------------------------------------------------
-        private void ExtractMultipleAssetsDialog(string[] assets, byte[] spans, ulong[] assetIDs)
+        public void ExtractMultipleAssetsDialog(string[] assets, byte[] spans, ulong[] assetIDs)
         {
             // Build folder dialog
             FolderBrowserDialog dialog = new FolderBrowserDialog
@@ -1366,10 +1351,6 @@ namespace WebWorks
 
             switch (type)
             {
-                case ".wwproj":
-                    WWProj.Read(filePath);
-                    break;
-
                 case ".texture":
                     SetEnvironment.SilkTexture();
                     SetEnvironment.silkTextureForm?.Open(filePath);

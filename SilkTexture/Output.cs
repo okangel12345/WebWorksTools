@@ -187,10 +187,36 @@
             Size += extrasdmipsize;
             if (extrasdmipsize > 0)
             {
-                BitConverter.GetBytes((uint)Size).CopyTo(tex.header, 0x8);
-                BitConverter.GetBytes((uint)Size).CopyTo(tex.header, 0x14);
+                if (Source.isSM2Texture)
+                {
+                    // Update texture metadata header in MSM2 texture file
+
+                    byte preservedByte = tex.header[0x23]; // Save this byte to prevent overriding an unknown value
+                    uint? CombinedSize = Size + HDSize;
+
+                    BitConverter.GetBytes((uint)Size).CopyTo(tex.header, 0x20);
+                    tex.header[0x23] = preservedByte;
+
+                    BitConverter.GetBytes((uint)CombinedSize).CopyTo(tex.header, 0x68);
+                    BitConverter.GetBytes((uint)HDSize).CopyTo(tex.header, 0x6C);
+
+                    BitConverter.GetBytes((uint)dds.Width).CopyTo(tex.header, 0x40);
+                    BitConverter.GetBytes((uint)dds.Height).CopyTo(tex.header, 0x48);
+
+                    tex.header[0x70] = (byte)HDMipmaps;
+                    tex.header[0x71] = (byte)Mipmaps;
+
+                    tex.header[0x50] = (byte)(Mipmaps + HDMipmaps);
+                }
+                else
+                {
+                    BitConverter.GetBytes((uint)Size).CopyTo(tex.header, 0x8);
+                    BitConverter.GetBytes((uint)Size).CopyTo(tex.header, 0x14);
+                }
             }
 
+            // Write texture content header
+            //--------------------------------------------------------------------------------------
             using (var fs = File.Open(Filename, FileMode.Create))
             using (var bw = new BinaryWriter(fs))
             {
@@ -219,14 +245,12 @@
 
                 }
 
+                fs.Position -= Source.DAT1Offset;
+
                 for (int i = 0; i < ddss.Count; i++)
                 {
                     bw.Write(extrasdmips[i]);
-                    if (testmode)
-                        // keep original sd mipmaps
-                        bw.Write(tex.mipmaps[i]);
-                    else
-                        bw.Write(sdmips[i]);
+                    bw.Write(testmode ? tex.mipmaps[i] : sdmips[i]);
                 }
 
                 output += $"Wrote {Filename} ({fs.Position} bytes, max {sd_width}x{sd_height})\r\n";

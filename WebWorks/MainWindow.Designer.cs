@@ -86,6 +86,7 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             ToolStrip_AssetsSelected = new ToolStripMenuItem();
             toolStripMenuItem7 = new ToolStripMenuItem();
+            ToolStrip_ExtractAll = new ToolStripMenuItem();
             ToolStrip_ExtractSelected = new ToolStripMenuItem();
             ToolStrip_ExtractAsAscii = new ToolStripMenuItem();
             ToolStrip_ExtractAsDDS = new ToolStripMenuItem();
@@ -94,6 +95,11 @@
             toolStripMenuItem8 = new ToolStripMenuItem();
             ToolStrip_CopyPath = new ToolStripMenuItem();
             ToolStrip_CopyHash = new ToolStripMenuItem();
+            contextMenuStrip_Tree = new ContextMenuStrip(components);
+            ToolStrip_ExtractAll_Tree = new ToolStripMenuItem();
+            ToolStrip_ExtractToStage_Tree = new ToolStripMenuItem();
+            toolStripMenuItem12 = new ToolStripMenuItem();
+            ToolStrip_CopyPath_Tree = new ToolStripMenuItem();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_Files).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -102,15 +108,16 @@
             splitContainer1.SuspendLayout();
             menuStrip1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
+            contextMenuStrip_Tree.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
             // 
             statusStrip1.BackColor = Color.FromArgb(12, 12, 12);
             statusStrip1.Items.AddRange(new ToolStripItem[] { OverlayHeaderLabel, OverlayOperationLabel });
-            statusStrip1.Location = new Point(0, 538);
+            statusStrip1.Location = new Point(0, 657);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(939, 22);
+            statusStrip1.Size = new Size(1169, 22);
             statusStrip1.TabIndex = 0;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -134,9 +141,10 @@
             TreeView_Assets.ForeColor = SystemColors.Control;
             TreeView_Assets.Location = new Point(0, 0);
             TreeView_Assets.Name = "TreeView_Assets";
-            TreeView_Assets.Size = new Size(311, 508);
+            TreeView_Assets.Size = new Size(387, 627);
             TreeView_Assets.TabIndex = 1;
             TreeView_Assets.AfterSelect += TreeView_Assets_AfterSelect;
+            TreeView_Assets.MouseClick += OpenContextMenu_Tree;
             // 
             // dataGridView_Files
             // 
@@ -150,7 +158,7 @@
             dataGridView_Files.Name = "dataGridView_Files";
             dataGridView_Files.RowHeadersVisible = false;
             dataGridView_Files.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView_Files.Size = new Size(624, 508);
+            dataGridView_Files.Size = new Size(778, 627);
             dataGridView_Files.TabIndex = 2;
             dataGridView_Files.ColumnHeaderMouseClick += SortBySize_MouseClick;
             dataGridView_Files.KeyDown += CommandsDataGrid;
@@ -167,14 +175,16 @@
             // 
             // Size
             // 
+            Size.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Size.FillWeight = 25F;
             Size.HeaderText = "Size";
             Size.Name = "Size";
             Size.ReadOnly = true;
-            Size.Width = 75;
+            Size.Width = 80;
             // 
             // Archive
             // 
+            Archive.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Archive.FillWeight = 19F;
             Archive.HeaderText = "Archive";
             Archive.Name = "Archive";
@@ -182,6 +192,7 @@
             // 
             // Span
             // 
+            Span.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             Span.FillWeight = 6F;
             Span.HeaderText = "Span";
             Span.Name = "Span";
@@ -226,16 +237,16 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(dataGridView_Files);
-            splitContainer1.Size = new Size(939, 508);
-            splitContainer1.SplitterDistance = 311;
+            splitContainer1.Size = new Size(1169, 627);
+            splitContainer1.SplitterDistance = 387;
             splitContainer1.TabIndex = 3;
             // 
             // panel_Main
             // 
             panel_Main.BackColor = Color.FromArgb(12, 12, 12);
-            panel_Main.Location = new Point(891, 372);
+            panel_Main.Location = new Point(891, 597);
             panel_Main.Name = "panel_Main";
-            panel_Main.Size = new Size(21, 335);
+            panel_Main.Size = new Size(263, 110);
             panel_Main.TabIndex = 5;
             // 
             // menuStrip1
@@ -243,7 +254,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, searchToolStripMenuItem, modToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(939, 24);
+            menuStrip1.Size = new Size(1169, 24);
             menuStrip1.TabIndex = 4;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -324,7 +335,6 @@
             menuItem_WWPROJ_Handle.Name = "menuItem_WWPROJ_Handle";
             menuItem_WWPROJ_Handle.Size = new Size(212, 22);
             menuItem_WWPROJ_Handle.Text = "Open project...";
-            menuItem_WWPROJ_Handle.Click += menuItem_ModWWPROJ_Click;
             // 
             // ToolStrip_OpenAsset
             // 
@@ -543,9 +553,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ToolStrip_AssetsSelected, toolStripMenuItem7, ToolStrip_ExtractSelected, ToolStrip_ExtractAsAscii, ToolStrip_ExtractAsDDS, ToolStrip_ExtractToStage, ToolStrip_ReplaceAsset, toolStripMenuItem8, ToolStrip_CopyPath, ToolStrip_CopyHash });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ToolStrip_AssetsSelected, toolStripMenuItem7, ToolStrip_ExtractAll, ToolStrip_ExtractSelected, ToolStrip_ExtractAsAscii, ToolStrip_ExtractAsDDS, ToolStrip_ExtractToStage, ToolStrip_ReplaceAsset, toolStripMenuItem8, ToolStrip_CopyPath, ToolStrip_CopyHash });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(215, 224);
+            contextMenuStrip1.Size = new Size(215, 246);
             // 
             // ToolStrip_AssetsSelected
             // 
@@ -564,6 +574,14 @@
             toolStripMenuItem7.Name = "toolStripMenuItem7";
             toolStripMenuItem7.Size = new Size(214, 22);
             toolStripMenuItem7.Text = "____________________________";
+            // 
+            // ToolStrip_ExtractAll
+            // 
+            ToolStrip_ExtractAll.BackColor = Color.FromArgb(12, 12, 12);
+            ToolStrip_ExtractAll.ForeColor = SystemColors.Control;
+            ToolStrip_ExtractAll.Name = "ToolStrip_ExtractAll";
+            ToolStrip_ExtractAll.Size = new Size(214, 22);
+            ToolStrip_ExtractAll.Text = "Extract all...";
             // 
             // ToolStrip_ExtractSelected
             // 
@@ -641,12 +659,55 @@
             ToolStrip_CopyHash.Text = "Copy hash";
             ToolStrip_CopyHash.Click += ToolStrip_CopyHash_Click;
             // 
+            // contextMenuStrip_Tree
+            // 
+            contextMenuStrip_Tree.Items.AddRange(new ToolStripItem[] { ToolStrip_ExtractAll_Tree, ToolStrip_ExtractToStage_Tree, toolStripMenuItem12, ToolStrip_CopyPath_Tree });
+            contextMenuStrip_Tree.Name = "contextMenuStrip_Tree";
+            contextMenuStrip_Tree.Size = new Size(215, 92);
+            // 
+            // ToolStrip_ExtractAll_Tree
+            // 
+            ToolStrip_ExtractAll_Tree.BackColor = Color.FromArgb(12, 12, 12);
+            ToolStrip_ExtractAll_Tree.ForeColor = SystemColors.Control;
+            ToolStrip_ExtractAll_Tree.Name = "ToolStrip_ExtractAll_Tree";
+            ToolStrip_ExtractAll_Tree.Size = new Size(214, 22);
+            ToolStrip_ExtractAll_Tree.Text = "Extract all...";
+            ToolStrip_ExtractAll_Tree.Click += ToolStrip_ExtractAll_Tree_Click;
+            // 
+            // ToolStrip_ExtractToStage_Tree
+            // 
+            ToolStrip_ExtractToStage_Tree.BackColor = Color.FromArgb(12, 12, 12);
+            ToolStrip_ExtractToStage_Tree.ForeColor = SystemColors.Control;
+            ToolStrip_ExtractToStage_Tree.Name = "ToolStrip_ExtractToStage_Tree";
+            ToolStrip_ExtractToStage_Tree.Size = new Size(214, 22);
+            ToolStrip_ExtractToStage_Tree.Text = "Extract to stage...";
+            ToolStrip_ExtractToStage_Tree.Click += ToolStrip_ExtractToStage_Tree_Click;
+            // 
+            // toolStripMenuItem12
+            // 
+            toolStripMenuItem12.BackColor = Color.Black;
+            toolStripMenuItem12.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripMenuItem12.Enabled = false;
+            toolStripMenuItem12.ForeColor = SystemColors.Control;
+            toolStripMenuItem12.Name = "toolStripMenuItem12";
+            toolStripMenuItem12.Size = new Size(214, 22);
+            toolStripMenuItem12.Text = "____________________________";
+            // 
+            // ToolStrip_CopyPath_Tree
+            // 
+            ToolStrip_CopyPath_Tree.BackColor = Color.FromArgb(12, 12, 12);
+            ToolStrip_CopyPath_Tree.ForeColor = SystemColors.Control;
+            ToolStrip_CopyPath_Tree.Name = "ToolStrip_CopyPath_Tree";
+            ToolStrip_CopyPath_Tree.Size = new Size(214, 22);
+            ToolStrip_CopyPath_Tree.Text = "Copy path";
+            ToolStrip_CopyPath_Tree.Click += ToolStrip_CopyPath_Tree_Click;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(12, 12, 12);
-            ClientSize = new Size(939, 560);
+            ClientSize = new Size(1169, 679);
             Controls.Add(panel_Main);
             Controls.Add(splitContainer1);
             Controls.Add(statusStrip1);
@@ -669,6 +730,7 @@
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             contextMenuStrip1.ResumeLayout(false);
+            contextMenuStrip_Tree.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -678,7 +740,6 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel OverlayHeaderLabel;
         private ToolStripStatusLabel OverlayOperationLabel;
-        private TreeView TreeView_Assets;
         private DataGridView dataGridView_Files;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
@@ -729,6 +790,10 @@
         private ToolStripMenuItem ToolStrip_Home;
         private ToolStripMenuItem ToolStrip_Search;
         private ToolStripMenuItem menuItem_WWPROJ_Handle;
+        private ToolStripMenuItem ToolStrip_ModelToolGUI;
+        private ToolStripMenuItem ToolStrip_ConfigWeaver;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem ToolStrip_WeatherTuner;
         private DataGridViewTextBoxColumn FileName;
         private DataGridViewTextBoxColumn Size;
         private DataGridViewTextBoxColumn Archive;
@@ -737,9 +802,12 @@
         private DataGridViewTextBoxColumn assetPath;
         private DataGridViewTextBoxColumn assetRef;
         private DataGridViewCheckBoxColumn HasHeader;
-        private ToolStripMenuItem ToolStrip_ModelToolGUI;
-        private ToolStripMenuItem ToolStrip_ConfigWeaver;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem ToolStrip_WeatherTuner;
+        private ToolStripMenuItem ToolStrip_ExtractAll;
+        private ContextMenuStrip contextMenuStrip_Tree;
+        private ToolStripMenuItem ToolStrip_ExtractAll_Tree;
+        private ToolStripMenuItem ToolStrip_ExtractToStage_Tree;
+        private ToolStripMenuItem toolStripMenuItem12;
+        private ToolStripMenuItem ToolStrip_CopyPath_Tree;
+        public TreeView TreeView_Assets;
     }
 }

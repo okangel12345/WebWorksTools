@@ -11,6 +11,7 @@ namespace SpideyTextureScaler
         public string hdfilename;
         public bool exportable;
         public List<uint> resourceids;
+        public static int DAT1Offset;
 
         public Source()
         {
@@ -39,6 +40,8 @@ namespace SpideyTextureScaler
                 var _texture = new AssetManager(File.ReadAllBytes(Filename));
                 int dat1Offset = _texture._DAT1Offset;
 
+                DAT1Offset = dat1Offset;
+
                 using var fs = File.Open(Filename, FileMode.Open, FileAccess.Read);
                 using var br = new BinaryReader(fs);
 
@@ -50,7 +53,7 @@ namespace SpideyTextureScaler
                     return false;
                 }
 
-                if (!ExtractTextureHeaders(br, _texture, out output, out errorcol))
+                if (!ExtractTextureInfo(br, _texture, out output, out errorcol))
                     return false;
 
                 VerifyHdTexture(out output, out errorcol);
@@ -170,7 +173,7 @@ namespace SpideyTextureScaler
         // Extract texture file headers and data
         //
         //------------------------------------------------------------------------------------------
-        private bool ExtractTextureHeaders(BinaryReader br, AssetManager _texture, out string output, out int errorCol)
+        private bool ExtractTextureInfo(BinaryReader br, AssetManager _texture, out string output, out int errorCol)
         {
             output = "";
             errorCol = -1;
@@ -215,19 +218,29 @@ namespace SpideyTextureScaler
             if (_texture._assetGame == AssetManager.Game.MSM2)
             {
                 isSM2Texture = true;
-                
                 br.ReadBytes(5);
 
-                Format = (DXGI_FORMAT?)br.ReadByte(); // DXGI Format
-                br.ReadByte(); // Unknown
+                Format = (DXGI_FORMAT?)br.ReadByte();
+
+                // Unknown
+                br.ReadByte();
 
                 Mipmaps = br.ReadByte();
                 HDMipmaps = br.ReadByte();
 
                 br.BaseStream.Seek(4, SeekOrigin.Current);
+                mipmaps = new();
 
                 for (int i = 0; i < Images; i++)
                     mipmaps.Add(br.ReadBytes((int)(Size / Images)));
+
+                int s = (int)(HDSize / Images);
+                int maxmipexp = (int)Math.Floor(Math.Log(s) / Math.Log(2));
+
+
+                s = (int)(Size / Images);
+                maxmipexp = (int)Math.Floor(Math.Log(s) / Math.Log(2));
+                basemipsize = 1 << maxmipexp;
             }
 
             // Read legacy textures (not MSM2) - MSMR, MSMM, RCRA
@@ -238,27 +251,30 @@ namespace SpideyTextureScaler
 
                 Format = (DXGI_FORMAT?)br.ReadUInt16();
 
-                br.ReadBytes(8); // Unknown
+                br.ReadBytes(8);
 
-                if (Mipmaps != br.ReadByte())
-                {
-                    output += SDmipmapDiscrepancy;
-                    errorCol = 4;
-                    return false;
-                }
+                MessageBox.Show(br.BaseStream.Position.ToString());
+
+                Mipmaps = br.ReadByte();
                 br.ReadByte();
-                if (HDMipmaps != br.ReadByte())
-                {
-                    output += HDmipmapDiscrepancy;
-                    errorCol = 5;
-                    return false;
-                }
+                HDMipmaps = br.ReadByte();
 
                 br.BaseStream.Seek(11, SeekOrigin.Current);
 
+                mipmaps = new();
                 for (int i = 0; i < Images; i++)
                     mipmaps.Add(br.ReadBytes((int)(Size / Images)));
+
+                int s = (int)(HDSize / Images);
+                int maxmipexp = (int)Math.Floor(Math.Log(s) / Math.Log(2));
+
+                s = (int)(Size / Images);
+                maxmipexp = (int)Math.Floor(Math.Log(s) / Math.Log(2));
+                basemipsize = 1 << maxmipexp;
             }
+
+            BytesPerPixel = Math.Pow(2, (Math.Floor(Math.Log((double)basemipsize / sd_width / sd_height) / Math.Log(2))));
+            aspect = (int)(Math.Log((double)Width / (double)Height) / Math.Log(2));
 
             return true;
         }

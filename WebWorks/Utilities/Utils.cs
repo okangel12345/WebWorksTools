@@ -37,8 +37,12 @@ namespace WebWorks.Utilities
         //------------------------------------------------------------------------------------------
         public static void copyToClipboard(string[] paths)
         {
-            string clipboardText = paths.Length == 1 ? paths[0] : string.Join(", ", paths);
-            Clipboard.SetText(clipboardText);
+            try
+            {
+                string clipboardText = paths.Length == 1 ? paths[0] : string.Join(", ", paths);
+                Clipboard.SetText(clipboardText);
+            }
+            catch {}
         }
     }
 

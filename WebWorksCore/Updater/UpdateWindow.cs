@@ -24,8 +24,16 @@ namespace WebWorksCore.Updater
 
             SystemSounds.Beep.Play();
 
-            label1.Text = $"WebWorks v{newestVersion} is available. You currently have WebWorks v{currentVersion}.";
+            Version version = new Version(currentVersion);
+            string formattedVersion = (version.Revision == 0) ? version.ToString(3) : version.ToString();
+
+            label1.Text = $"WebWorks v{newestVersion} is available. You currently have WebWorks v{formattedVersion}.";
             richTextBox1.Text = newestPatchNotes;
+
+            richTextBox1.Height = Math.Min(TextRenderer.MeasureText(richTextBox1.Text, richTextBox1.Font, new Size(richTextBox1.Width, int.MaxValue), TextFormatFlags.WordBreak).Height + 10, 400);
+
+            this.Height = richTextBox1.Bottom + 100;
+
         }
 
         private void button2_Click(object sender, EventArgs e)
