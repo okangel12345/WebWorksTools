@@ -26,9 +26,10 @@
 | **Silk Texture**      | `Ctrl + 3` | Opens [Silk Texture](Tools/Silk_Texture.md) (texture editor) within WebWorks.    |
 | **Config Weaver**     | `Ctrl + 4` | Opens [Config Weaver](Tools/Config_Weaver.md) (config editor) within WebWorks.   |
 | **Model Tools GUI**   | `Ctrl + 5` | Opens [Model Tools GUI](Tools/Model_Tools_GUI.md) (model tools) within WebWorks. |
+| **Weather Tuner**     | `Ctrl + 6` | Opens Weather Tuner within WebWorks.                                             |
 
 ### Help
 | Command         | Shortcut | Function                                                               |
 | --------------- | -------- | ---------------------------------------------------------------------- |
 | **Information** | `F11`    | Opens the information window, which contains links to the GitHub page. |
-| **Discord**     | `F12`    | Opens the official Discord server: [Discord](https://discord.com).     |
+| **Discord**     | `F12`    | Opens the official Discord server: [Discord](https://discord.com/invite/insomniacversemodding).     |

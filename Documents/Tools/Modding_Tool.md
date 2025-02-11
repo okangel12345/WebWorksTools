@@ -23,10 +23,10 @@ Right click an asset in the table to open the context menu or use one of the ava
 | -------------------------------- | ---------- | ----------------------------------------------------------------- |
 | **Extract selected...**          | `Ctrl + E` | Extract all selected assets from the table to a desired location. |
 | **Extract as .ascii... (model)** | -          | Extract .model and automatically convert to .ascii.               |
-| **Extract as .dds (texture)**    | `Ctrl + E` | Extract .texture and automatically convert to .dds.               |
-| **Extract to .stage...**         | `Ctrl + E` | Extract asset and save to stages folder.                          |
+| **Extract as .dds (texture)**    | -          | Extract .texture and automatically convert to .dds.               |
+| **Extract to .stage...**         |            | Extract asset and save to stages folder.                          |
 | **Replace selected...**          | `Ctrl + R` | Replace asset and add it to the replaced assets list.             |
-| **Copy path**                    | `Ctrl + E` | Copy full asset path.                                             |
+| **Copy path**                    | `Ctrl + C` | Copy full asset path.                                             |
 | **Copy hash**                    | -          | Copy asset hash.                                                  |
 
 ---
@@ -34,7 +34,7 @@ Right click an asset in the table to open the context menu or use one of the ava
 ### Search and Jump to Path
 ![Search window](../Screenshots/SearchWindow_screenshot.png)
 
-Press **Ctrl + S** or go to **Search > Search...** to open the search window. Use keywords separated by a space to find the asset you're looking for. Double click an asset to locate it in the main window.
+Press **Ctrl + S** or go to **Search > Search...** to open the search window. Use keywords separated by a space to find the asset you're looking for. Double click an asset to locate it in the main window. You can also use the keyword "OR" to search for multiple files simultaneously. For example, entering "hero_spiderman OR hero_venom" will return all assets that match either "hero_spiderman" or "hero_venom."
 
 Alternatively, you can use **Search > Jump to path or ref...** to quickly open a folder where a specific asset is.
 
