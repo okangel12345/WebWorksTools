@@ -1042,7 +1042,7 @@ namespace WebWorks
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://discord.gg/Dg5fdVhJUs",
+                FileName = "https://discord.gg/insomniacversemodding",
                 UseShellExecute = true
             });
         }
