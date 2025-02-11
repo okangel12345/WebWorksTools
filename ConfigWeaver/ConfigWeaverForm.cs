@@ -22,6 +22,13 @@ namespace ConfigWeaver
 
         private void InputFileButton_Click(object sender, EventArgs e)
         {
+            var f = MessageBox.Show("MSM2 configs aren't supported as of now, are you sure you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (f != DialogResult.Yes)
+            {
+                return;
+            }
+
             WebWorksCore.DialogsToTextbox.OpenFileDialogAndSaveToTextbox(textBox1, "config", "json");
 
             DetectInput();
