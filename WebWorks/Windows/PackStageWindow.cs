@@ -192,12 +192,6 @@ namespace WebWorks.Windows
                 return;
             }
 
-            var tocHasTextureSections = (_gameId != "MSMR" && _gameId != "MM");
-            if (_mainWindowAddedAssets.Count > 0 && tocHasTextureSections)
-            {
-                MessageBox.Show($"Warning: adding new .texture assets is not implemented.\n\nThe game might work incorrectly with these or even crash because of them.", "Warning", MessageBoxButtons.OK);
-            }
-
             var stageFileName = dialog.FileName;
             try
             {
