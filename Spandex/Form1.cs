@@ -211,7 +211,11 @@ namespace Spandex
 
                 if (textures.ContainsKey(0) && textures[0].Value != null && textures[0].Value != "")
                 {
-                    string trytemplate = lastsourcedir + (textures[0].Value as string).Replace('\\', '_').Replace('/', '_');
+                    string newTemplate = Path.Combine(lastsourcedir, Path.GetFileName(textures[0].Value.ToString()));
+                    //string trytemplate = lastsourcedir + (textures[0].Value as string).Replace('\\', '_').Replace('/', '_');
+
+                    string trytemplate = newTemplate;
+
                     if (File.Exists(trytemplate))
                     {
                         ProcessFile(trytemplate, 1);

@@ -47,12 +47,14 @@ namespace Spiderman
             if (offset != -1 && binary.Length >= offset + 8)
             {
                 byte[] expectedBytes = new byte[] { 0xB4, 0x0D, 0x18, 0x3B };
+                byte[] expectedBytes2 = new byte[] { 0xCD, 0xFD, 0xAD, 0x40 };
                 isMSM2 = true;
 
                 // Check MAGIC
                 for (int i = 0; i < 4; i++)
                 {
-                    if (binary[offset + 4 + i] != expectedBytes[i])
+                    var binarytest = binary[offset + 4 + i];
+                    if (binarytest != expectedBytes[i] && binarytest != expectedBytes2[i])
                     {
                         isMSM2 = false;
                         break;
