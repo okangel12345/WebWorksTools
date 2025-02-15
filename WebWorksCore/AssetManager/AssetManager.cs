@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebWorksCore.Sections;
 
 namespace WebWorksCore
 {
@@ -18,7 +21,8 @@ namespace WebWorksCore
             Unknown,
             Atmosphere,
             Texture,
-            Material
+            Material,
+            Soundbank
         }
 
         public enum Game
@@ -92,6 +96,8 @@ namespace WebWorksCore
                     return (AssetType.Atmosphere, Game.MSM2);
                 case 0xC886783E:
                     return (AssetType.Texture, Game.MSM2);
+                case 0xBB0F3566:
+                    return (AssetType.Soundbank, Game.MSM2);
 
                 // Legacy
                 //----------------------------------------------------------------------------------
@@ -197,6 +203,54 @@ namespace WebWorksCore
                 }
             }
             return -1;
+        }
+
+        // Update section size and other sections offsets
+        //------------------------------------------------------------------------------------------
+        public void UpdateSection(Enum sectionToUpdate, byte[] sectionBytes)
+        {
+            UpdateSection(Convert.ToUInt32(sectionToUpdate), sectionBytes);
+        }
+        private void UpdateSection(uint sectionToUpdate, byte[] sectionBytes)
+        {
+            using var fs = new MemoryStream(_assetBytes);
+            using var br = new BinaryReader(fs);
+            using var bw = new BinaryWriter(fs);
+
+            fs.Seek(_DAT1Offset + 16, SeekOrigin.Begin);
+
+            // Get section to update original data
+            int originalSectionOffset = GetAssetSectionOffset(sectionToUpdate);
+            int originalSectionSize = GetAssetSectionSize(sectionToUpdate);
+            int expandedSize = sectionBytes.Length - originalSectionSize;
+
+            for (int i = 0; i < _assetSections; i++)
+            {
+                long sectionHeaderPos = fs.Position;
+
+                uint sectionID = br.ReadUInt32();
+                uint sectionOffset = br.ReadUInt32();
+                uint sectionSize = br.ReadUInt32();
+
+                if (sectionID == sectionToUpdate)
+                {
+                    fs.Seek(sectionHeaderPos + 8, SeekOrigin.Begin);
+                    bw.Write(sectionBytes.Length);
+                }
+
+                if (sectionOffset > (originalSectionOffset - _DAT1Offset))
+                {
+                    fs.Seek(sectionHeaderPos + 4, SeekOrigin.Begin);
+                    bw.Write(sectionOffset + expandedSize);
+                    fs.Seek(sectionHeaderPos + 12, SeekOrigin.Begin);
+                }
+            }
+        }
+
+        private void UpdateSectionBytes()
+        {
+            // In _assetBytes, jump to original sectionOffset and replace the following originalSectionSize
+            // with the new asset bytes. Expand the _assetBytes, so the rest of the file is untouched.
         }
 
         // Get the header bytes of any asset (all the bytes before 1TAD)

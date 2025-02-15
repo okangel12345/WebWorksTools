@@ -17,5 +17,11 @@ namespace WebWorksCore.Sections
         {
             Content = 0x4EDE3593
         }
+
+        public enum Soundbank
+        {
+            bnkData = 0x53F25238,
+            wemnames = 0x3E8490A3
+        }
     }
 }
