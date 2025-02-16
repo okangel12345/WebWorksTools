@@ -341,14 +341,14 @@ namespace WeatherTuner
             ("Noise Wind Speed", 1832, t.Float, mode.Advanced, "How fast noise moves along the direction of the wind"),
             ("Noise", 1836, t.Float, mode.Simplified, "Injects Perlin noise to break up the intensity of the fog. The higher the value, the more the noise subtracts from the fog"),
             ("Noise Ratio", 1884, t.Float, mode.Simplified, "Blending ratio between high and low frequency perlin noise."),
-            ("Use Chromatic Phase", 1852, t.Int, mode.Advanced, ""),
-            ("Scattering Phase", 1856, t.Float, mode.Advanced, ""),
-            ("Chromatic Phase RGB Red", 1860, t.Float, mode.Simplified, ""),
+            ("Use Chromatic Phase", 1852, t.Int, mode.Advanced, "If set to 1, Scattering Phase will be set per RGB wavelengths allowing chromatic scattering."),
+            ("Scattering Phase", 1856, t.Float, mode.Advanced, "Controls how directional the volumetric scattering is. 0 - light scatters uniformly in all directions, 1 = light scatters towards the viewer."),
+            ("Chromatic Phase RGB Red", 1860, t.Float, mode.Simplified, "Controls how directional the volumetric scattering is per color channel. 0 - light scatters uniformly in all directions, 1 = light scatters towards the viewer."),
             ("Chromatic Phase RGB Green", 1864, t.Float, mode.Simplified, ""),
             ("Chromatic Phase RGB Blue", 1868, t.Float, mode.Simplified, ""),
             ("Slice distribution", 1872, t.Float, mode.Advanced, "Controls the volumetric depth slice distribution. values closer to 0 increase the quality near the view in exchange for lower quality at a distance. Increasing the value will improve quality at a distance in exchange for lower quality near the viewer."),
             ("Depth Occlusion", 1876, t.Float, mode.Advanced, "Controls depth occlusion scaling. 0 - no depth occlusion, 1 - fully enabled. This can increase the sampling quality of the volumetric fog using the depth buffer to clamp the max volumetric depth but may lead to some disocclusion artifacts around large near vs. far edges in the scene."),
-            ("Absorption Color RGB Red", 1840, t.Float, mode.Simplified, ""),
+            ("Absorption Color RGB Red", 1840, t.Float, mode.Simplified, "Controls light energy absorbed as it passes through the volume. Darker values will result in a faster fall-off."),
             ("Absorption Color RGB Green", 1844, t.Float, mode.Simplified, ""),
             ("Absorption Color RGB Blue", 1848, t.Float, mode.Simplified, ""),
             //--------------------------------------------------------------------------------------
@@ -362,6 +362,19 @@ namespace WeatherTuner
             ("Ocean SSS Body Intensity", 580, t.Float, mode.Advanced, ""),
             ("Ocean SSS Wave Intensity", 596, t.Float, mode.Advanced, ""),
             ("Ocean SSS Ambient Intensity", 600, t.Float, mode.Advanced, ""),
+            //--------------------------------------------------------------------------------------
+
+            // WebWorks 1.1.1 - add definitions for indirect lighting and grid only lighting: 
+            //--------------------------------------------------------------------------------------
+            ("Indirect Lighting Color Red", 200, t.Float, mode.Simplified, "Adjusts the color of light grid and env probe contribution."),
+            ("Indirect Lighting Color Green", 204, t.Float, mode.Simplified, ""),
+            ("Indirect Lighting Color Blue", 208, t.Float, mode.Simplified, ""),
+            ("Indirect Lighting Intensity", 212, t.Float, mode.Simplified, "Scales the intensity of the light grid and env probe lighting. Does not require recapturing."),
+            ("Grid Only Color Red", 216, t.Float, mode.Advanced, "Adjusts the color of light grid contribution."),
+            ("Grid Only Color Green", 220, t.Float, mode.Advanced, ""),
+            ("Grid Only Color Blue", 224, t.Float, mode.Advanced, ""),
+            ("Grid Only Intensity", 228, t.Float, mode.Advanced, "Scales the intensity of the light grid GI lighting."),
+            ("Light grid sky multiplier", 232, t.Float, mode.Advanced, "Scales the sky contribution to light grid GI lighting."),
             //--------------------------------------------------------------------------------------
         };
 
