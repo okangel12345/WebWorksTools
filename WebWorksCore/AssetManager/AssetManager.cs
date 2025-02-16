@@ -219,39 +219,63 @@ namespace WebWorksCore
 
             fs.Seek(_DAT1Offset + 16, SeekOrigin.Begin);
 
-            // Get section to update original data
             int originalSectionOffset = GetAssetSectionOffset(sectionToUpdate);
             int originalSectionSize = GetAssetSectionSize(sectionToUpdate);
             int expandedSize = sectionBytes.Length - originalSectionSize;
 
+            List<(long HeaderPos, uint SectionID, uint SectionOffset, uint SectionSize)> sections = new();
+
             for (int i = 0; i < _assetSections; i++)
             {
                 long sectionHeaderPos = fs.Position;
-
                 uint sectionID = br.ReadUInt32();
                 uint sectionOffset = br.ReadUInt32();
                 uint sectionSize = br.ReadUInt32();
 
+                sections.Add((sectionHeaderPos, sectionID, sectionOffset, sectionSize));
+
+                // If section is found, update its size
                 if (sectionID == sectionToUpdate)
                 {
                     fs.Seek(sectionHeaderPos + 8, SeekOrigin.Begin);
                     bw.Write(sectionBytes.Length);
                 }
 
-                if (sectionOffset > (originalSectionOffset - _DAT1Offset))
+                fs.Seek(sectionHeaderPos + 12, SeekOrigin.Begin);
+            }
+
+            foreach (var section in sections)
+            {
+                if (section.SectionOffset > (originalSectionOffset - _DAT1Offset))
                 {
-                    fs.Seek(sectionHeaderPos + 4, SeekOrigin.Begin);
-                    bw.Write(sectionOffset + expandedSize);
-                    fs.Seek(sectionHeaderPos + 12, SeekOrigin.Begin);
+                    fs.Seek(section.HeaderPos + 4, SeekOrigin.Begin);
+                    bw.Write(section.SectionOffset + (uint)expandedSize);
                 }
+            }
+
+            UpdateSectionBytes(originalSectionOffset, originalSectionSize, sectionBytes);
+        }
+
+        private void UpdateSectionBytes(int originalOffset, int originalSize, byte[] newBytes)
+        {
+            int expandedSize = newBytes.Length - originalSize;
+
+            if (expandedSize > 0)
+            {
+                byte[] newAssetBytes = new byte[_assetBytes.Length + expandedSize];
+
+                Array.Copy(_assetBytes, 0, newAssetBytes, 0, originalOffset);
+                Array.Copy(newBytes, 0, newAssetBytes, originalOffset, newBytes.Length);
+                Array.Copy(_assetBytes, originalOffset + originalSize, newAssetBytes, originalOffset + newBytes.Length, _assetBytes.Length - (originalOffset + originalSize));
+
+                _assetBytes = newAssetBytes;
+            }
+            else
+            {
+                Array.Copy(newBytes, 0, _assetBytes, originalOffset, newBytes.Length);
             }
         }
 
-        private void UpdateSectionBytes()
-        {
-            // In _assetBytes, jump to original sectionOffset and replace the following originalSectionSize
-            // with the new asset bytes. Expand the _assetBytes, so the rest of the file is untouched.
-        }
 
         // Get the header bytes of any asset (all the bytes before 1TAD)
         //------------------------------------------------------------------------------------------
